@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Footer from "@/components/footer/Footer";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+export const airbnbVF = localFont({
+  src: "./fonts/AirbnbCerealVF.woff2",
+  variable: "--font-airbnb-vf",
 });
 
 export const metadata: Metadata = {
@@ -26,9 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${airbnbVF.className} text-[14px] text-custome-black-100`}
       >
-        {children}
+        <div className="w-full">header</div>
+        <div className="max-w-[1280px] mx-auto px-2">{children}</div>
+        <div className="w-full bg-custome-gray-100">
+          <Footer />
+        </div>
       </body>
     </html>
   );
