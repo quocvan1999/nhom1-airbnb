@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/components/footer/Footer";
+import Header from "@/components/header/Header";
 
 export const airbnbVF = localFont({
   src: "./fonts/AirbnbCerealVF.woff2",
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body
         className={`${airbnbVF.className} text-[14px] text-custome-black-100`}
       >
-        <div className="w-full">header</div>
+        <div className="w-full">
+          <Header />
+        </div>
         <div className="max-w-[1280px] mx-auto px-2">{children}</div>
         <div className="w-full bg-custome-gray-100">
           <Footer />
