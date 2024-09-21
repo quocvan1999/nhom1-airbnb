@@ -26,10 +26,12 @@ export default function RootLayout({
         className={`${airbnbVF.className} text-[14px] text-custome-black-100`}
       >
         <AntdRegistry>
-          <div className="w-full fixed top-0 left-0 right-0 bg-white z-[1000]">
+          <div className="w-full fixed top-0 left-0 right-0 bg-white z-[9000]">
             <Header />
           </div>
-          <div className="max-w-[1280px] mx-auto px-2">{children}</div>
+          <div className="max-w-[1280px] mx-auto px-2 pt-[160px] pb-[50px]">
+            {children}
+          </div>
           <div className="w-full bg-custome-gray-100">
             <Footer />
           </div>
