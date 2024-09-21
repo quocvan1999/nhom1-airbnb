@@ -1,7 +1,16 @@
 "use client";
 
+import HeaderModalCustomer from "@/components/header-modal-customer/HeaderModalCustomer";
+import HeaderModalLocation from "@/components/header-modal-location/HeaderModalLocation";
 import useStatusHeader from "@/custome-hook/useStatusHeader/useStatusHeader";
-import { ConfigProvider, DatePicker, DatePickerProps, Input } from "antd";
+import {
+  ConfigProvider,
+  DatePicker,
+  DatePickerProps,
+  Dropdown,
+  Input,
+  MenuProps,
+} from "antd";
 import { motion } from "framer-motion";
 import React from "react";
 
@@ -24,6 +33,45 @@ const HeaderSearch: React.FC = ({}) => {
   const handleChangeTypeSearch: () => void = () => {
     setTypeSearch(!typeSearch);
   };
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
+          1st menu item
+        </a>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.aliyun.com"
+        >
+          2nd menu item
+        </a>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.luohanacademy.com"
+        >
+          3rd menu item
+        </a>
+      ),
+    },
+  ];
 
   return (
     <ConfigProvider
@@ -100,7 +148,13 @@ const HeaderSearch: React.FC = ({}) => {
             <>
               <div className="px-7 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer">
                 <p className="text-[12px] font-medium">Địa điểm</p>
-                <Input placeholder="Tìm kiếm điểm đến" />
+                <Dropdown
+                  trigger={["click"]}
+                  placement="bottom"
+                  dropdownRender={() => <HeaderModalLocation />}
+                >
+                  <Input placeholder="Tìm kiếm điểm đến" />
+                </Dropdown>
               </div>
               <div className="px-7 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer">
                 <p className="text-[12px] font-medium">
@@ -127,7 +181,13 @@ const HeaderSearch: React.FC = ({}) => {
               <div className="ps-7 pe-2 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer flex justify-between">
                 <div>
                   <p className="text-[12px] font-medium">Thêm khách</p>
-                  <Input placeholder="Tìm kiếm điểm đến" />
+                  <Dropdown
+                    trigger={["click"]}
+                    placement="bottom"
+                    dropdownRender={() => <HeaderModalCustomer />}
+                  >
+                    <Input placeholder="Tìm kiếm điểm đến" />
+                  </Dropdown>
                 </div>
                 <div className="rounded-full bg-primary-100 top-0 right-0 flex items-center justify-center p-2 transition-all duration-500 ease-in-out hover:bg-primary-200">
                   <svg
