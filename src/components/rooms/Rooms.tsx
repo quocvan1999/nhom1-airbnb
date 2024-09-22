@@ -1,8 +1,9 @@
+import React from "react";
+import PaginationRooms from "@/components/pagination-rooms/PaginationRooms";
 import RoomItem from "@/components/room-item/RoomItem";
 import { getRoomsAsync } from "@/services/rooms/rooms.service";
 import { reqPaginationType } from "@/types/req-pagination/reqPaginationType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import React from "react";
 
 type Props = {};
 
@@ -16,6 +17,7 @@ const Rooms: React.FC<Props> = async ({}) => {
           <RoomItem key={index} data={room} />
         ))}
       </div>
+      <PaginationRooms data={res} />
     </div>
   );
 };
