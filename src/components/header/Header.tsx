@@ -3,6 +3,7 @@
 import HeaderNav from "@/components/header-nav/HeaderNav";
 import HeaderSearch from "@/components/header-search/HeaderSearch";
 import useStatusHeader from "@/custome-hook/useStatusHeader/useStatusHeader";
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -16,9 +17,9 @@ const Header: React.FC<Props> = ({}) => {
           isScroll === false && "pb-[90px]"
         }`}
       >
-        <div className="w-[110px]">
+        <Link href="/" className="w-[110px]">
           <img src="/images/Airbnb_Logo.png" alt="logo" />
-        </div>
+        </Link>
         <HeaderSearch />
         <HeaderNav />
       </div>

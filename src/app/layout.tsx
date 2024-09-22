@@ -26,7 +26,7 @@ export default function RootLayout({
         className={`${airbnbVF.className} text-[14px] text-custome-black-100`}
       >
         <AntdRegistry>
-          <div className="w-full fixed top-0 left-0 right-0 bg-white z-[9000]">
+          <div className="w-full fixed top-0 left-0 right-0 bg-white z-[200]">
             <Header />
           </div>
           <div className="max-w-[1280px] mx-auto px-2 pt-[160px] pb-[50px]">

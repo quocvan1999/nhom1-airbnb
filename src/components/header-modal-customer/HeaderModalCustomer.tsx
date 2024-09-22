@@ -1,8 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 
-type Props = {};
+type Props = {
+  setTotalMember: React.Dispatch<React.SetStateAction<number>>;
+};
 
-const HeaderModalCustomer: React.FC<Props> = ({}) => {
+type Members = {
+  nguoiLon: number;
+  treEm: number;
+  emBe: number;
+  thuCung: number;
+};
+
+const HeaderModalCustomer: React.FC<Props> = ({ setTotalMember }) => {
+  const [members, setMembers] = useState<Members>({
+    nguoiLon: 0,
+    treEm: 0,
+    emBe: 0,
+    thuCung: 0,
+  });
+
+  const handleChangeMember = (type: number, value: number) => {
+    setMembers((prev) => {
+      switch (type) {
+        case 0:
+          if (prev.nguoiLon > 0 || value > 0) {
+            return { ...prev, nguoiLon: prev.nguoiLon + value };
+          }
+          return prev;
+        case 1:
+          if (prev.treEm > 0 || value > 0) {
+            return { ...prev, treEm: prev.treEm + value };
+          }
+          return prev;
+        case 2:
+          if (prev.emBe > 0 || value > 0) {
+            return { ...prev, emBe: prev.emBe + value };
+          }
+          return prev;
+        case 3:
+          if (prev.thuCung > 0 || value > 0) {
+            return { ...prev, thuCung: prev.thuCung + value };
+          }
+          return prev;
+        default:
+          return prev;
+      }
+    });
+
+    const total =
+      members.nguoiLon + members.emBe + members.treEm + members.thuCung;
+
+    setTotalMember(total);
+  };
+
   return (
     <div className="w-full bg-white rounded-lg shadow-md p-3">
       {/* 1 */}
@@ -12,7 +62,10 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
           <p>Từ 13 tuổi trở lên</p>
         </div>
         <div className="flex items-center">
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(0, 1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -24,9 +77,12 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
             </svg>
           </div>
           <div className="w-[30px] h-[30px] flex items-center justify-center">
-            1
+            {members.nguoiLon}
           </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(0, -1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -47,7 +103,10 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
           <p>Độ tuổi 2 – 12</p>
         </div>
         <div className="flex items-center">
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(1, 1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -59,9 +118,12 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
             </svg>
           </div>
           <div className="w-[30px] h-[30px] flex items-center justify-center">
-            1
+            {members.treEm}
           </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(1, -1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -82,7 +144,10 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
           <p>Dưới 2 tuổi</p>
         </div>
         <div className="flex items-center">
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(2, 1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -94,9 +159,12 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
             </svg>
           </div>
           <div className="w-[30px] h-[30px] flex items-center justify-center">
-            1
+            {members.emBe}
           </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(2, -1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -116,7 +184,10 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
           <h3 className="font-bold">Thú cưng</h3>
         </div>
         <div className="flex items-center">
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(3, 1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -128,9 +199,12 @@ const HeaderModalCustomer: React.FC<Props> = ({}) => {
             </svg>
           </div>
           <div className="w-[30px] h-[30px] flex items-center justify-center">
-            1
+            {members.thuCung}
           </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg">
+          <div
+            onClick={() => handleChangeMember(3, -1)}
+            className="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-[#6a6a6a] transition-all duration-500 ease-in-out cursor-pointer hover:shadow-lg"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

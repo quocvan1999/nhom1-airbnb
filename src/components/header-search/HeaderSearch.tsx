@@ -3,20 +3,29 @@
 import HeaderModalCustomer from "@/components/header-modal-customer/HeaderModalCustomer";
 import HeaderModalLocation from "@/components/header-modal-location/HeaderModalLocation";
 import useStatusHeader from "@/custome-hook/useStatusHeader/useStatusHeader";
+import { LocationType } from "@/types/location/locationType.type";
 import {
   ConfigProvider,
   DatePicker,
   DatePickerProps,
   Dropdown,
   Input,
-  MenuProps,
 } from "antd";
 import { motion } from "framer-motion";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 type Props = {};
 
-const HeaderSearch: React.FC = ({}) => {
+const HeaderSearch: React.FC<Props> = ({}) => {
+  const router = useRouter();
+  const [location, setLocation] = useState<LocationType>({
+    hinhAnh: "",
+    id: 0,
+    quocGia: "",
+    tenViTri: "",
+    tinhThanh: "",
+  });
   const {
     typeSearch,
     setTypeSearch,
@@ -25,6 +34,7 @@ const HeaderSearch: React.FC = ({}) => {
     setIsShowSearch,
     setIsScroll,
   } = useStatusHeader();
+  const [totalMember, setTotalMember] = useState<number>(0);
 
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
@@ -34,44 +44,9 @@ const HeaderSearch: React.FC = ({}) => {
     setTypeSearch(!typeSearch);
   };
 
-  const items: MenuProps["items"] = [
-    {
-      key: "1",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          1st menu item
-        </a>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          2nd menu item
-        </a>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          3rd menu item
-        </a>
-      ),
-    },
-  ];
+  const handleSearch = () => {
+    router.push(`/search?keyword=${location.id}`);
+  };
 
   return (
     <ConfigProvider
@@ -151,9 +126,14 @@ const HeaderSearch: React.FC = ({}) => {
                 <Dropdown
                   trigger={["click"]}
                   placement="bottom"
-                  dropdownRender={() => <HeaderModalLocation />}
+                  dropdownRender={() => (
+                    <HeaderModalLocation setLocation={setLocation} />
+                  )}
                 >
-                  <Input placeholder="Tìm kiếm điểm đến" />
+                  <Input
+                    value={location.tenViTri}
+                    placeholder="Tìm kiếm điểm đến"
+                  />
                 </Dropdown>
               </div>
               <div className="px-7 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer">
@@ -184,12 +164,20 @@ const HeaderSearch: React.FC = ({}) => {
                   <Dropdown
                     trigger={["click"]}
                     placement="bottom"
-                    dropdownRender={() => <HeaderModalCustomer />}
+                    dropdownRender={() => (
+                      <HeaderModalCustomer setTotalMember={setTotalMember} />
+                    )}
                   >
-                    <Input placeholder="Tìm kiếm điểm đến" />
+                    <Input
+                      placeholder="Tìm kiếm điểm đến"
+                      value={totalMember === 0 ? "" : totalMember}
+                    />
                   </Dropdown>
                 </div>
-                <div className="rounded-full bg-primary-100 top-0 right-0 flex items-center justify-center p-2 transition-all duration-500 ease-in-out hover:bg-primary-200">
+                <div
+                  onClick={handleSearch}
+                  className="rounded-full bg-primary-100 top-0 right-0 flex items-center justify-center p-2 transition-all duration-500 ease-in-out hover:bg-primary-200"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
