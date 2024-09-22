@@ -8,7 +8,7 @@ type Props = {
 
 const RoomItem: React.FC<Props> = ({ data }) => {
   return (
-    <div className="w-[calc((100%-36px)/4)]">
+    <div className="w-[calc((100%-36px)/4)] cursor-pointer">
       <img
         src={data.hinhAnh}
         alt="hinh anh"
