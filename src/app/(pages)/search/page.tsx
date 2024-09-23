@@ -1,3 +1,4 @@
+import Map from "@/components/map/Map";
 import SearchCard from "@/components/search-card/SearchCard";
 import TitleH1 from "@/components/titleH1/TitleH1";
 import { getRoomsLocation } from "@/services/rooms-location/roomsLocation.service";
@@ -38,7 +39,9 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
               ))}
             </div>
           </div>
-          <div className="w-[40%]"></div>
+          <div className="w-[40%]">
+            <Map />
+          </div>
         </div>
       )}
     </>
