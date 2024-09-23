@@ -1,5 +1,6 @@
 import { RoomType } from "@/types/room/roomType.type";
 import { truncateString } from "@/utils/method/method";
+import Link from "next/link";
 import React from "react";
 
 type Props = {
@@ -8,7 +9,10 @@ type Props = {
 
 const SearchCard: React.FC<Props> = ({ item }) => {
   return (
-    <div className="flex h-[200px] gap-3 items-center py-5 border-b cursor-pointer">
+    <Link
+      href={`/room/${item.id}`}
+      className="flex h-[200px] gap-3 items-center py-5 border-b cursor-pointer"
+    >
       <div className="w-[35%] h-full">
         <img
           src={item.hinhAnh}
@@ -38,7 +42,7 @@ const SearchCard: React.FC<Props> = ({ item }) => {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
