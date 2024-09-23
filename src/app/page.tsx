@@ -3,14 +3,22 @@ import Rooms from "@/components/rooms/Rooms";
 import TitleH1 from "@/components/titleH1/TitleH1";
 import { ItemHomeType } from "@/types/item-home/itemHomeType.type";
 import { itemData } from "@/utils/home-data/itemHome.data";
+import React from "react";
 
-export default function Home() {
+type Props = {
+  searchParams: {
+    page: string | number;
+    size: string | number;
+  };
+};
+
+const Home: React.FC<Props> = ({ searchParams }) => {
   return (
     <div>
       <CaroucelContainer />
       <div className="mt-10">
         <TitleH1 title="Trải nghiệm đã qua" />
-        <Rooms />
+        <Rooms page={searchParams.page} size={searchParams.size} />
       </div>
       <div className="mt-10">
         <TitleH1 title="Bất cứ ở đâu" />
@@ -29,4 +37,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;

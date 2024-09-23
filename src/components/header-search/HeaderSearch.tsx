@@ -1,6 +1,5 @@
 "use client";
 
-import HeaderModalCustomer from "@/components/header-modal-customer/HeaderModalCustomer";
 import HeaderModalLocation from "@/components/header-modal-location/HeaderModalLocation";
 import ModalCustomer from "@/components/modal-customer/ModalCustomer";
 import useStatusHeader from "@/custome-hook/useStatusHeader/useStatusHeader";

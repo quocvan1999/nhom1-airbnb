@@ -3,6 +3,7 @@
 import { reqPaginationType } from "@/types/req-pagination/reqPaginationType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { Pagination } from "antd";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -10,11 +11,12 @@ type Props = {
 };
 
 const PaginationRooms: React.FC<Props> = ({ data }) => {
+  const router = useRouter();
   const handleChangePageIndex: (page: number, pageSize: number) => void = (
     page,
     pageSize
   ) => {
-    console.log(page, pageSize);
+    router.push(`/?page=${page}&size=${pageSize}`);
   };
   return (
     <Pagination

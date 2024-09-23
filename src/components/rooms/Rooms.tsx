@@ -5,10 +5,13 @@ import { getRoomsAsync } from "@/services/rooms/rooms.service";
 import { reqPaginationType } from "@/types/req-pagination/reqPaginationType.type";
 import { RoomType } from "@/types/room/roomType.type";
 
-type Props = {};
+type Props = {
+  page: string | number;
+  size: string | number;
+};
 
-const Rooms: React.FC<Props> = async ({}) => {
-  const res: reqPaginationType<RoomType[]> = await getRoomsAsync(1, 10);
+const Rooms: React.FC<Props> = async ({ page, size }) => {
+  const res: reqPaginationType<RoomType[]> = await getRoomsAsync(page, size);
 
   return (
     <div>
