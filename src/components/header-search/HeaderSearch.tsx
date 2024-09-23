@@ -2,6 +2,7 @@
 
 import HeaderModalCustomer from "@/components/header-modal-customer/HeaderModalCustomer";
 import HeaderModalLocation from "@/components/header-modal-location/HeaderModalLocation";
+import ModalCustomer from "@/components/modal-customer/ModalCustomer";
 import useStatusHeader from "@/custome-hook/useStatusHeader/useStatusHeader";
 import { LocationType } from "@/types/location/locationType.type";
 import {
@@ -46,6 +47,10 @@ const HeaderSearch: React.FC<Props> = ({}) => {
 
   const handleSearch = () => {
     router.push(`/search?keyword=${location.id}`);
+  };
+
+  const handleChangeCountMember: (value: number) => void = (value) => {
+    setTotalMember((prevCount) => prevCount + value);
   };
 
   return (
@@ -165,12 +170,14 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     trigger={["click"]}
                     placement="bottom"
                     dropdownRender={() => (
-                      <HeaderModalCustomer setTotalMember={setTotalMember} />
+                      <ModalCustomer
+                        handleChangeCountMember={handleChangeCountMember}
+                      />
                     )}
                   >
                     <Input
                       placeholder="Tìm kiếm điểm đến"
-                      value={totalMember === 0 ? "" : totalMember}
+                      value={totalMember === 0 ? "" : `${totalMember} Khách`}
                     />
                   </Dropdown>
                 </div>
