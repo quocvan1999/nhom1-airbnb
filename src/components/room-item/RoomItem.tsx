@@ -1,5 +1,6 @@
 import { RoomType } from "@/types/room/roomType.type";
 import { truncateString } from "@/utils/method/method";
+import Link from "next/link";
 import React from "react";
 
 type Props = {
@@ -8,7 +9,10 @@ type Props = {
 
 const RoomItem: React.FC<Props> = ({ data }) => {
   return (
-    <div className="w-[calc((100%-36px)/4)] cursor-pointer">
+    <Link
+      href={`/room/${data.id}`}
+      className="w-[calc((100%-36px)/4)] cursor-pointer"
+    >
       <img
         src={data.hinhAnh}
         alt="hinh anh"
@@ -23,7 +27,7 @@ const RoomItem: React.FC<Props> = ({ data }) => {
         </p>
         <p className="text-custome-black-100 font-bold">{data.giaTien}$</p>
       </div>
-    </div>
+    </Link>
   );
 };
 
