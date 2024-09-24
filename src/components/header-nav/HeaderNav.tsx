@@ -7,11 +7,11 @@ type Props = {};
 const items: MenuProps["items"] = [
   {
     key: "1",
-    label: <Link href="/">Đăng nhập</Link>,
+    label: <Link href="/auth/login">Đăng nhập</Link>,
   },
   {
     key: "2",
-    label: <Link href="/">Đăng xuất</Link>,
+    label: <Link href="/auth/register">Đăng xuất</Link>,
   },
 ];
 

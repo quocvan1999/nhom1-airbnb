@@ -60,6 +60,6 @@ httpClient.interceptors.response.use(
     } else {
       console.log("Error setting up request: ", error.message);
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );

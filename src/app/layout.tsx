@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Footer from "@/components/footer/Footer";
-import Header from "@/components/header/Header";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 export const airbnbVF = localFont({
@@ -22,19 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${airbnbVF.className} text-[14px] text-custome-black-100`}
-      >
+      <body className={`font-custom text-[14px] text-custome-black-100`}>
         <AntdRegistry>
-          <div className="w-full fixed top-0 left-0 right-0 bg-white z-[200]">
-            <Header />
-          </div>
-          <div className="max-w-[1280px] mx-auto px-2 pt-[160px] pb-[50px]">
-            {children}
-          </div>
-          <div className="w-full bg-custome-gray-100">
-            <Footer />
-          </div>
+          <div className="w-full">{children}</div>
         </AntdRegistry>
       </body>
     </html>
