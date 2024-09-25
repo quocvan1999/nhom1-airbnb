@@ -10,6 +10,7 @@ import { LoginAsync } from "@/services/login/login.service";
 import { ReqLoginType } from "@/types/req-login/reqLoginType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { useRouter } from "next/navigation";
+import { setCookie } from "@/utils/method/method";
 
 type Props = {};
 
@@ -26,6 +27,7 @@ const Login: React.FC<Props> = ({}) => {
     const res: ReqLoginType = await LoginAsync(user);
     switch (res.statusCode) {
       case 200:
+        setCookie("accessToken", res.content.token, 7);
         openNotification("success", "Đăng nhập", "Đăng nhập thành công");
         setTimeout(() => {
           router.push("/");

@@ -1,9 +1,9 @@
-import { RegisterType } from "@/types/register/registerType.type";
+import { User } from "@/types/user/userType.type";
 
 export type ReqLoginType = {
   statusCode: number;
   content: {
-    user: RegisterType;
+    user: User;
     token: string;
   };
   dateTime: string;

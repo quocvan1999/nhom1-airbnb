@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Providers } from "@/app/globalRedux/provider";
 
 export const airbnbVF = localFont({
   src: "./fonts/AirbnbCerealVF.woff2",
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-custom text-[14px] text-custome-black-100`}>
-        <AntdRegistry>
-          <div className="w-full">{children}</div>
-        </AntdRegistry>
+        <Providers>
+          <AntdRegistry>
+            <div className="w-full">{children}</div>
+          </AntdRegistry>
+        </Providers>
       </body>
     </html>
   );
