@@ -11,11 +11,15 @@ import { ReqLoginType } from "@/types/req-login/reqLoginType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { useRouter } from "next/navigation";
 import { setCookie } from "@/utils/method/method";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/globalRedux/store";
+import { getProfileAsync } from "@/services/profile/profile.service";
 
 type Props = {};
 
 const Login: React.FC<Props> = ({}) => {
   const router = useRouter();
+  const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
 
   const initialValues: LoginType = {
@@ -28,6 +32,10 @@ const Login: React.FC<Props> = ({}) => {
     switch (res.statusCode) {
       case 200:
         setCookie("accessToken", res.content.token, 7);
+
+        const action = getProfileAsync(res.content.user.id);
+        dispatch(action);
+
         openNotification("success", "Đăng nhập", "Đăng nhập thành công");
         setTimeout(() => {
           router.push("/");

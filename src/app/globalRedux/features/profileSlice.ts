@@ -4,21 +4,11 @@ import { User } from "@/types/user/userType.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ProfileSlice = {
-  profile: User;
+  profile: User | {};
 };
 
 const initialState: ProfileSlice = {
-  profile: {
-    id: 0,
-    avatar: "",
-    birthday: "",
-    email: "",
-    gender: false,
-    name: "",
-    password: "",
-    phone: "",
-    role: "",
-  },
+  profile: {},
 };
 
 export const profileSlice = createSlice({
