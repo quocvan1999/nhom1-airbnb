@@ -8,16 +8,20 @@ import { bookingAsync } from "@/services/booking/booking.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { calculateDaysBetween } from "@/utils/method/method";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   ConfigProvider,
   DatePicker,
   DatePickerProps,
   Dropdown,
   Input,
+  Modal,
 } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
+const { confirm } = Modal;
 
 type Props = {
   data: RoomType;
@@ -33,22 +37,16 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const { checkIsLogin } = useCheckLogin();
   const { profile } = useSelector((state: RootState) => state.profile);
 
-  const onChangeCheckin: DatePickerProps["onChange"] = (date, dateString) => {
-    setDateCheckin(dateString.toString());
-  };
-
-  const onChangeCheckout: DatePickerProps["onChange"] = (date, dateString) => {
-    setDateCheckout(dateString.toString());
-  };
-
-  const handleChangeCountMember: (value: number) => void = (value) => {
-    setCountMember((prevCount) => prevCount + value);
-  };
-
-  const handleBooking: () => void = async () => {
-    const isLogin = checkIsLogin();
-    if (isLogin === true) {
-      if (dateCheckin !== "" && dateCheckout !== "" && countMember !== 0) {
+  const showPropsConfirm = () => {
+    confirm({
+      title: "Đặt phòng",
+      icon: <ExclamationCircleFilled />,
+      content: "Bạn có muốn đặt phòng này",
+      okText: "Đặt phòng",
+      okType: "danger",
+      cancelText: "Huỷ",
+      onCancel() {},
+      onOk: async () => {
         const value: BookingType = {
           maNguoiDung: profile.id,
           maPhong: data.id,
@@ -71,6 +69,27 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
           default:
             break;
         }
+      },
+    });
+  };
+
+  const onChangeCheckin: DatePickerProps["onChange"] = (date, dateString) => {
+    setDateCheckin(dateString.toString());
+  };
+
+  const onChangeCheckout: DatePickerProps["onChange"] = (date, dateString) => {
+    setDateCheckout(dateString.toString());
+  };
+
+  const handleChangeCountMember: (value: number) => void = (value) => {
+    setCountMember((prevCount) => prevCount + value);
+  };
+
+  const handleBooking: () => void = () => {
+    const isLogin = checkIsLogin();
+    if (isLogin === true) {
+      if (dateCheckin !== "" && dateCheckout !== "" && countMember !== 0) {
+        showPropsConfirm();
       } else {
         openNotification(
           "warning",
