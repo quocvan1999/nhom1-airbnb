@@ -6,6 +6,10 @@ import { AxiosResponse } from "axios";
 export const LoginAsync: (user: LoginType) => Promise<ReqLoginType> = async (
   user
 ) => {
-  const res: AxiosResponse = await httpClient.post("/api/auth/signin", user);
-  return res.data;
+  try {
+    const res: AxiosResponse = await httpClient.post("/api/auth/signin", user);
+    return res.data;
+  } catch (error: any) {
+    return error.data;
+  }
 };

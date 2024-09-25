@@ -4,42 +4,52 @@ import { Checkbox, ConfigProvider, Form, Input } from "antd";
 import { useFormik } from "formik";
 import Link from "next/link";
 import * as Yup from "yup";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LoginType } from "@/types/login/loginType.type";
 import { LoginAsync } from "@/services/login/login.service";
 import { ReqLoginType } from "@/types/req-login/reqLoginType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { useRouter } from "next/navigation";
-import { setCookie } from "@/utils/method/method";
+import { getCookie, setCookie } from "@/utils/method/method";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/globalRedux/store";
 import { getProfileAsync } from "@/services/profile/profile.service";
+import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 
 type Props = {};
 
 const Login: React.FC<Props> = ({}) => {
   const router = useRouter();
+  const [isRemember, setIsRemember] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
+  const { checkIsLogin } = useCheckLogin();
 
   const initialValues: LoginType = {
-    email: "",
-    password: "",
+    email: getCookie("m") || "",
+    password: getCookie("p") || "",
   };
 
   const handleChangeLogin: (user: LoginType) => void = async (user) => {
     const res: ReqLoginType = await LoginAsync(user);
+
     switch (res.statusCode) {
       case 200:
-        setCookie("accessToken", res.content.token, 7);
+        openNotification("success", "Đăng nhập", "Đăng nhập thành công");
+
+        setTimeout(() => {
+          router.push("/");
+        }, 300);
 
         const action = getProfileAsync(res.content.user.id);
         dispatch(action);
 
-        openNotification("success", "Đăng nhập", "Đăng nhập thành công");
-        setTimeout(() => {
-          router.push("/");
-        }, 300);
+        if (isRemember === true) {
+          setCookie("m", user.email, 7);
+          setCookie("p", user.password, 7);
+        }
+
+        setCookie("accessToken", res.content.token, 7);
         break;
       case 400:
         openNotification("error", "Đăng nhập", "Đăng nhập không thành công");
@@ -51,6 +61,7 @@ const Login: React.FC<Props> = ({}) => {
 
   const formLogin = useFormik({
     initialValues,
+    enableReinitialize: true,
     validationSchema: Yup.object({
       email: Yup.string()
         .required("Email không được để trống")
@@ -61,6 +72,11 @@ const Login: React.FC<Props> = ({}) => {
       handleChangeLogin(values);
     },
   });
+
+  useEffect(() => {
+    checkIsLogin();
+  }, []);
+
   return (
     <ConfigProvider
       theme={{
@@ -156,7 +172,13 @@ const Login: React.FC<Props> = ({}) => {
           </Form.Item>
         </Form>
         <div className="flex items-center justify-between">
-          <Checkbox className="text-[#fff] ">Nhớ mật khẩu</Checkbox>
+          <Checkbox
+            onChange={() => setIsRemember(!isRemember)}
+            checked={isRemember}
+            className="text-[#fff] "
+          >
+            Nhớ mật khẩu
+          </Checkbox>
           <Link
             href="/"
             className="text-custome-gray-200 transition-all duration-500 ease-in-out hover:underline text-[14px]"
