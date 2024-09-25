@@ -1,19 +1,14 @@
-"use client";
-
 import { checkLogin } from "@/utils/method/method";
-import { useRouter } from "next/navigation";
 
 const useCheckLogin = () => {
-  const router = useRouter();
   const checkIsLogin = () => {
-    const isLogin: boolean | null = checkLogin();
+    const login: boolean | null = checkLogin();
 
-    switch (isLogin) {
+    switch (login) {
       case true:
-        router.push("/");
-        break;
+        return true;
       case false:
-        break;
+        return false;
       default:
         break;
     }

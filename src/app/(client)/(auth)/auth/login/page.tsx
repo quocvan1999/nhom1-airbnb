@@ -74,7 +74,11 @@ const Login: React.FC<Props> = ({}) => {
   });
 
   useEffect(() => {
-    checkIsLogin();
+    const isLogin = checkIsLogin();
+
+    if (isLogin === true) {
+      router.push("/");
+    }
   }, []);
 
   return (
