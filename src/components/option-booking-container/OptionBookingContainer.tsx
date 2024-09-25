@@ -1,6 +1,11 @@
 "use client";
 
+import { RootState } from "@/app/globalRedux/store";
 import ModalCustomer from "@/components/modal-customer/ModalCustomer";
+import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
+import useNotification from "@/custome-hook/useNotification/useNotification";
+import { bookingAsync } from "@/services/booking/booking.service";
+import { BookingType } from "@/types/booking/bookingType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { calculateDaysBetween } from "@/utils/method/method";
 import {
@@ -10,17 +15,23 @@ import {
   Dropdown,
   Input,
 } from "antd";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 type Props = {
   data: RoomType;
 };
 
 const OptionBookingContainer: React.FC<Props> = ({ data }) => {
+  const router = useRouter();
   const [countMember, setCountMember] = useState<number>(0);
   const [countDate, setCountDate] = useState<number>(0);
   const [dateCheckin, setDateCheckin] = useState<string>("");
   const [dateCheckout, setDateCheckout] = useState<string>("");
+  const { openNotification } = useNotification();
+  const { checkIsLogin } = useCheckLogin();
+  const { profile } = useSelector((state: RootState) => state.profile);
 
   const onChangeCheckin: DatePickerProps["onChange"] = (date, dateString) => {
     setDateCheckin(dateString.toString());
@@ -32,6 +43,51 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
 
   const handleChangeCountMember: (value: number) => void = (value) => {
     setCountMember((prevCount) => prevCount + value);
+  };
+
+  const handleBooking: () => void = async () => {
+    const isLogin = checkIsLogin();
+    if (isLogin === true) {
+      if (dateCheckin !== "" && dateCheckout !== "" && countMember !== 0) {
+        const value: BookingType = {
+          maNguoiDung: profile.id,
+          maPhong: data.id,
+          ngayDen: dateCheckin,
+          ngayDi: dateCheckout,
+          soLuongKhach: countMember,
+        };
+
+        const res = await bookingAsync(value);
+        console.log(res);
+
+        switch (res.statusCode) {
+          case 201:
+            openNotification("success", "Đặt phòng", "Đặt phòng thành công");
+
+            setTimeout(() => {
+              router.push("/");
+            }, 1000);
+            break;
+          default:
+            break;
+        }
+      } else {
+        openNotification(
+          "warning",
+          "Đặt phòng",
+          "Bạn phải điền đầy đủ các thông tin"
+        );
+      }
+    } else {
+      openNotification(
+        "warning",
+        "Đặt phòng",
+        "Bạn phải đăng nhập để đặt phòng"
+      );
+      setTimeout(() => {
+        router.push("/auth/login");
+      }, 1000);
+    }
   };
 
   useEffect(() => {
@@ -126,7 +182,10 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
             </Dropdown>
           </div>
         </div>
-        <button className="w-full py-2 bg-primary-100 text-white font-medium rounded-md mt-2 transition-all duration-500 ease-in-out hover:bg-primary-200">
+        <button
+          onClick={handleBooking}
+          className="w-full py-2 bg-primary-100 text-white font-medium rounded-md mt-2 transition-all duration-500 ease-in-out hover:bg-primary-200"
+        >
           Đặt phòng
         </button>
         <a

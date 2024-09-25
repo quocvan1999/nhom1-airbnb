@@ -13,7 +13,7 @@ const useNotification = () => {
       showProgress: true,
       pauseOnHover: true,
       placement: "bottomRight",
-      duration: 1,
+      duration: 2.5,
       key: Date.now(),
     };
 

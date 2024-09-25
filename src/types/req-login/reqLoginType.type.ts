@@ -1,11 +1,8 @@
 import { User } from "@/types/user/userType.type";
 
-export type ReqLoginType = {
+export type ReqType<T> = {
   statusCode: number;
-  content: {
-    user: User;
-    token: string;
-  };
+  content: T | string;
   dateTime: string;
   message?: string;
 };
