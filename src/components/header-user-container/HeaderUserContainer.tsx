@@ -1,29 +1,43 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
-import { Dropdown, MenuProps } from "antd";
+import useNotification from "@/custome-hook/useNotification/useNotification";
+import { deleteCookie } from "@/utils/method/method";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { Button, Dropdown, Modal } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+
+const { confirm } = Modal;
 
 type Props = {};
 
-const items: MenuProps["items"] = [
-  {
-    key: "1",
-    label: <Link href="/auth/login">Đăng nhập</Link>,
-  },
-  {
-    key: "2",
-    label: <Link href="/auth/login">Đăng xuất</Link>,
-  },
-];
-
 const HeaderUserContainer: React.FC<Props> = ({}) => {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
-  const { profile } = useSelector((state: RootState) => state.profile);
+  const { openNotification } = useNotification();
+
+  const showPropsConfirm = () => {
+    confirm({
+      title: "Đăng xuất",
+      icon: <ExclamationCircleFilled />,
+      content: "Bạn có muốn đăng xuất?",
+      okText: "Đăng xuất",
+      okType: "danger",
+      cancelText: "Huỷ",
+      onOk() {
+        router.push("/auth/login");
+        openNotification("success", "Đăng xuất", "Đăng xuất thành công");
+        deleteCookie("accessToken");
+      },
+    });
+  };
+
+  const handleLogout: () => void = () => {
+    showPropsConfirm();
+  };
 
   useEffect(() => {
     const login = checkIsLogin();
@@ -42,12 +56,21 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
             >
               {isLogin === true ? "Xem hồ sơ" : "Đăng nhập"}
             </Link>
-            <Link
-              href={`${isLogin === true ? "/auth/login" : "/auth/register"}`}
-              className="transition-all duration-500 ease-in-out text-custome-black-100 hover:bg-custome-gray-100 hover:text-custome-black-100 px-5 py-2 rounded-b-lg"
-            >
-              {isLogin === true ? "Đăng xuất" : "Đăng ký"}
-            </Link>
+            {isLogin === true ? (
+              <Button
+                onClick={handleLogout}
+                className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
+              >
+                Đăng xuất
+              </Button>
+            ) : (
+              <Link
+                href="/auth/register"
+                className="transition-all duration-500 ease-in-out text-custome-black-100 hover:bg-custome-gray-100 hover:text-custome-black-100 px-5 py-2 rounded-b-lg"
+              >
+                Đăng ký
+              </Link>
+            )}
           </div>
         </div>
       )}
