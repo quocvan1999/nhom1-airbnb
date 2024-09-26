@@ -31,6 +31,7 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
         router.push("/auth/login");
         openNotification("success", "Đăng xuất", "Đăng xuất thành công");
         deleteCookie("accessToken");
+        deleteCookie("i_d");
       },
     });
   };

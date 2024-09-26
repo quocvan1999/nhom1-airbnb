@@ -1,6 +1,5 @@
-import { setProfile } from "@/app/globalRedux/features/profileSlice";
+import { setProfile } from "@/app/globalRedux/features/userSlice";
 import { AppDispatch } from "@/app/globalRedux/store";
-import { User } from "@/types/user/userType.type";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 

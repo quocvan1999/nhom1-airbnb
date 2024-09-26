@@ -1,11 +1,11 @@
 "use client";
 
 import { configureStore } from "@reduxjs/toolkit";
-import profileReducer from "./features/profileSlice";
+import userSlice from "./features/userSlice";
 
 export const store = configureStore({
   reducer: {
-    profile: profileReducer,
+    user: userSlice,
   },
 });
 

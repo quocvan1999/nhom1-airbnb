@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import { LoginType } from "@/types/login/loginType.type";
 import { LoginAsync } from "@/services/login/login.service";
-import { ReqLoginType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req-login/reqLoginType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "@/utils/method/method";
@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/globalRedux/store";
 import { getProfileAsync } from "@/services/profile/profile.service";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
+import { User } from "@/types/user/userType.type";
 
 type Props = {};
 
@@ -31,7 +32,7 @@ const Login: React.FC<Props> = ({}) => {
   };
 
   const handleChangeLogin: (user: LoginType) => void = async (user) => {
-    const res: ReqLoginType = await LoginAsync(user);
+    const res: ReqType<{ user: User; token: string }> = await LoginAsync(user);
 
     switch (res.statusCode) {
       case 200:
@@ -41,15 +42,18 @@ const Login: React.FC<Props> = ({}) => {
           router.push("/");
         }, 300);
 
-        const action = getProfileAsync(res.content.user.id);
-        dispatch(action);
+        if (typeof res.content !== "string") {
+          const action = getProfileAsync(res.content.user.id);
+          dispatch(action);
 
-        if (isRemember === true) {
-          setCookie("m", user.email, 7);
-          setCookie("p", user.password, 7);
+          if (isRemember === true) {
+            setCookie("m", user.email, 7);
+            setCookie("p", user.password, 7);
+          }
+
+          setCookie("accessToken", res.content.token, 7);
+          setCookie("i_d", res.content.user.id.toString(), 7);
         }
-
-        setCookie("accessToken", res.content.token, 7);
         break;
       case 400:
         openNotification("error", "Đăng nhập", "Đăng nhập không thành công");

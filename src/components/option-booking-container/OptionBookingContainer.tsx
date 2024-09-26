@@ -35,7 +35,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const [dateCheckout, setDateCheckout] = useState<string>("");
   const { openNotification } = useNotification();
   const { checkIsLogin } = useCheckLogin();
-  const { profile } = useSelector((state: RootState) => state.profile);
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const showPropsConfirm = () => {
     confirm({
