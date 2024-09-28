@@ -1,3 +1,4 @@
+import { getCookie } from "@/utils/method/method";
 import axios, {
   AxiosError,
   AxiosResponse,
@@ -12,16 +13,14 @@ export const httpClient = axios.create({
 httpClient.interceptors.request.use(
   (req: InternalAxiosRequestConfig) => {
     if (req.headers) {
-      // Kiểm tra xem req.headers có phải là một đối tượng AxiosHeaders không
-      if (typeof req.headers === "object") {
-        req.headers["tokenCybersoft"] =
-          process.env.NEXT_PUBLIC_CYBERSOFT_TOKEN || "";
+      const cybersoftToken = process.env.NEXT_PUBLIC_CYBERSOFT_TOKEN || "";
+      if (cybersoftToken) {
+        req.headers["tokenCybersoft"] = cybersoftToken;
       }
     }
     return req;
   },
   (error: AxiosError) => {
-    console.error("Request error:", error);
     return Promise.reject(error);
   }
 );

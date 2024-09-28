@@ -111,8 +111,6 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
 
   useEffect(() => {
     const countDate = calculateDaysBetween(dateCheckin, dateCheckout);
-    console.log(countDate);
-
     setCountDate(countDate);
   }, [dateCheckout]);
 

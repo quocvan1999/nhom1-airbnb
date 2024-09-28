@@ -27,7 +27,7 @@ const ProfileCard: React.FC<Props> = ({ id }) => {
     <>
       {roomDetail && (
         <Link
-          href={`/room/`}
+          href={`/room/${roomDetail.id}`}
           className="flex h-[200px] gap-3 items-center py-5 border-b cursor-pointer"
         >
           <div className="w-[35%] h-full">

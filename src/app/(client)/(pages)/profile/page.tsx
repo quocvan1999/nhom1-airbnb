@@ -4,21 +4,48 @@ import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ProfileCard from "@/components/profile-card/ProfileCard";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
+import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { getCookie } from "@/utils/method/method";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, message, Upload, UploadProps } from "antd";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 type Props = {};
 
 const Profile: React.FC<Props> = ({}) => {
-  const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
+  const dispatch: AppDispatch = useDispatch();
   const { checkIsLogin } = useCheckLogin();
   const { getProfile } = useGetProfile();
+  const { openNotification } = useNotification();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { profile, bookings } = useSelector((state: RootState) => state.user);
+
+  const props: UploadProps = {
+    name: "formFile",
+    action: "https://airbnbnew.cybersoft.edu.vn/api/users/upload-avatar",
+    headers: {
+      tokenCybersoft: process.env.NEXT_PUBLIC_CYBERSOFT_TOKEN || "",
+      token: getCookie("accessToken") || "",
+    },
+    showUploadList: false,
+    onChange(info) {
+      if (info.file.status === "done") {
+        openNotification("success", "Profile", "Cập nhật avatar thành công");
+        setIsLoading(!isLoading);
+      } else if (info.file.status === "error") {
+        openNotification(
+          "error",
+          "Profile",
+          "Cập nhật avatar không thành công"
+        );
+      }
+    },
+  };
 
   useEffect(() => {
     const isLogin = checkIsLogin();
@@ -32,17 +59,26 @@ const Profile: React.FC<Props> = ({}) => {
       const action = getBookingUserAsync(Number(id));
       dispatch(action);
     }
-  }, []);
+  }, [isLoading]);
 
   return (
     <div className="w-full flex">
       <div className="w-[30%] px-10 ">
         <div className="border w-full shadow-md rounded-2xl px-6 py-8">
           <div className="flex flex-col items-center gap-3">
-            <div className="w-[100px] h-[100px] rounded-full border"></div>
-            <button className="border px-3 py-1 rounded-lg bg-primary-100 text-white">
-              Cập nhật ảnh
-            </button>
+            <div
+              className="w-[100px] h-[100px] rounded-full border"
+              style={{
+                backgroundImage: `url("${profile.avatar}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+            />
+            <Upload {...props}>
+              <Button className="!border-none !shadow-none !outline-none underline hover:!text-black">
+                Cập nhật ảnh
+              </Button>
+            </Upload>
           </div>
           <div className="flex flex-col gap-2 border-b pb-10">
             <svg
