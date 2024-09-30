@@ -136,3 +136,16 @@ export const checkLogin = (): boolean | null => {
     }
   }
 };
+
+export function formatDate(dateString: string): string {
+  return dateString.split("T")[0];
+}
+
+export function splitDateToObject(dateString: string): {
+  year: number;
+  month: number;
+  day: number;
+} {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return { year, month, day };
+}

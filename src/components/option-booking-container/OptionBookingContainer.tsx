@@ -1,13 +1,18 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ModalCustomer from "@/components/modal-customer/ModalCustomer";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { bookingAsync } from "@/services/booking/booking.service";
+import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { calculateDaysBetween } from "@/utils/method/method";
+import {
+  calculateDaysBetween,
+  formatDate,
+  splitDateToObject,
+} from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   ConfigProvider,
@@ -19,7 +24,8 @@ import {
 } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 const { confirm } = Modal;
 
@@ -29,13 +35,25 @@ type Props = {
 
 const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const router = useRouter();
+  const vnFormat = {
+    timeZone: "Asia/Ho_Chi_Minh",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+  const dispatch: AppDispatch = useDispatch();
   const [countMember, setCountMember] = useState<number>(0);
   const [countDate, setCountDate] = useState<number>(0);
   const [dateCheckin, setDateCheckin] = useState<string>("");
   const [dateCheckout, setDateCheckout] = useState<string>("");
+  const [listDate, setListDate] = useState<dayjs.Dayjs[]>([]);
+  const { profile } = useSelector((state: RootState) => state.user);
+  const { bookings } = useSelector((state: RootState) => state.room);
   const { openNotification } = useNotification();
   const { checkIsLogin } = useCheckLogin();
-  const { profile } = useSelector((state: RootState) => state.user);
 
   const showPropsConfirm = () => {
     confirm({
@@ -109,10 +127,57 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
     }
   };
 
+  const getBooking = () => {
+    const action = getBookingsAsync;
+    dispatch(action);
+  };
+
+  const checkBooking: () => void = () => {
+    let bookingId: BookingType[] = [];
+    const dates: Set<string> = new Set();
+
+    bookings.forEach((booking: BookingType) => {
+      if (booking.maPhong === data.id) {
+        bookingId.push(booking);
+      }
+    });
+
+    if (bookingId.length > 0) {
+      bookingId.forEach((item: BookingType) => {
+        const checkin = new Date(item.ngayDen);
+        const checkout = new Date(item.ngayDi);
+
+        const currentDate = new Date(checkin);
+
+        while (currentDate <= checkout) {
+          const formattedDate = currentDate.toISOString().split("T")[0];
+          dates.add(formattedDate);
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      });
+    }
+    const arrDate: string[] = Array.from(dates);
+    const disabledDates: dayjs.Dayjs[] = arrDate.map((date) =>
+      dayjs(date, "YYYY-MM-DD")
+    );
+    setListDate(disabledDates);
+  };
+
+  const disabledDate = (current: any) => {
+    return listDate.some((date) => date.isSame(current, "day"));
+  };
+
   useEffect(() => {
     const countDate = calculateDaysBetween(dateCheckin, dateCheckout);
     setCountDate(countDate);
+    getBooking();
   }, [dateCheckout]);
+
+  useEffect(() => {
+    if (bookings.length > 0) {
+      checkBooking();
+    }
+  }, [bookings]);
 
   return (
     <ConfigProvider
@@ -167,6 +232,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
                 placeholder="Thêm ngày"
                 className="!py-0"
                 onChange={onChangeCheckin}
+                disabledDate={disabledDate}
               />
             </div>
             <div className="w-[50%] p-2">
@@ -176,6 +242,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
                 placeholder="Thêm ngày"
                 className="!py-0"
                 onChange={onChangeCheckout}
+                disabledDate={disabledDate}
               />
             </div>
           </div>
