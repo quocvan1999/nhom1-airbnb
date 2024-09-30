@@ -1,5 +1,3 @@
-import { User } from "@/types/user/userType.type";
-
 export type ReqType<T> = {
   statusCode: number;
   content: T | string;
