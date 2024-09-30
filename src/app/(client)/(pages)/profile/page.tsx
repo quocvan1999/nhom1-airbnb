@@ -21,6 +21,7 @@ const Profile: React.FC<Props> = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const { checkIsLogin } = useCheckLogin();
   const { getProfile } = useGetProfile();
+  const [token, setToken] = useState<string>("");
   const { openNotification } = useNotification();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { profile, bookings } = useSelector((state: RootState) => state.user);
@@ -30,7 +31,7 @@ const Profile: React.FC<Props> = ({}) => {
     action: "https://airbnbnew.cybersoft.edu.vn/api/users/upload-avatar",
     headers: {
       tokenCybersoft: process.env.NEXT_PUBLIC_CYBERSOFT_TOKEN || "",
-      // token: getCookie("accessToken") || "",
+      token: token,
     },
     showUploadList: false,
     onChange(info) {
@@ -53,7 +54,12 @@ const Profile: React.FC<Props> = ({}) => {
     if (isLogin !== true) {
       router.push("/auth/login");
     } else {
+      const getTokent: string | null = getCookie("accessToken");
       getProfile();
+
+      if (getTokent) {
+        setToken(getTokent);
+      }
 
       const id = getCookie("i_d");
       const action = getBookingUserAsync(Number(id));
