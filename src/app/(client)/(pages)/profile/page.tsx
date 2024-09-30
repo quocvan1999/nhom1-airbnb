@@ -1,6 +1,7 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import ModalUpdateUser from "@/components/modal-update-user/ModalUpdateUser";
 import ProfileCard from "@/components/profile-card/ProfileCard";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
@@ -8,8 +9,7 @@ import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { getCookie } from "@/utils/method/method";
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, message, Upload, UploadProps } from "antd";
+import { Button, Upload, UploadProps } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,7 +30,7 @@ const Profile: React.FC<Props> = ({}) => {
     action: "https://airbnbnew.cybersoft.edu.vn/api/users/upload-avatar",
     headers: {
       tokenCybersoft: process.env.NEXT_PUBLIC_CYBERSOFT_TOKEN || "",
-      token: getCookie("accessToken") || "",
+      // token: getCookie("accessToken") || "",
     },
     showUploadList: false,
     onChange(info) {
@@ -126,9 +126,7 @@ const Profile: React.FC<Props> = ({}) => {
         <p className="text-custome-gray-200 text-sm">
           Bắt đầu tham gia vào 2024
         </p>
-        <button className="border rounded-lg px-3 py-2 inline-block mt-5">
-          Chỉnh sửa hồ sơ
-        </button>
+        <ModalUpdateUser />
 
         <div className="mt-5">
           <h1 className="font-bold text-xl px-2">Phòng đã thuê</h1>
