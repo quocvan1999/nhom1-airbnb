@@ -21,6 +21,9 @@ import { ReqType } from "@/types/req-login/reqLoginType.type";
 import { User } from "@/types/user/userType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getProfileAsync } from "@/services/profile/profile.service";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+
+const { confirm } = Modal;
 
 type Props = {};
 
@@ -29,6 +32,21 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
   const [open, setOpen] = useState<boolean>(false);
   const { openNotification } = useNotification();
   const { profile } = useSelector((state: RootState) => state.user);
+
+  const showPropsConfirm = (userUpdate: UserUpdate): void => {
+    confirm({
+      title: "Cập nhật thông tin",
+      icon: <ExclamationCircleFilled />,
+      content: "Bạn có muốn cập nhật lại thông tin",
+      okText: "Cập nhật",
+      okType: "danger",
+      cancelText: "Huỷ",
+      onCancel() {},
+      onOk: () => {
+        handleUpdateUser(userUpdate);
+      },
+    });
+  };
 
   const initialValues: UserUpdate = {
     id: profile.id || 0,
@@ -73,7 +91,7 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
       birthday: Yup.date().nullable().required("Birthday không được để trống"),
     }),
     onSubmit: (values) => {
-      handleUpdateUser(values);
+      showPropsConfirm(values);
     },
   });
 
