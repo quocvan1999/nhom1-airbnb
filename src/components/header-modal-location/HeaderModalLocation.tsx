@@ -11,8 +11,8 @@ type Props = {
 const HeaderModalLocation: React.FC<Props> = ({ setLocation }) => {
   const [locations, setLocations] = useState<LocationType[]>([]);
 
-  const getLocations: () => void = async () => {
-    const res = await getLocationAsync();
+  const getLocations = async (): Promise<void> => {
+    const res: LocationType[] = await getLocationAsync();
     setLocations(res);
   };
 

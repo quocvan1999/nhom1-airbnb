@@ -2,11 +2,11 @@ import { notification } from "antd";
 import { NotificationType } from "@/types/notification/notificationType.type";
 
 const useNotification = () => {
-  const openNotification: (
+  const openNotification = (
     type: "success" | "error" | "info" | "warning",
     message: string,
     description: string
-  ) => void = (type, message, description) => {
+  ): void => {
     const config: NotificationType = {
       message,
       description,

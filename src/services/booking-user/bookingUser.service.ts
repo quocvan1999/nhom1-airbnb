@@ -4,7 +4,7 @@ import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 
 export const getBookingUserAsync = (id: number) => {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch): Promise<void> => {
     const res: AxiosResponse = await httpClient.get(
       `/api/dat-phong/lay-theo-nguoi-dung/${id}`
     );

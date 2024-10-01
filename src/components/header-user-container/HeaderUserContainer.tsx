@@ -5,6 +5,7 @@ import useNotification from "@/custome-hook/useNotification/useNotification";
 import { deleteCookie } from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Button, Dropdown, Modal } from "antd";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -14,12 +15,12 @@ const { confirm } = Modal;
 type Props = {};
 
 const HeaderUserContainer: React.FC<Props> = ({}) => {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
 
-  const showPropsConfirm = () => {
+  const showPropsConfirm = (): void => {
     confirm({
       title: "Đăng xuất",
       icon: <ExclamationCircleFilled />,
@@ -36,7 +37,7 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
     });
   };
 
-  const handleLogout: () => void = () => {
+  const handleLogout = (): void => {
     showPropsConfirm();
   };
 
@@ -46,6 +47,7 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
       setIsLogin(true);
     }
   }, []);
+
   return (
     <Dropdown
       dropdownRender={() => (

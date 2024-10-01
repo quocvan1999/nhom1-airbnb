@@ -16,11 +16,12 @@ import { AppDispatch } from "@/app/globalRedux/store";
 import { getProfileAsync } from "@/services/profile/profile.service";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { User } from "@/types/user/userType.type";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type Props = {};
 
 const Login: React.FC<Props> = ({}) => {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
@@ -31,7 +32,7 @@ const Login: React.FC<Props> = ({}) => {
     password: getCookie("p") || "",
   };
 
-  const handleChangeLogin: (user: LoginType) => void = async (user) => {
+  const handleChangeLogin = async (user: LoginType): Promise<void> => {
     const res: ReqType<{ user: User; token: string }> = await LoginAsync(user);
 
     switch (res.statusCode) {
@@ -78,7 +79,7 @@ const Login: React.FC<Props> = ({}) => {
   });
 
   useEffect(() => {
-    const isLogin = checkIsLogin();
+    const isLogin: boolean | undefined = checkIsLogin();
 
     if (isLogin === true) {
       router.push("/");

@@ -26,7 +26,7 @@ type Props = {};
 
 const ModalUpdateUser: React.FC<Props> = ({}) => {
   const dispatch: AppDispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const { openNotification } = useNotification();
   const { profile } = useSelector((state: RootState) => state.user);
 
@@ -40,9 +40,7 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
     role: profile.role || "",
   };
 
-  const handleUpdateUser: (userUpdate: UserUpdate) => void = async (
-    userUpdate
-  ) => {
+  const handleUpdateUser = async (userUpdate: UserUpdate): Promise<void> => {
     const res: ReqType<User> = await updateUserAsync(userUpdate);
 
     switch (res.statusCode) {
@@ -79,7 +77,7 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
     },
   });
 
-  const showModal = () => {
+  const showModal = (): void => {
     setOpen(true);
   };
 

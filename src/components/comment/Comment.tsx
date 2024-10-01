@@ -14,13 +14,14 @@ import { NewCommentType } from "@/types/new-comment/newCommentType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { ReqType } from "@/types/req-login/reqLoginType.type";
 import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type Props = {
   data: RoomType;
 };
 
 const Comment: React.FC<Props> = ({ data }) => {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const { profile } = useSelector((state: RootState) => state.user);
   const [login, setLogin] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
@@ -31,7 +32,7 @@ const Comment: React.FC<Props> = ({ data }) => {
     comment: "",
   };
 
-  const handleComment: (value: string) => void = async (value) => {
+  const handleComment = async (value: string): Promise<void> => {
     const newComment: NewCommentType = {
       maNguoiBinhLuan: profile.id,
       ngayBinhLuan: Date.now().toString(),
@@ -70,7 +71,7 @@ const Comment: React.FC<Props> = ({ data }) => {
   });
 
   useEffect(() => {
-    const isLogin = checkIsLogin();
+    const isLogin: boolean | undefined = checkIsLogin();
 
     if (isLogin === true) {
       setLogin(true);

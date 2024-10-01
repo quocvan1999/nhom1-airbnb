@@ -14,7 +14,7 @@ const ModalCustomerItem: React.FC<Props> = ({
 }) => {
   const [count, setCount] = useState<number>(0);
 
-  const handleClick: (value: number) => void = (value) => {
+  const handleClick = (value: number): void => {
     setCount((prev) => {
       if (prev > 0 || value > 0) {
         return prev + value;

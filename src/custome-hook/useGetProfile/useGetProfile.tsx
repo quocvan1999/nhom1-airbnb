@@ -10,16 +10,19 @@ const useGetProfile = () => {
   const dispatch: AppDispatch = useDispatch();
   const { checkIsLogin } = useCheckLogin();
 
-  const getProfile: () => void = async () => {
-    const isLogin = checkIsLogin();
+  const getProfile = (): void => {
+    const isLogin: boolean | undefined = checkIsLogin();
 
     if (isLogin === true) {
-      const id = getCookie("i_d");
+      const id: string | null = getCookie("i_d");
 
-      const action = getProfileAsync(Number(id));
+      const action: (dispatch: AppDispatch) => Promise<void> = getProfileAsync(
+        Number(id)
+      );
       dispatch(action);
     }
   };
+
   return { getProfile };
 };
 

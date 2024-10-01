@@ -10,6 +10,7 @@ import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service
 import { BookingType } from "@/types/booking/bookingType.type";
 import { getCookie } from "@/utils/method/method";
 import { Button, Upload, UploadProps } from "antd";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,14 +18,14 @@ import { useDispatch, useSelector } from "react-redux";
 type Props = {};
 
 const Profile: React.FC<Props> = ({}) => {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const { checkIsLogin } = useCheckLogin();
-  const { getProfile } = useGetProfile();
   const [token, setToken] = useState<string>("");
-  const { openNotification } = useNotification();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { profile, bookings } = useSelector((state: RootState) => state.user);
+  const { openNotification } = useNotification();
+  const { checkIsLogin } = useCheckLogin();
+  const { getProfile } = useGetProfile();
 
   const props: UploadProps = {
     name: "formFile",
@@ -49,7 +50,7 @@ const Profile: React.FC<Props> = ({}) => {
   };
 
   useEffect(() => {
-    const isLogin = checkIsLogin();
+    const isLogin: boolean | undefined = checkIsLogin();
 
     if (isLogin !== true) {
       router.push("/auth/login");
@@ -61,7 +62,7 @@ const Profile: React.FC<Props> = ({}) => {
         setToken(getTokent);
       }
 
-      const id = getCookie("i_d");
+      const id: string | null = getCookie("i_d");
       const action = getBookingUserAsync(Number(id));
       dispatch(action);
     }

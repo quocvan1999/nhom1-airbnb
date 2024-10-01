@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const { confirm } = Modal;
 
@@ -30,7 +31,7 @@ type Props = {
 };
 
 const OptionBookingContainer: React.FC<Props> = ({ data }) => {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const [countMember, setCountMember] = useState<number>(0);
   const [countDate, setCountDate] = useState<number>(0);
@@ -42,7 +43,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const { openNotification } = useNotification();
   const { checkIsLogin } = useCheckLogin();
 
-  const showPropsConfirm = () => {
+  const showPropsConfirm = (): void => {
     confirm({
       title: "Đặt phòng",
       icon: <ExclamationCircleFilled />,
@@ -86,12 +87,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
     setDateCheckout(dateString.toString());
   };
 
-  const handleChangeCountMember: (value: number) => void = (value) => {
+  const handleChangeCountMember = (value: number): void => {
     setCountMember((prevCount) => prevCount + value);
   };
 
-  const handleBooking: () => void = () => {
-    const isLogin = checkIsLogin();
+  const handleBooking = (): void => {
+    const isLogin: boolean | undefined = checkIsLogin();
     if (isLogin === true) {
       if (dateCheckin !== "" && dateCheckout !== "" && countMember !== 0) {
         showPropsConfirm();
@@ -116,7 +117,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
     dispatch(action);
   };
 
-  const checkBooking: () => void = () => {
+  const checkBooking = (): void => {
     let bookingId: BookingType[] = [];
     const dates: Set<string> = new Set();
 
@@ -128,13 +129,13 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
 
     if (bookingId.length > 0) {
       bookingId.forEach((item: BookingType) => {
-        const checkin = new Date(item.ngayDen);
-        const checkout = new Date(item.ngayDi);
+        const checkin: Date = new Date(item.ngayDen);
+        const checkout: Date = new Date(item.ngayDi);
 
-        const currentDate = new Date(checkin);
+        const currentDate: Date = new Date(checkin);
 
         while (currentDate <= checkout) {
-          const formattedDate = currentDate.toISOString().split("T")[0];
+          const formattedDate: string = currentDate.toISOString().split("T")[0];
           dates.add(formattedDate);
           currentDate.setDate(currentDate.getDate() + 1);
         }
@@ -147,12 +148,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
     setListDate(disabledDates);
   };
 
-  const disabledDate = (current: any) => {
+  const disabledDate = (current: any): boolean => {
     return listDate.some((date) => date.isSame(current, "day"));
   };
 
   useEffect(() => {
-    const countDate = calculateDaysBetween(dateCheckin, dateCheckout);
+    const countDate: number = calculateDaysBetween(dateCheckin, dateCheckout);
     setCountDate(countDate);
     getBooking();
   }, [dateCheckout]);

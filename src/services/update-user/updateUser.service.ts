@@ -4,9 +4,9 @@ import { User } from "@/types/user/userType.type";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 
-export const updateUserAsync: (
+export const updateUserAsync = async (
   modelUpdate: UserUpdate
-) => Promise<ReqType<User>> = async (modelUpdate) => {
+): Promise<ReqType<User>> => {
   const res: AxiosResponse = await httpClient.put(
     `/api/users/${modelUpdate.id}`,
     modelUpdate

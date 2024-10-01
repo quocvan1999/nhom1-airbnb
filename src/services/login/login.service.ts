@@ -4,9 +4,9 @@ import { User } from "@/types/user/userType.type";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 
-export const LoginAsync: (
+export const LoginAsync = async (
   user: LoginType
-) => Promise<ReqType<{ user: User; token: string }>> = async (user) => {
+): Promise<ReqType<{ user: User; token: string }>> => {
   try {
     const res: AxiosResponse = await httpClient.post("/api/auth/signin", user);
     return res.data;

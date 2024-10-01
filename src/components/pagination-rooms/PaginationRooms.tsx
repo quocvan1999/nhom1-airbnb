@@ -3,6 +3,7 @@
 import { reqPaginationType } from "@/types/req-pagination/reqPaginationType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { Pagination } from "antd";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -11,13 +12,11 @@ type Props = {
 };
 
 const PaginationRooms: React.FC<Props> = ({ data }) => {
-  const router = useRouter();
-  const handleChangePageIndex: (page: number, pageSize: number) => void = (
-    page,
-    pageSize
-  ) => {
+  const router: AppRouterInstance = useRouter();
+  const handleChangePageIndex = (page: number, pageSize: number): void => {
     router.push(`/?page=${page}&size=${pageSize}`);
   };
+
   return (
     <Pagination
       align="end"

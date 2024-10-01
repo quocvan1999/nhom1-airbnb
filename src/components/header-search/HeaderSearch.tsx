@@ -12,13 +12,14 @@ import {
   Input,
 } from "antd";
 import { motion } from "framer-motion";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 type Props = {};
 
 const HeaderSearch: React.FC<Props> = ({}) => {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const [location, setLocation] = useState<LocationType>({
     hinhAnh: "",
     id: 0,
@@ -40,15 +41,15 @@ const HeaderSearch: React.FC<Props> = ({}) => {
     console.log(date, dateString);
   };
 
-  const handleChangeTypeSearch: () => void = () => {
+  const handleChangeTypeSearch = (): void => {
     setTypeSearch(!typeSearch);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     router.push(`/search?keyword=${location.id}`);
   };
 
-  const handleChangeCountMember: (value: number) => void = (value) => {
+  const handleChangeCountMember = (value: number): void => {
     setTotalMember((prevCount) => prevCount + value);
   };
 

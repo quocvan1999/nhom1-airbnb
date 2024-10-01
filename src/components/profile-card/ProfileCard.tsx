@@ -14,7 +14,7 @@ type Props = {
 const ProfileCard: React.FC<Props> = ({ id }) => {
   const [roomDetail, setRoomDetail] = useState<RoomType>();
 
-  const getRoomDetail: () => void = async () => {
+  const getRoomDetail = async (): Promise<void> => {
     const data: RoomType = await getRoomDetailAsync(Number(id));
     setRoomDetail(data);
   };

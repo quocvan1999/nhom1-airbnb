@@ -4,9 +4,9 @@ import { getCookie } from "@/utils/method/method";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 
-export const commentAsync: (
+export const commentAsync = async (
   newComment: NewCommentType
-) => Promise<ReqType<NewCommentType>> = async (newComment) => {
+): Promise<ReqType<NewCommentType>> => {
   const token = getCookie("accessToken");
   const res: AxiosResponse = await httpClient.post(
     "/api/binh-luan",

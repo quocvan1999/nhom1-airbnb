@@ -14,7 +14,7 @@ type Props = {
 };
 
 const Search: React.FC<Props> = async ({ searchParams }) => {
-  const value = searchParams.keyword || "";
+  const value: string = searchParams.keyword || "";
 
   const data: RoomType[] = await getRoomsLocation(value);
 
