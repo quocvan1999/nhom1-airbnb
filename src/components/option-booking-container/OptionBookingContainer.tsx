@@ -8,11 +8,7 @@ import { bookingAsync } from "@/services/booking/booking.service";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import {
-  calculateDaysBetween,
-  formatDate,
-  splitDateToObject,
-} from "@/utils/method/method";
+import { calculateDaysBetween } from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   ConfigProvider,
@@ -35,15 +31,6 @@ type Props = {
 
 const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const router = useRouter();
-  const vnFormat = {
-    timeZone: "Asia/Ho_Chi_Minh",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  };
   const dispatch: AppDispatch = useDispatch();
   const [countMember, setCountMember] = useState<number>(0);
   const [countDate, setCountDate] = useState<number>(0);
@@ -121,9 +108,6 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         "Đặt phòng",
         "Bạn phải đăng nhập để đặt phòng"
       );
-      setTimeout(() => {
-        router.push("/auth/login");
-      }, 1000);
     }
   };
 

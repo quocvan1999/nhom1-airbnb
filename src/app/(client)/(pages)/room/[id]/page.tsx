@@ -1,4 +1,5 @@
 import CommentItem from "@/components/comment-item/CommentItem";
+import Comment from "@/components/comment/Comment";
 import OptionBookingContainer from "@/components/option-booking-container/OptionBookingContainer";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
@@ -370,30 +371,8 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
           <CommentItem key={index} comment={comment} />
         ))}
       </div>
-      <div>
-        <div className="flex gap-3">
-          <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center border">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              style={{ fill: "#6a6a6a" }}
-            >
-              <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"></path>
-            </svg>
-          </div>
-          <textarea
-            placeholder="Enter comment..."
-            className="border rounded-xl w-[95%] min-h-[150px] p-3 focus:outline-none"
-          />
-        </div>
-        <div className="flex justify-end">
-          <button className="bg-primary-100 px-3 py-2 text-white font-medium rounded-lg mt-3 transition-all duration-500 ease-in-out hover:bg-primary-200">
-            Add comment
-          </button>
-        </div>
-      </div>
+
+      <Comment data={data} />
     </div>
   );
 };
