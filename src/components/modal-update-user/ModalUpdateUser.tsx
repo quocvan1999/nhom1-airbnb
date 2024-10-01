@@ -93,6 +93,16 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
           Button: {
             dangerColor: "#FF385C",
           },
+          DatePicker: {
+            activeBorderColor: "#FF385C",
+            hoverBorderColor: "#FF385C",
+            activeShadow: "#FF385C",
+          },
+          Select: {
+            colorPrimary: "#FF385C",
+            colorFillSecondary: "#FF385C",
+            colorPrimaryHover: "#FF385C",
+          },
         },
       }}
     >

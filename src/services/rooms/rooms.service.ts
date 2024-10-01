@@ -4,8 +4,8 @@ import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 
 export const getRoomsAsync = async (
-  pageIndex: number | string,
-  pageSize: number | string
+  pageIndex: number | string = 1,
+  pageSize: number | string = 10
 ): Promise<reqPaginationType<RoomType[]>> => {
   const res: AxiosResponse = await httpClient.get(
     `/api/phong-thue/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}`
