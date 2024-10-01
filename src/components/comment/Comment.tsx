@@ -15,6 +15,7 @@ import { RoomType } from "@/types/room/roomType.type";
 import { ReqType } from "@/types/req-login/reqLoginType.type";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { getCurrentDateTime } from "@/utils/method/method";
 
 type Props = {
   data: RoomType;
@@ -35,7 +36,7 @@ const Comment: React.FC<Props> = ({ data }) => {
   const handleComment = async (value: string): Promise<void> => {
     const newComment: NewCommentType = {
       maNguoiBinhLuan: profile.id,
-      ngayBinhLuan: Date.now().toString(),
+      ngayBinhLuan: getCurrentDateTime(),
       noiDung: value,
       saoBinhLuan: 5,
       maPhong: data.id,
