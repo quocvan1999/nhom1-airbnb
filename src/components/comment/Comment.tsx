@@ -60,16 +60,18 @@ const Comment: React.FC<Props> = ({ data }) => {
     initialValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      comment: Yup.string().required(
-        `${
-          login === true
-            ? "Comment không được để trống"
-            : "Bạn phải đăng nhập để comment"
-        }`
-      ),
+      comment: Yup.string().required("Comment không được để trống"),
     }),
     onSubmit: (values) => {
-      handleComment(values.comment);
+      if (login === false) {
+        openNotification(
+          "warning",
+          "Comment",
+          "Bạn phải đăng nhập để thêm comment"
+        );
+      } else {
+        handleComment(values.comment);
+      }
     },
   });
 
