@@ -126,22 +126,30 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         bookingId.push(booking);
       }
     });
-
+    // 15-19
     if (bookingId.length > 0) {
       bookingId.forEach((item: BookingType) => {
-        const checkin: Date = new Date(item.ngayDen);
-        const checkout: Date = new Date(item.ngayDi);
+        const checkin = dayjs(item.ngayDen);
+        const checkout = dayjs(item.ngayDi);
 
-        const currentDate: Date = new Date(checkin);
+        let currentDate = checkin;
 
-        while (currentDate <= checkout) {
-          const formattedDate: string = currentDate.toISOString().split("T")[0];
+        while (
+          currentDate.isBefore(checkout, "day") ||
+          currentDate.isSame(checkout, "day")
+        ) {
+          const formattedDate = currentDate.format("YYYY-MM-DD");
+          console.log("currentDate", currentDate.toString());
+          console.log("formattedDate", formattedDate);
+
           dates.add(formattedDate);
-          currentDate.setDate(currentDate.getDate() + 1);
+          currentDate = currentDate.add(1, "day");
         }
       });
     }
     const arrDate: string[] = Array.from(dates);
+    console.log("DATE ARR", arrDate);
+
     const disabledDates: dayjs.Dayjs[] = arrDate.map((date) =>
       dayjs(date, "YYYY-MM-DD")
     );
