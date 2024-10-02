@@ -3,8 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Providers } from "@/app/globalRedux/provider";
+import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 
-export const airbnbVF = localFont({
+export const airbnbVF: NextFontWithVariable = localFont({
   src: "./fonts/AirbnbCerealVF.woff2",
   variable: "--font-airbnb-vf",
 });
