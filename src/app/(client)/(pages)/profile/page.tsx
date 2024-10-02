@@ -2,12 +2,11 @@
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ModalUpdateUser from "@/components/modal-update-user/ModalUpdateUser";
-import ProfileCard from "@/components/profile-card/ProfileCard";
+import BookingsProfile from "@/components/bookings-profile/BookingsProfile";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
-import { BookingType } from "@/types/booking/bookingType.type";
 import { getCookie } from "@/utils/method/method";
 import { Button, Upload, UploadProps } from "antd";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -137,12 +136,8 @@ const Profile: React.FC<Props> = ({}) => {
 
         <div className="mt-5">
           <h1 className="font-bold text-xl px-2">Phòng đã thuê</h1>
-
-          <div className="">
-            {bookings &&
-              bookings.map((booking: BookingType, index: number) => (
-                <ProfileCard key={index} id={booking.maPhong} />
-              ))}
+          <div className="mt-5">
+            {bookings.length > 5 && <BookingsProfile data={bookings} />}
           </div>
         </div>
       </div>
