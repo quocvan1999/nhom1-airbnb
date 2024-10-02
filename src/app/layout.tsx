@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Providers } from "@/app/globalRedux/provider";
 import { NextFontWithVariable } from "next/dist/compiled/@next/font";
+import "./globals.css";
 
-export const airbnbVF: NextFontWithVariable = localFont({
-  src: "./fonts/AirbnbCerealVF.woff2",
-  variable: "--font-airbnb-vf",
-});
+// const airbnbVF: NextFontWithVariable = localFont({
+//   src: "./fonts/AirbnbCerealVF.woff2",
+//   variable: "--font-airbnb-vf",
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
