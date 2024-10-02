@@ -18,11 +18,9 @@ import {
   Input,
   Modal,
 } from "antd";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const { confirm } = Modal;
 
@@ -31,7 +29,6 @@ type Props = {
 };
 
 const OptionBookingContainer: React.FC<Props> = ({ data }) => {
-  const router: AppRouterInstance = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const [countMember, setCountMember] = useState<number>(0);
   const [countDate, setCountDate] = useState<number>(0);
@@ -62,15 +59,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         };
 
         const res = await bookingAsync(value);
-        console.log(res);
 
         switch (res.statusCode) {
           case 201:
             openNotification("success", "Đặt phòng", "Đặt phòng thành công");
-
-            setTimeout(() => {
-              router.push("/");
-            }, 1000);
+            setDateCheckin("");
+            setDateCheckout("");
             break;
           default:
             break;
@@ -126,7 +120,6 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         bookingId.push(booking);
       }
     });
-    // 15-19
     if (bookingId.length > 0) {
       bookingId.forEach((item: BookingType) => {
         const checkin = dayjs(item.ngayDen);
