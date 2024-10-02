@@ -1,24 +1,24 @@
 "use client";
 
+import { RootState } from "@/app/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { deleteCookie } from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Button, Dropdown, Modal } from "antd";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const { confirm } = Modal;
 
 type Props = {};
 
 const HeaderUserContainer: React.FC<Props> = ({}) => {
-  const router: AppRouterInstance = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const showPropsConfirm = (): void => {
     confirm({
@@ -29,10 +29,10 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
       okType: "danger",
       cancelText: "Huỷ",
       onOk() {
-        router.push("/auth/login");
         openNotification("success", "Đăng xuất", "Đăng xuất thành công");
         deleteCookie("accessToken");
         deleteCookie("i_d");
+        setIsLogin(false);
       },
     });
   };
@@ -45,6 +45,8 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
     const login = checkIsLogin();
     if (login === true) {
       setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
   }, []);
 
@@ -91,7 +93,13 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
           <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
         </svg>
         {isLogin === true ? (
-          <div className="w-[35px] h-[35px] rounded-full border border-primary-100"></div>
+          <div
+            className="w-[35px] h-[35px] rounded-full border border-primary-100"
+            style={{
+              backgroundImage: `url("${profile.avatar}")`,
+              backgroundSize: "cover",
+            }}
+          ></div>
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
