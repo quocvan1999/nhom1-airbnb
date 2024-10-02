@@ -53,7 +53,9 @@ const Login: React.FC<Props> = ({}) => {
           }
 
           setCookie("accessToken", res.content.token, 7);
-          setCookie("i_d", res.content.user.id.toString(), 7);
+          if (res.content.user.id !== undefined) {
+            setCookie("i_d", res.content.user.id.toString(), 7);
+          }
         }
         break;
       case 400:
@@ -196,7 +198,7 @@ const Login: React.FC<Props> = ({}) => {
           </Link>
         </div>
       </div>
-      <div className="w-[45%] h-full rounded-r-2xl text-white flex items-center justify-center flex-col px-10 gap-4 text-center">
+      <div className="w-[45%] rounded-r-2xl text-white flex items-center justify-center flex-col px-10 gap-4 text-center">
         <h1 className="font-bold text-3xl">Chào mừng trở lại</h1>
         <p>Bạn chưa có tài khoản?</p>
         <Link

@@ -4,5 +4,5 @@ export type BookingType = {
   ngayDen: string;
   ngayDi: string;
   soLuongKhach: number;
-  maNguoiDung: number;
+  maNguoiDung: number | undefined;
 };

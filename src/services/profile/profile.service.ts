@@ -3,7 +3,7 @@ import { AppDispatch } from "@/app/globalRedux/store";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 
-export const getProfileAsync = (id: number) => {
+export const getProfileAsync = (id: number | undefined) => {
   return async (dispatch: AppDispatch): Promise<void> => {
     const res: AxiosResponse = await httpClient.get(`/api/users/${id}`);
 
