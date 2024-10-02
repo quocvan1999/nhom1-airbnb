@@ -32,15 +32,17 @@ const BookingsProfile: React.FC<Props> = ({ data }) => {
         paginatedData.map((item: BookingType, index: number) => (
           <ProfileCard id={item.maPhong} key={index} />
         ))}
-      <Pagination
-        align="end"
-        current={pageIndex}
-        defaultPageSize={pageSize}
-        total={data.length}
-        onChange={handleChangePageIndex}
-        onShowSizeChange={handlePageSizeChange}
-        showSizeChanger
-      />
+      {paginatedData && paginatedData.length > 5 && (
+        <Pagination
+          align="end"
+          current={pageIndex}
+          defaultPageSize={pageSize}
+          total={data.length}
+          onChange={handleChangePageIndex}
+          onShowSizeChange={handlePageSizeChange}
+          showSizeChanger
+        />
+      )}
     </>
   );
 };

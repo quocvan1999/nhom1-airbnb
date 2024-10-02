@@ -8,7 +8,7 @@ import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
 import { getCookie } from "@/utils/method/method";
-import { Button, Upload, UploadProps } from "antd";
+import { Button, Empty, Upload, UploadProps } from "antd";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -137,7 +137,11 @@ const Profile: React.FC<Props> = ({}) => {
         <div className="mt-5">
           <h1 className="font-bold text-xl px-2">Phòng đã thuê</h1>
           <div className="mt-5">
-            {bookings.length > 5 && <BookingsProfile data={bookings} />}
+            {bookings.length > 0 ? (
+              <BookingsProfile data={bookings} />
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
           </div>
         </div>
       </div>
