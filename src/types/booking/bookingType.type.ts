@@ -1,5 +1,5 @@
 export type BookingType = {
-  id?: number;
+  id: number;
   maPhong: number;
   ngayDen: string;
   ngayDi: string;

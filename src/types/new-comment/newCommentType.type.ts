@@ -1,5 +1,5 @@
 export type NewCommentType = {
-  id?: number;
+  id: number;
   maPhong: number;
   maNguoiBinhLuan: number;
   ngayBinhLuan: string;

@@ -93,7 +93,7 @@ const Login: React.FC<Props> = ({}) => {
       theme={{
         components: {
           Input: {
-            borderRadiusLG: 100,
+            borderRadiusLG: 7,
             colorBgContainer: "#f7f7f7",
             lineType: "none",
             paddingInlineLG: 20,
@@ -176,7 +176,7 @@ const Login: React.FC<Props> = ({}) => {
           <Form.Item>
             <button
               type="submit"
-              className="w-full bg-primary-100 text-white py-3 rounded-full transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom"
+              className="w-full bg-primary-100 text-white py-3 rounded-[7px] transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom"
             >
               Đăng nhập
             </button>
@@ -203,7 +203,7 @@ const Login: React.FC<Props> = ({}) => {
         <p>Bạn chưa có tài khoản?</p>
         <Link
           href="/auth/register"
-          className="border border-[#fff] px-10 py-2 rounded-full cursor-pointer transition-all duration-500 ease-in-out hover:shadow-lg"
+          className="border border-[#fff] px-10 py-2 rounded-[7px] cursor-pointer transition-all duration-500 ease-in-out hover:shadow-lg"
         >
           Đăng ký
         </Link>

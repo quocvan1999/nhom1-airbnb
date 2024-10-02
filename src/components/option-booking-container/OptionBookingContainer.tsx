@@ -51,6 +51,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
       onCancel() {},
       onOk: async () => {
         const value: BookingType = {
+          id: 0,
           maNguoiDung: profile.id,
           maPhong: data.id,
           ngayDen: dateCheckin,
@@ -254,7 +255,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         </div>
         <button
           onClick={handleBooking}
-          className="w-full py-2 bg-primary-100 text-white font-medium rounded-md mt-2 transition-all duration-500 ease-in-out hover:bg-primary-200"
+          className="w-full py-2 bg-primary-100 text-white font-medium rounded-[7px] mt-2 transition-all duration-500 ease-in-out hover:bg-primary-200"
         >
           Đặt phòng
         </button>

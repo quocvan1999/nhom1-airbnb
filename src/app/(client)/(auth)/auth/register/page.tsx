@@ -26,6 +26,7 @@ const Register: React.FC<Props> = ({}) => {
     birthday: "",
     gender: true,
     role: "",
+    avatar: "",
   };
 
   const handleChangeRegister = async (newUser: User): Promise<void> => {
@@ -73,7 +74,7 @@ const Register: React.FC<Props> = ({}) => {
       theme={{
         components: {
           Input: {
-            borderRadiusLG: 100,
+            borderRadiusLG: 7,
             colorBgContainer: "#f7f7f7",
             lineType: "none",
             paddingInlineLG: 20,
@@ -96,7 +97,7 @@ const Register: React.FC<Props> = ({}) => {
           Select: {
             colorBorder: "transparent",
             colorBgContainer: "#f7f7f7",
-            borderRadiusLG: 100,
+            borderRadiusLG: 7,
           },
         },
       }}
@@ -218,7 +219,7 @@ const Register: React.FC<Props> = ({}) => {
             <DatePicker
               name="birthday"
               size="large"
-              className="w-full !rounded-full !py-[10px]"
+              className="w-full !rounded-[7px] !py-[10px]"
               defaultValue={formRegister.values.birthday}
               onChange={(_date: string, dateString: string | string[]) =>
                 formRegister.setFieldValue("birthday", dateString)
@@ -260,7 +261,7 @@ const Register: React.FC<Props> = ({}) => {
           <Form.Item>
             <button
               type="submit"
-              className="w-full bg-primary-100 text-white py-3 rounded-full transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom"
+              className="w-full bg-primary-100 text-white py-3 rounded-[7px] transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom"
             >
               Đăng ký
             </button>
@@ -280,7 +281,7 @@ const Register: React.FC<Props> = ({}) => {
         <p>Bạn đã có tài khoản?</p>
         <Link
           href="/auth/login"
-          className="border border-[#fff] px-10 py-2 rounded-full cursor-pointer transition-all duration-500 ease-in-out hover:shadow-lg"
+          className="border border-[#fff] px-10 py-2 rounded-[7px] cursor-pointer transition-all duration-500 ease-in-out hover:shadow-lg"
         >
           Đăng nhập
         </Link>

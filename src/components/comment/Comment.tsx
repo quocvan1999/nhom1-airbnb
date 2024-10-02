@@ -34,6 +34,7 @@ const Comment: React.FC<Props> = ({ data }) => {
 
   const handleComment = async (value: string): Promise<void> => {
     const newComment: NewCommentType = {
+      id: 0,
       maNguoiBinhLuan: profile.id,
       ngayBinhLuan: getCurrentDateTime(),
       noiDung: value,
