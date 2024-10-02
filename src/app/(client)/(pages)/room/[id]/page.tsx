@@ -1,9 +1,7 @@
-import CommentItem from "@/components/comment-item/CommentItem";
 import Comment from "@/components/comment/Comment";
+import Comments from "@/components/comments/comments";
 import OptionBookingContainer from "@/components/option-booking-container/OptionBookingContainer";
-import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
-import { CommentType } from "@/types/comment/comment.type";
 import { RoomType } from "@/types/room/roomType.type";
 import React from "react";
 
@@ -17,7 +15,6 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
   const { id } = params;
 
   const data: RoomType = await getRoomDetailAsync(id);
-  const comments: CommentType[] = await getCommentToRoomAsync(id);
 
   return (
     <div className="w-full">
@@ -366,11 +363,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
       </div>
 
       {/* Binh luan */}
-      <div className="flex flex-wrap gap-3 mt-10">
-        {comments.map((comment: CommentType, index: number) => (
-          <CommentItem key={index} comment={comment} />
-        ))}
-      </div>
+      <Comments id={data.id} />
 
       <Comment data={data} />
     </div>

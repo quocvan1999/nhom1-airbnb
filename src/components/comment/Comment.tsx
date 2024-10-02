@@ -4,8 +4,8 @@ import { Form } from "antd";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/globalRedux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
@@ -13,16 +13,15 @@ import { commentAsync } from "@/services/comment/comment.service";
 import { NewCommentType } from "@/types/new-comment/newCommentType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { ReqType } from "@/types/req-login/reqLoginType.type";
-import { useRouter } from "next/navigation";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getCurrentDateTime } from "@/utils/method/method";
+import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 
 type Props = {
   data: RoomType;
 };
 
 const Comment: React.FC<Props> = ({ data }) => {
-  const router: AppRouterInstance = useRouter();
+  const dispatch: AppDispatch = useDispatch();
   const { profile } = useSelector((state: RootState) => state.user);
   const [login, setLogin] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
@@ -47,7 +46,9 @@ const Comment: React.FC<Props> = ({ data }) => {
     switch (res.statusCode) {
       case 201:
         openNotification("success", "Comment", "Thêm mới bình luận thành công");
-        router.push(`/room/${data.id}`);
+        const action = getCommentToRoomAsync(data.id);
+        dispatch(action);
+        formComment.resetForm();
         break;
       default:
         break;
