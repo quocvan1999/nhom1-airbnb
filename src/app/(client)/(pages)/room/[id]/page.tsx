@@ -3,6 +3,7 @@ import Comments from "@/components/comments/comments";
 import OptionBookingContainer from "@/components/option-booking-container/OptionBookingContainer";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { RoomType } from "@/types/room/roomType.type";
+import { Metadata } from "next";
 import React from "react";
 
 type Props = {
@@ -10,6 +11,33 @@ type Props = {
     id: string | number;
   };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = params;
+  const roomDetail: RoomType = await getRoomDetailAsync(id);
+
+  return {
+    title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
+    description: `Xem chi tiết căn phòng ${roomDetail.tenPhong} ở ${roomDetail.moTa}. Thích hợp cho ${roomDetail.khach} khách với ${roomDetail.phongNgu} phòng ngủ và ${roomDetail.phongTam} phòng tắm.`,
+    openGraph: {
+      title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
+      description: `Phòng ${roomDetail.tenPhong} tại ${roomDetail.moTa}, thích hợp cho ${roomDetail.khach} khách. Xem chi tiết và đặt phòng ngay.`,
+      url: `https://yourwebsite.com/room/${id}`,
+      images: [
+        {
+          url: roomDetail.hinhAnh,
+          alt: `Hình ảnh của phòng ${roomDetail.tenPhong}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
+      description: `Xem chi tiết căn phòng ${roomDetail.tenPhong}, thích hợp cho ${roomDetail.khach} khách.`,
+      images: [roomDetail.hinhAnh],
+    },
+  };
+}
 
 const RoomDetail: React.FC<Props> = async ({ params }) => {
   const { id } = params;
