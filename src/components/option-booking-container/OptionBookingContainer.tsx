@@ -133,8 +133,6 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
           currentDate.isSame(checkout, "day")
         ) {
           const formattedDate = currentDate.format("YYYY-MM-DD");
-          console.log("currentDate", currentDate.toString());
-          console.log("formattedDate", formattedDate);
 
           dates.add(formattedDate);
           currentDate = currentDate.add(1, "day");
@@ -142,7 +140,6 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
       });
     }
     const arrDate: string[] = Array.from(dates);
-    console.log("DATE ARR", arrDate);
 
     const disabledDates: dayjs.Dayjs[] = arrDate.map((date) =>
       dayjs(date, "YYYY-MM-DD")

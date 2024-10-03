@@ -28,8 +28,8 @@ const Login: React.FC<Props> = ({}) => {
   const { checkIsLogin } = useCheckLogin();
 
   const initialValues: LoginType = {
-    email: getCookie("m") || "",
-    password: getCookie("p") || "",
+    email: "",
+    password: "",
   };
 
   const handleChangeLogin = async (user: LoginType): Promise<void> => {
@@ -86,6 +86,9 @@ const Login: React.FC<Props> = ({}) => {
     if (isLogin === true) {
       router.push("/");
     }
+
+    formLogin.setFieldValue("email", getCookie("m"));
+    formLogin.setFieldValue("password", getCookie("p"));
   }, []);
 
   return (

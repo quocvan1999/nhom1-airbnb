@@ -9,8 +9,8 @@
 }
 
 @font-face {
-  font-family: "AirbnbCustom";
-  src: url('/src/app/fonts/AirbnbCerealVF.woff2') format('woff2');
+  font-family: 'AirbnbCerealVF';
+  src: url('/fonts/AirbnbCerealVF.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
