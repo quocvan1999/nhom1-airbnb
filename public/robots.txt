@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://nhom1-airbnb.vercel.app
+
+# Sitemaps
+Sitemap: https://nhom1-airbnb.vercel.app/sitemap.xml

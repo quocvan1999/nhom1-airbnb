@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "npx next-sitemap"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
