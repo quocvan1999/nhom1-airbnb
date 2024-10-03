@@ -9,6 +9,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="canonical" href="https://nhom1-airbnb.vercel.app" />
+      </head>
       <body className={`font-custom text-[14px] text-custome-black-100`}>
         <Providers>
           <AntdRegistry>
