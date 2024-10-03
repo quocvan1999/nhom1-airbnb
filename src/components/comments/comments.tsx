@@ -18,7 +18,8 @@ const Comments: React.FC<Props> = ({ id }) => {
   useEffect(() => {
     const action = getCommentToRoomAsync(id);
     dispatch(action);
-  }, [comments]);
+  }, []);
+
   return (
     <div className="flex flex-wrap gap-3 mt-5">
       {comments &&
