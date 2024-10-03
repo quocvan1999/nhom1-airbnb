@@ -13,9 +13,37 @@ type Props = {
   };
 };
 
+export const generateMetadata = async ({ searchParams }: Props) => {
+  const value: string = searchParams.keyword || "";
+  const data: RoomType[] = await getRoomsLocation(value);
+
+  return {
+    title: `Tìm kiếm chỗ ở cho từ khóa: ${value}`,
+    description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${value}".`,
+    keywords: `${value}, chỗ ở, tìm kiếm chỗ ở, ${tagData.join(", ")}`,
+    openGraph: {
+      title: `Tìm kiếm chỗ ở cho từ khóa: ${value}`,
+      description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${value}".`,
+      url: `https://yourdomain.com/search?keyword=${value}`, // Thay thế bằng URL chính xác của bạn
+      images: [
+        {
+          url: "/path-to-your-image.jpg", // Thay đổi đường dẫn tới hình ảnh phù hợp
+        },
+      ],
+    },
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
+      description:
+        "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm trên toàn cầu trên Airbnb.",
+      url: "https://www.airbnb.com.vn",
+    },
+  };
+};
+
 const Search: React.FC<Props> = async ({ searchParams }) => {
   const value: string = searchParams.keyword || "";
-
   const data: RoomType[] = await getRoomsLocation(value);
 
   return (

@@ -4,22 +4,22 @@ import "./globals.css";
 
 export const metadata = {
   title:
-    "Airbnb - Vacation Rentals, Cabins, Beach Houses, Unique Homes & Experiences",
+    "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
   description:
-    "Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.",
+    "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm tuyệt vời trên toàn thế giới - tất cả đều do các chủ nhà trên Airbnb mang lại.",
 
   openGraph: {
     title:
-      "Airbnb - Vacation Rentals, Cabins, Beach Houses, Unique Homes & Experiences",
+      "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
     description:
-      "Discover amazing stays and unique experiences from all around the world. Book your next adventure with Airbnb today.",
+      "Khám phá những chỗ ở tuyệt vời và những trải nghiệm độc đáo từ khắp nơi trên thế giới. Đặt chỗ cho cuộc phiêu lưu tiếp theo của bạn với Airbnb ngay hôm nay.",
     url: "https://nhom1-airbnb-test.vercel.app/",
     images: [
       {
         url: "https://a0.muscache.com/im/pictures/miso/Hosting-694055224756906854/original/76f85a0c-b3e2-4f1d-9aa9-d7838f2393c6.jpeg?im_w=960&im_q=highq",
         width: 800,
         height: 600,
-        alt: "Airbnb Rentals and Experiences",
+        alt: "Cho thuê và trải nghiệm Airbnb",
       },
     ],
     type: "website",
@@ -27,9 +27,9 @@ export const metadata = {
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Airbnb - Vacation Rentals, Cabins, Beach Houses, Unique Homes & Experiences",
+    name: "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
     description:
-      "Find vacation rentals, cabins, beach houses, unique homes and experiences worldwide on Airbnb.",
+      "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm trên toàn cầu trên Airbnb.",
     url: "https://www.airbnb.com.vn",
   },
 };
