@@ -24,10 +24,10 @@ export const generateMetadata = async ({ searchParams }: Props) => {
     openGraph: {
       title: `Tìm kiếm chỗ ở cho từ khóa: ${value}`,
       description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${value}".`,
-      url: `https://yourdomain.com/search?keyword=${value}`, // Thay thế bằng URL chính xác của bạn
+      url: `https://nhom1-airbnb.vercel.app/search?keyword=${value}`,
       images: [
         {
-          url: "/path-to-your-image.jpg", // Thay đổi đường dẫn tới hình ảnh phù hợp
+          url: "https://a0.muscache.com/im/pictures/miso/Hosting-694055224756906854/original/76f85a0c-b3e2-4f1d-9aa9-d7838f2393c6.jpeg?im_w=960&im_q=highq",
         },
       ],
     },
@@ -37,7 +37,7 @@ export const generateMetadata = async ({ searchParams }: Props) => {
       name: "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
       description:
         "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm trên toàn cầu trên Airbnb.",
-      url: "https://www.airbnb.com.vn",
+      url: "https://nhom1-airbnb.vercel.app",
     },
   };
 };

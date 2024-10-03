@@ -12,7 +12,7 @@ type Props = {
   };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props) {
   const { id } = params;
   const roomDetail: RoomType = await getRoomDetailAsync(id);
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
       description: `Phòng ${roomDetail.tenPhong} tại ${roomDetail.moTa}, thích hợp cho ${roomDetail.khach} khách. Xem chi tiết và đặt phòng ngay.`,
-      url: `https://yourwebsite.com/room/${id}`,
+      url: `https://nhom1-airbnb.vercel.app/room/${id}`,
       images: [
         {
           url: roomDetail.hinhAnh,
@@ -30,11 +30,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
       ],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
-      description: `Xem chi tiết căn phòng ${roomDetail.tenPhong}, thích hợp cho ${roomDetail.khach} khách.`,
-      images: [roomDetail.hinhAnh],
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
+      description:
+        "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm trên toàn cầu trên Airbnb.",
+      url: "https://nhom1-airbnb.vercel.app",
     },
   };
 }
