@@ -25,7 +25,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
     phone: "",
     birthday: "",
     gender: true,
-    role: "",
+    role: "USER",
     avatar: "",
   };
 
@@ -102,7 +102,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
         },
       }}
     >
-      <div className="w-[55%] bg-white rounded-2xl p-10">
+      <div className="w-full bg-white rounded-2xl p-10">
         <div className="flex items-center justify-between mb-14">
           <h1 className="text-2xl">Đăng Nhập</h1>
           <div className="flex items-center gap-3">
@@ -131,132 +131,126 @@ const RegisterPage: React.FC<Props> = ({}) => {
           </div>
         </div>
         <Form layout="vertical" onSubmitCapture={formRegister.handleSubmit}>
-          <Form.Item
-            validateStatus={
-              formRegister.touched.name && formRegister.errors.name
-                ? "error"
-                : ""
-            }
-            help={formRegister.touched.name && formRegister.errors.name}
-          >
-            <p className="font-bold uppercase text-xs mb-3">Name</p>
-            <Input
-              size="large"
-              name="name"
-              placeholder="Enter name"
-              value={formRegister.values.name}
-              onChange={formRegister.handleChange}
-              onBlur={formRegister.handleBlur}
-            />
-          </Form.Item>
+          <div className="flex items-center justify-between w-full gap-5">
+            <div className="w-[50%]">
+              <Form.Item
+                validateStatus={
+                  formRegister.touched.name && formRegister.errors.name
+                    ? "error"
+                    : ""
+                }
+                help={formRegister.touched.name && formRegister.errors.name}
+              >
+                <p className="font-bold uppercase text-xs mb-3">Name</p>
+                <Input
+                  size="large"
+                  name="name"
+                  placeholder="Enter name"
+                  value={formRegister.values.name}
+                  onChange={formRegister.handleChange}
+                  onBlur={formRegister.handleBlur}
+                />
+              </Form.Item>
 
-          <Form.Item
-            validateStatus={
-              formRegister.touched.email && formRegister.errors.email
-                ? "error"
-                : ""
-            }
-            help={formRegister.touched.email && formRegister.errors.email}
-          >
-            <p className="font-bold uppercase text-xs mb-3">Email</p>
-            <Input
-              size="large"
-              name="email"
-              placeholder="Enter email"
-              value={formRegister.values.email}
-              onChange={formRegister.handleChange}
-              onBlur={formRegister.handleBlur}
-            />
-          </Form.Item>
+              <Form.Item
+                validateStatus={
+                  formRegister.touched.email && formRegister.errors.email
+                    ? "error"
+                    : ""
+                }
+                help={formRegister.touched.email && formRegister.errors.email}
+              >
+                <p className="font-bold uppercase text-xs mb-3">Email</p>
+                <Input
+                  size="large"
+                  name="email"
+                  placeholder="Enter email"
+                  value={formRegister.values.email}
+                  onChange={formRegister.handleChange}
+                  onBlur={formRegister.handleBlur}
+                />
+              </Form.Item>
 
-          <Form.Item
-            validateStatus={
-              formRegister.touched.password && formRegister.errors.password
-                ? "error"
-                : ""
-            }
-            help={formRegister.touched.password && formRegister.errors.password}
-          >
-            <p className="font-bold uppercase text-xs mb-3">Password</p>
-            <Input.Password
-              size="large"
-              name="password"
-              placeholder="Enter password"
-              value={formRegister.values.password}
-              onChange={formRegister.handleChange}
-              onBlur={formRegister.handleBlur}
-            />
-          </Form.Item>
+              <Form.Item
+                validateStatus={
+                  formRegister.touched.password && formRegister.errors.password
+                    ? "error"
+                    : ""
+                }
+                help={
+                  formRegister.touched.password && formRegister.errors.password
+                }
+              >
+                <p className="font-bold uppercase text-xs mb-3">Password</p>
+                <Input.Password
+                  size="large"
+                  name="password"
+                  placeholder="Enter password"
+                  value={formRegister.values.password}
+                  onChange={formRegister.handleChange}
+                  onBlur={formRegister.handleBlur}
+                />
+              </Form.Item>
+            </div>
+            <div className="w-[50%]">
+              <Form.Item
+                validateStatus={
+                  formRegister.touched.phone && formRegister.errors.phone
+                    ? "error"
+                    : ""
+                }
+                help={formRegister.touched.phone && formRegister.errors.phone}
+              >
+                <p className="font-bold uppercase text-xs mb-3">Phone</p>
+                <Input
+                  size="large"
+                  name="phone"
+                  placeholder="Enter phone"
+                  value={formRegister.values.phone}
+                  onChange={formRegister.handleChange}
+                  onBlur={formRegister.handleBlur}
+                />
+              </Form.Item>
 
-          <Form.Item
-            validateStatus={
-              formRegister.touched.phone && formRegister.errors.phone
-                ? "error"
-                : ""
-            }
-            help={formRegister.touched.phone && formRegister.errors.phone}
-          >
-            <p className="font-bold uppercase text-xs mb-3">Phone</p>
-            <Input
-              size="large"
-              name="phone"
-              placeholder="Enter phone"
-              value={formRegister.values.phone}
-              onChange={formRegister.handleChange}
-              onBlur={formRegister.handleBlur}
-            />
-          </Form.Item>
+              <Form.Item
+                validateStatus={
+                  formRegister.touched.birthday && formRegister.errors.birthday
+                    ? "error"
+                    : ""
+                }
+                help={
+                  formRegister.touched.birthday && formRegister.errors.birthday
+                }
+              >
+                <p className="font-bold uppercase text-xs mb-3">birthday</p>
+                <DatePicker
+                  name="birthday"
+                  size="large"
+                  className="w-full !rounded-[7px] !py-[10px]"
+                  defaultValue={formRegister.values.birthday}
+                  onChange={(_date: string, dateString: string | string[]) =>
+                    formRegister.setFieldValue("birthday", dateString)
+                  }
+                  onBlur={formRegister.handleBlur}
+                />
+              </Form.Item>
 
-          <Form.Item
-            validateStatus={
-              formRegister.touched.birthday && formRegister.errors.birthday
-                ? "error"
-                : ""
-            }
-            help={formRegister.touched.birthday && formRegister.errors.birthday}
-          >
-            <p className="font-bold uppercase text-xs mb-3">birthday</p>
-            <DatePicker
-              name="birthday"
-              size="large"
-              className="w-full !rounded-[7px] !py-[10px]"
-              defaultValue={formRegister.values.birthday}
-              onChange={(_date: string, dateString: string | string[]) =>
-                formRegister.setFieldValue("birthday", dateString)
-              }
-              onBlur={formRegister.handleBlur}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <p className="font-bold uppercase text-xs mb-3">Gender</p>
-            <Select
-              size="large"
-              defaultValue={formRegister.values.gender}
-              onChange={(value: boolean) =>
-                formRegister.setFieldValue("gender", value)
-              }
-              options={[
-                { value: true, label: "Nam" },
-                { value: false, label: "Nữ" },
-              ]}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <p className="font-bold uppercase text-xs mb-3">Role</p>
-            <Select
-              size="large"
-              defaultValue={formRegister.values.role}
-              onChange={(value: string) =>
-                formRegister.setFieldValue("role", value)
-              }
-              options={[
-                { value: "ADMIN", label: "Admin" },
-                { value: "USER", label: "User" },
-              ]}
-            />
-          </Form.Item>
+              <Form.Item>
+                <p className="font-bold uppercase text-xs mb-3">Gender</p>
+                <Select
+                  size="large"
+                  defaultValue={formRegister.values.gender}
+                  onChange={(value: boolean) =>
+                    formRegister.setFieldValue("gender", value)
+                  }
+                  options={[
+                    { value: true, label: "Nam" },
+                    { value: false, label: "Nữ" },
+                  ]}
+                />
+              </Form.Item>
+            </div>
+          </div>
 
           <Form.Item>
             <button
@@ -267,24 +261,20 @@ const RegisterPage: React.FC<Props> = ({}) => {
             </button>
           </Form.Item>
         </Form>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-between">
           <Link
             href="/"
             className="text-custome-gray-200 transition-all duration-500 ease-in-out hover:underline text-[14px]"
           >
             Quay về trang chủ
           </Link>
+          <Link
+            href="/auth/login"
+            className="text-custome-gray-200 transition-all duration-500 ease-in-out hover:underline text-[14px]"
+          >
+            Đăng nhập
+          </Link>
         </div>
-      </div>
-      <div className="w-[45%] rounded-r-2xl text-white flex items-center justify-center flex-col px-10 gap-4 text-center">
-        <h1 className="font-bold text-3xl">Chào mừng trở lại</h1>
-        <p>Bạn đã có tài khoản?</p>
-        <Link
-          href="/auth/login"
-          className="border border-[#fff] px-10 py-2 rounded-[7px] cursor-pointer transition-all duration-500 ease-in-out hover:shadow-lg"
-        >
-          Đăng nhập
-        </Link>
       </div>
     </ConfigProvider>
   );
