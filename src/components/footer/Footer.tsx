@@ -7,22 +7,27 @@ type Props = {};
 
 const Footer: React.FC<Props> = ({}) => {
   return (
-    <div className="w-full">
-      <div className="max-w-[1280px] mx-auto px-2 py-10">
+    <div className="w-full pb-20 md:pb-0">
+      <div className="max-w-[1280px] mx-auto px-2 py-10 hidden md:block">
         {/* Title footer */}
         <h1 className="font-bold text-black text-xl mb-1">
           Nguồn cảm hứng cho những kỳ nghỉ sau này
         </h1>
         {/* Tabs */}
-        <FooterTabs />
+        <div className="hidden md:block">
+          <FooterTabs />
+        </div>
       </div>
       {/* Line */}
-      <hr className="border-[#DDD]" />
+      <hr className="border-[#DDD] hidden md:block" />
       {/* Contacts */}
       <div className="max-w-[1280px] mx-auto px-2">
-        <div className="flex flex-wrap gap-3 py-10">
+        <div className="flex flex-col md:flex-row gap-10 md:gap-3 py-10">
           {contacts.map((item: FooterContactType, index: number) => (
-            <div className="w-[calc((100%-24px)/3)]" key={index}>
+            <div
+              className="w-full md:w-[calc((100%-24px)/3)] text-center"
+              key={index}
+            >
               <h1 className="font-medium text-black">{item.title}</h1>
               {item.contacts.map((content: string, index: number) => (
                 <a
@@ -39,7 +44,7 @@ const Footer: React.FC<Props> = ({}) => {
         {/* Line */}
         <hr className="border-[#DDD]" />
         {/* End footer */}
-        <div className="flex justify-between items-center py-4">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center py-4">
           <div className="flex items-center gap-5 text-custome-gray-200">
             <h1>© 2024 Airbnb, Inc.</h1>
             <ul className="flex items-center gap-3">
