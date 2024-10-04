@@ -20,6 +20,7 @@ type Props = {};
 
 const HeaderSearch: React.FC<Props> = ({}) => {
   const router: AppRouterInstance = useRouter();
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [location, setLocation] = useState<LocationType>({
     hinhAnh: "",
     id: 0,
@@ -130,9 +131,14 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                 <p className="text-[12px] font-medium">Địa điểm</p>
                 <Dropdown
                   trigger={["click"]}
+                  open={isOpenDropdown}
                   placement="bottom"
+                  onOpenChange={() => setIsOpenDropdown(!isOpenDropdown)}
                   dropdownRender={() => (
-                    <HeaderModalLocation setLocation={setLocation} />
+                    <HeaderModalLocation
+                      setIsOpenDropdown={setIsOpenDropdown}
+                      setLocation={setLocation}
+                    />
                   )}
                 >
                   <Input

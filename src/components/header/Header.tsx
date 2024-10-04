@@ -11,7 +11,7 @@ type Props = {};
 const Header: React.FC<Props> = ({}) => {
   const { isScroll } = useStatusHeader();
   return (
-    <div className="w-full border-b">
+    <div className="hidden md:block w-full border-b">
       <div
         className={`max-w-[1280px] px-2 mx-auto flex items-center justify-between py-3 transition-all duration-500 ease-in-out ${
           isScroll === false && "pb-[90px]"

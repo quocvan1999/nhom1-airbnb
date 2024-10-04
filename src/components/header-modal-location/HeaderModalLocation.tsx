@@ -6,9 +6,13 @@ import React, { useEffect, useState } from "react";
 
 type Props = {
   setLocation: React.Dispatch<React.SetStateAction<LocationType>>;
+  setIsOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const HeaderModalLocation: React.FC<Props> = ({ setLocation }) => {
+const HeaderModalLocation: React.FC<Props> = ({
+  setLocation,
+  setIsOpenDropdown,
+}) => {
   const [locations, setLocations] = useState<LocationType[]>([]);
 
   const getLocations = async (): Promise<void> => {
@@ -21,13 +25,14 @@ const HeaderModalLocation: React.FC<Props> = ({ setLocation }) => {
   }, []);
 
   return (
-    <div className="w-full bg-white shadow-md rounded-lg p-3">
+    <div className="w-full bg-white shadow-md rounded-lg p-3 max-h-[400px] overflow-y-scroll">
       {locations &&
         locations?.map((location: LocationType, index: number) => (
           <div
             key={index}
             onClick={() => {
               setLocation(location);
+              setIsOpenDropdown(false);
             }}
             className="flex items-center gap-3 py-2 cursor-pointer transition-all duration-500 ease-in-out hover:bg-custome-gray-100 px-2 rounded-lg"
           >

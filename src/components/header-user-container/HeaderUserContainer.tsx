@@ -2,6 +2,7 @@
 
 import { RootState } from "@/app/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
+import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { deleteCookie } from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -16,6 +17,7 @@ type Props = {};
 
 const HeaderUserContainer: React.FC<Props> = ({}) => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const { getProfile } = useGetProfile();
   const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
   const { profile } = useSelector((state: RootState) => state.user);
@@ -45,6 +47,7 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
     const login = checkIsLogin();
     if (login === true) {
       setIsLogin(true);
+      getProfile();
     } else {
       setIsLogin(false);
     }
