@@ -58,7 +58,10 @@ const Home: React.FC<Props> = ({ searchParams }) => {
         <TitleH1 title="Bất cứ ở đâu" />
         <div className="flex flex-wrap gap-3">
           {itemData.map((item: ItemHomeType, index: number) => (
-            <div key={index} className="w-[calc((100%-36px)/4)]">
+            <div
+              key={index}
+              className="w-full md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] xl:w-[calc((100%-36px)/4)]"
+            >
               <img
                 src={item.image}
                 alt="image"
@@ -72,5 +75,5 @@ const Home: React.FC<Props> = ({ searchParams }) => {
     </div>
   );
 };
-
+// -[calc((100%-36px)/4)]
 export default Home;
