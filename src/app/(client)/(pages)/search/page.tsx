@@ -1,5 +1,6 @@
 import Map from "@/components/map/Map";
 import SearchCard from "@/components/search-card/SearchCard";
+import SearchResult from "@/components/search-result/SearchResult";
 import TitleH1 from "@/components/titleH1/TitleH1";
 import { getRoomsLocation } from "@/services/rooms-location/roomsLocation.service";
 import { RoomType } from "@/types/room/roomType.type";
@@ -62,9 +63,7 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
             </div>
             <hr className="my-5" />
             <div className="flex flex-col">
-              {data.map((item: RoomType, index: number) => (
-                <SearchCard key={index} item={item} />
-              ))}
+              <SearchResult data={data} />
             </div>
           </div>
           <div className="w-[40%]">

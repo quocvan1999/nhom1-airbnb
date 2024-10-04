@@ -32,7 +32,7 @@ const BookingsProfile: React.FC<Props> = ({ data }) => {
         paginatedData.map((item: BookingType, index: number) => (
           <ProfileCard id={item.maPhong} key={index} />
         ))}
-      {paginatedData && paginatedData.length > 5 && (
+      <div className="mt-5">
         <Pagination
           align="end"
           current={pageIndex}
@@ -42,7 +42,7 @@ const BookingsProfile: React.FC<Props> = ({ data }) => {
           onShowSizeChange={handlePageSizeChange}
           showSizeChanger
         />
-      )}
+      </div>
     </>
   );
 };
