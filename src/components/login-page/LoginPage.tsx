@@ -113,7 +113,8 @@ const LoginPage: React.FC<Props> = ({}) => {
         },
       }}
     >
-      <div className="w-[55%] bg-white rounded-2xl p-10">
+      {/* <div className="w-[55%] bg-white rounded-2xl p-10"> */}
+      <div className="w-full lg:w-[55%] bg-white rounded-xl px-5 py-7 lg:p-10">
         <div className="flex items-center justify-between mb-14">
           <h1 className="text-2xl">Đăng Nhập</h1>
           <div className="flex items-center gap-3">
@@ -176,32 +177,42 @@ const LoginPage: React.FC<Props> = ({}) => {
               onBlur={formLogin.handleBlur}
             />
           </Form.Item>
+          <div className="flex items-center justify-between">
+            <Checkbox
+              onChange={() => setIsRemember(!isRemember)}
+              checked={isRemember}
+              className="text-[#fff] "
+            >
+              Nhớ mật khẩu
+            </Checkbox>
+            <Link
+              href="/"
+              className="text-custome-gray-200 transition-all duration-500 ease-in-out underline hover:underline hover:text-primary-100 text-[14px]"
+            >
+              Quay về trang chủ
+            </Link>
+          </div>
           <Form.Item>
             <button
               type="submit"
-              className="w-full bg-primary-100 text-white py-3 rounded-[7px] transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom"
+              className="w-full bg-primary-100 text-white py-3 rounded-[7px] transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom mt-5"
             >
               Đăng nhập
             </button>
           </Form.Item>
+          <div className="text-center lg:hidden">
+            <p>Bạn chưa có tài khoản?</p>
+            <Link
+              href="/auth/regiter"
+              className="text-custome-black-100 underline hover:underline transition-all duration-500 ease-in-out hover:text-primary-100"
+            >
+              Đăng ký
+            </Link>
+          </div>
         </Form>
-        <div className="flex items-center justify-between">
-          <Checkbox
-            onChange={() => setIsRemember(!isRemember)}
-            checked={isRemember}
-            className="text-[#fff] "
-          >
-            Nhớ mật khẩu
-          </Checkbox>
-          <Link
-            href="/"
-            className="text-custome-gray-200 transition-all duration-500 ease-in-out hover:underline text-[14px]"
-          >
-            Quay về trang chủ
-          </Link>
-        </div>
       </div>
-      <div className="w-[45%] rounded-r-2xl text-white flex items-center justify-center flex-col px-10 gap-4 text-center">
+      {/* <div className="w-[45%] rounded-r-2xl text-white flex items-center justify-center flex-col px-10 gap-4 text-center"> */}
+      <div className="hidden lg:flex w-[45%] rounded-r-2xl text-white items-center justify-center flex-col px-10 gap-4 text-center">
         <h1 className="font-bold text-3xl">Chào mừng trở lại</h1>
         <p>Bạn chưa có tài khoản?</p>
         <Link
