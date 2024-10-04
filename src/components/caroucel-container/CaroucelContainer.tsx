@@ -16,7 +16,7 @@ const CaroucelContainer: React.FC<Props> = async ({}) => {
   const data: LocationType[] = await getLocationAsync();
 
   return (
-    <Carousel className="max-w-[1200px] mx-auto">
+    <Carousel className="max-w-[250px] md:max-w-[600px] lg:max-w-[850px] xl:max-w-[1100px] mx-auto">
       <CarouselContent>
         {data.map((location: LocationType, index: number) => (
           <CaroucelItem key={index} location={location} />
