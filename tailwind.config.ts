@@ -32,9 +32,6 @@ const config: Config = {
       fontFamily: {
         custom: ["AirbnbCerealVF", "sans-serif"],
       },
-      screens: {
-        md: "850px",
-      },
     },
   },
   plugins: [require("tailwindcss-animate")],
