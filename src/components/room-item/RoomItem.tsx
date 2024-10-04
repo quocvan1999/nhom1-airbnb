@@ -11,7 +11,7 @@ const RoomItem: React.FC<Props> = ({ data }) => {
   return (
     <Link
       href={`/room/${data.id}`}
-      className="w-[calc((100%-36px)/4)] cursor-pointer"
+      className="w-full cursor-pointer md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] xl:w-[calc((100%-36px)/4)]"
     >
       <img
         src={data.hinhAnh}
@@ -30,5 +30,5 @@ const RoomItem: React.FC<Props> = ({ data }) => {
     </Link>
   );
 };
-
+// w-[calc((100%-36px)/4)]
 export default RoomItem;

@@ -7,7 +7,7 @@ type Props = {};
 
 const Footer: React.FC<Props> = ({}) => {
   return (
-    <div className="w-full pb-20 md:pb-10 lg:pb-5">
+    <div className="w-full pb-20 mdc:pb-10 lg:pb-5">
       <div className="max-w-[1280px] mx-auto px-2 py-10 hidden lg:block">
         {/* Title footer */}
         <h1 className="font-bold text-black text-xl mb-1">

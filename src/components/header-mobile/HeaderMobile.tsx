@@ -38,7 +38,7 @@ const HeaderMobile: React.FC<Props> = ({}) => {
         },
       }}
     >
-      <div className="block md:hidden w-full px-2 py-3">
+      <div className="block mdc:hidden w-full px-2 py-3">
         <div className="flex justify-between border bg-white rounded-full shadow-sm">
           <div className="px-7 w-full py-2 rounded-full cursor-pointer">
             <p className="text-[12px] font-medium">Địa điểm</p>
