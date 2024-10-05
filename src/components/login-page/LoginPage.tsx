@@ -113,7 +113,6 @@ const LoginPage: React.FC<Props> = ({}) => {
         },
       }}
     >
-      {/* <div className="w-[55%] bg-white rounded-2xl p-10"> */}
       <div className="w-full lg:w-[55%] bg-white rounded-xl px-5 py-7 lg:p-10">
         <div className="flex items-center justify-between mb-14">
           <h1 className="text-2xl">Đăng Nhập</h1>
@@ -211,7 +210,6 @@ const LoginPage: React.FC<Props> = ({}) => {
           </div>
         </Form>
       </div>
-      {/* <div className="w-[45%] rounded-r-2xl text-white flex items-center justify-center flex-col px-10 gap-4 text-center"> */}
       <div className="hidden lg:flex w-[45%] rounded-r-2xl text-white items-center justify-center flex-col px-10 gap-4 text-center">
         <h1 className="font-bold text-3xl">Chào mừng trở lại</h1>
         <p>Bạn chưa có tài khoản?</p>
