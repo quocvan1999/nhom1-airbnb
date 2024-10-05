@@ -82,7 +82,7 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
           </div>
         </div>
       )}
-      placement="bottom"
+      placement="bottomLeft"
       trigger={["click"]}
     >
       <div className="border flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer transition-all duration-500 ease-in-out hover:shadow-md">

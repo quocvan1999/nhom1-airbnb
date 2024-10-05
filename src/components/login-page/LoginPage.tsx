@@ -203,7 +203,7 @@ const LoginPage: React.FC<Props> = ({}) => {
           <div className="text-center lg:hidden">
             <p>Bạn chưa có tài khoản?</p>
             <Link
-              href="/auth/regiter"
+              href="/auth/register"
               className="text-custome-black-100 underline hover:underline transition-all duration-500 ease-in-out hover:text-primary-100"
             >
               Đăng ký

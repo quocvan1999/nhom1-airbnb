@@ -102,7 +102,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
         },
       }}
     >
-      <div className="w-full bg-white rounded-2xl p-10">
+      <div className="w-full bg-white rounded-xl px-5 py-7 lg:px-10 lg:py-14">
         <div className="flex items-center justify-between mb-14">
           <h1 className="text-2xl">Đăng Nhập</h1>
           <div className="flex items-center gap-3">
@@ -131,8 +131,8 @@ const RegisterPage: React.FC<Props> = ({}) => {
           </div>
         </div>
         <Form layout="vertical" onSubmitCapture={formRegister.handleSubmit}>
-          <div className="flex items-center justify-between w-full gap-5">
-            <div className="w-[50%]">
+          <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-5">
+            <div className="w-full">
               <Form.Item
                 validateStatus={
                   formRegister.touched.name && formRegister.errors.name
@@ -192,7 +192,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
                 />
               </Form.Item>
             </div>
-            <div className="w-[50%]">
+            <div className="w-full">
               <Form.Item
                 validateStatus={
                   formRegister.touched.phone && formRegister.errors.phone
@@ -264,13 +264,13 @@ const RegisterPage: React.FC<Props> = ({}) => {
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="text-custome-gray-200 transition-all duration-500 ease-in-out hover:underline text-[14px]"
+            className="text-custome-gray-200 underline transition-all duration-500 ease-in-out hover:underline hover:text-primary-100 text-[14px]"
           >
             Quay về trang chủ
           </Link>
           <Link
             href="/auth/login"
-            className="text-custome-gray-200 transition-all duration-500 ease-in-out hover:underline text-[14px]"
+            className="text-custome-gray-200 underline transition-all duration-500 ease-in-out hover:underline hover:text-primary-100 text-[14px]"
           >
             Đăng nhập
           </Link>
