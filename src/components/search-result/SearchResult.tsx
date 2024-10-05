@@ -30,10 +30,12 @@ const SearchResult: React.FC<Props> = ({ data }) => {
     <>
       {data.length > 0 ? (
         <div>
-          {paginatedData &&
-            paginatedData.map((item: RoomType, index: number) => (
-              <SearchCard key={index} item={item} />
-            ))}
+          <div className="flex flex-col gap-4">
+            {paginatedData &&
+              paginatedData.map((item: RoomType, index: number) => (
+                <SearchCard key={index} item={item} />
+              ))}
+          </div>
 
           <div className="mt-5">
             <Pagination

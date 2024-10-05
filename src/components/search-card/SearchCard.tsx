@@ -11,16 +11,16 @@ const SearchCard: React.FC<Props> = ({ item }) => {
   return (
     <Link
       href={`/room/${item.id}`}
-      className="flex h-[200px] gap-3 items-center py-5 border-b cursor-pointer"
+      className="flex flex-col md:flex-row md:h-[200px] md:gap-3 items-center py-5 border-b cursor-pointer"
     >
-      <div className="w-[35%] h-full">
+      <div className="w-full h-[200px] md:w-[35%] md:h-full">
         <img
           src={item.hinhAnh}
           alt="image"
           className="w-full h-full object-cover rounded-2xl"
         />
       </div>
-      <div className="w-[65%] h-full flex flex-col justify-between">
+      <div className="w-full h-full flex md:w-[65%] flex-col justify-between">
         <div>
           <p className="text-custome-gray-200">
             Toàn bộ căn hộ dịch vụ tại Bình Thạnh
