@@ -88,7 +88,7 @@ const Comment: React.FC<Props> = ({ data }) => {
 
   return (
     <Form onSubmitCapture={formComment.handleSubmit}>
-      <div className="flex gap-3">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-3">
         <div
           className="w-[50px] h-[50px] rounded-full flex items-center justify-center border"
           style={{
@@ -115,22 +115,22 @@ const Comment: React.FC<Props> = ({ data }) => {
               : ""
           }
           help={formComment.touched.comment && formComment.errors.comment}
-          className="w-[95%]"
+          className="w-full md:w-[95%] !mb-0"
         >
           <textarea
             name="comment"
             placeholder="Enter comment..."
             onChange={formComment.handleChange}
             value={formComment.values.comment}
-            className="border rounded-xl min-h-[150px] w-[100%] p-3 focus:outline-none"
+            className="border rounded-xl min-h-[100px] md:min-h-[150px] w-[100%] p-3 focus:outline-none"
           />
         </Form.Item>
       </div>
       <div className="flex justify-end">
-        <Form.Item>
+        <Form.Item className="!mb-0">
           <button
             type="submit"
-            className="bg-primary-100 px-3 py-2 text-white font-medium rounded-lg mt-3 transition-all duration-500 ease-in-out hover:bg-primary-200"
+            className="bg-primary-100 px-3 py-2 text-white font-medium rounded-lg transition-all duration-500 ease-in-out hover:bg-primary-200"
           >
             Add comment
           </button>

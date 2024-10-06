@@ -8,7 +8,8 @@ type Props = {
 
 const CommentItem: React.FC<Props> = ({ comment }) => {
   return (
-    <div className="w-[calc((100%-12px)/2)] mb-5">
+    // w-[calc((100%-12px)/2)]
+    <div className="w-full md:w-[calc((100%-12px)/2)] mb-5">
       <div className="flex items-center gap-4">
         <div className="w-[40px] h-[40px] rounded-full border flex items-center justify-center">
           {comment.avatar != "" ? (

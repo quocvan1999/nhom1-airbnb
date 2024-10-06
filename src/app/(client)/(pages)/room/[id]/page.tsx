@@ -48,10 +48,12 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
 
   return (
     <div className="w-full">
-      <h1 className="font-bold uppercase text-lg">{data.tenPhong}</h1>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4 text-custome-gray-200">
-          <div className="flex items-center gap-1">
+      <h1 className="font-bold uppercase text-base lg:text-lg">
+        {data.tenPhong}
+      </h1>
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mt-4 lg:mt-0">
+        <div className="flex items-start lg:items-center lg:gap-5 text-custome-gray-200">
+          <div className="hidden lg:flex items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -68,7 +70,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               </span>
             </p>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -84,7 +86,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
             Thành phố Vũng Tàu, Bà Rịa Vũng Tàu, Việt Nam
           </p>
         </div>
-        <div className="flex items-center gap-4 text-custome-gray-200">
+        <div className="flex items-start gap-4 text-custome-gray-200">
           <div className="flex items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -112,17 +114,18 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
         </div>
       </div>
       <img
-        className="mt-3 rounded-2xl w-full object-cover"
+        className="mt-3 h-[200px] md:h-[400px] rounded-2xl w-full object-cover"
         src={data.hinhAnh}
         alt="image"
       />
 
       {/* content */}
-      <div className="w-full flex gap-3">
-        <div className="w-[65%]">
-          <div className="flex items-center justify-between border-b py-3">
-            <div>
-              <h1 className="font-bold text-xl text-custome-black-100">
+      <div className="w-full flex flex-col lg:flex-row gap-3">
+        {/* <div className="w-[65%]"> */}
+        <div className="w-full lg:w-[65%]">
+          <div className="flex flex-col-reverse lg:flex-row gap-4 items-center justify-center lg:justify-between border-b py-3">
+            <div className="text-center lg:text-start">
+              <h1 className="font-bold text-base text-custome-black-100 text-center lg:text-start">
                 Toàn bộ căn hộ Condo. Chủ nhà Phong
               </h1>
               <p className="text-custome-gray-200">
@@ -179,10 +182,8 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
             <div className="flex gap-3 items-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
                 viewBox="0 0 32 32"
-                style={{ fill: "#6a6a6a" }}
+                className="fill-[#6a6a6a] w-[35px] md:w-[24px] h-[35px] md:h-[24px]"
               >
                 <path d="M24 0v6h-4.3c.13 1.4.67 2.72 1.52 3.78l.2.22-1.5 1.33a9.05 9.05 0 0 1-2.2-5.08c-.83.38-1.32 1.14-1.38 2.2v4.46l4.14 4.02a5 5 0 0 1 1.5 3.09l.01.25.01.25v8.63a3 3 0 0 1-2.64 2.98l-.18.01-.21.01-12-.13A3 3 0 0 1 4 29.2L4 29.02v-8.3a5 5 0 0 1 1.38-3.45l.19-.18L10 12.9V8.85l-4.01-3.4.02-.7A5 5 0 0 1 10.78 0H11zm-5.03 25.69a8.98 8.98 0 0 1-6.13-2.41l-.23-.23A6.97 6.97 0 0 0 6 21.2v7.82c0 .51.38.93.87 1H7l11.96.13h.13a1 1 0 0 0 .91-.88l.01-.12v-3.52c-.34.04-.69.06-1.03.06zM17.67 2H11a3 3 0 0 0-2.92 2.3l-.04.18-.01.08 3.67 3.1h2.72l.02-.1a4.29 4.29 0 0 1 3.23-3.4zM30 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-3-2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-5 0h-2.33v2H22zm8-2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM20 20.52a3 3 0 0 0-.77-2l-.14-.15-4.76-4.61v-4.1H12v4.1l-5.06 4.78a3 3 0 0 0-.45.53 9.03 9.03 0 0 1 7.3 2.34l.23.23A6.98 6.98 0 0 0 20 23.6z"></path>
               </svg>
@@ -200,10 +201,8 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
             <div className="flex gap-3 items-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
                 viewBox="0 0 24 24"
-                style={{ fill: "#6a6a6a" }}
+                className="fill-[#6a6a6a] w-[75px] md:w-[35px] h-[35px]"
               >
                 <path d="M17 2h-4v4.059a8.946 8.946 0 0 1 4 1.459V2zm-6 0H7v5.518a8.946 8.946 0 0 1 4-1.459V2zm1 20a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm-1.225-8.519L12 11l1.225 2.481 2.738.397-1.981 1.932.468 2.727L12 17.25l-2.449 1.287.468-2.727-1.981-1.932 2.737-.397z"></path>
               </svg>
@@ -222,10 +221,8 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
             <div className="flex gap-3 items-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
                 viewBox="0 0 24 24"
-                style={{ fill: "#6a6a6a" }}
+                className="fill-[#6a6a6a] w-[24px] h-[24px]"
               >
                 <path d="M3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7v2H5a2 2 0 0 0-2 2zm16 14H5V8h14z"></path>
               </svg>
@@ -245,10 +242,10 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
           {/* Tien nghi */}
           <div className="py-5 border-b">
             <h3 className="font-bold text-xl">Tiện nghi</h3>
-            <div className="flex flex-wrap gap-3 mt-3">
+            <div className="flex flex-wrap gap-1 mt-3">
               {/* 1 */}
               {data.mayGiat === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -263,7 +260,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 2 */}
               {data.banLa === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -278,7 +275,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 3 */}
               {data.tivi === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -293,7 +290,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 4 */}
               {data.dieuHoa === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -308,7 +305,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 5 */}
               {data.wifi === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -323,7 +320,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 6 */}
               {data.bep === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -338,7 +335,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 7 */}
               {data.doXe === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -353,7 +350,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 8 */}
               {data.hoBoi === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="50"
@@ -371,7 +368,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               )}
               {/* 9 */}
               {data.banUi === true && (
-                <div className="w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-center gap-2 py-1">
+                <div className="w-full md:w-[calc((100%-12px)/2)] text-custome-gray-200 flex items-start gap-2 py-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -387,7 +384,8 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
             </div>
           </div>
         </div>
-        <div className="w-[35%]">
+        {/* <div className="w-[35%]"> */}
+        <div className="w-full lg:w-[35%]">
           <OptionBookingContainer data={data} />
         </div>
       </div>
