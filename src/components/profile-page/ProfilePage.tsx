@@ -63,8 +63,13 @@ const ProfilePage: React.FC<Props> = ({}) => {
         openNotification("success", "Đăng xuất", "Đăng xuất thành công");
         deleteCookie("accessToken");
         deleteCookie("i_d");
+
+        if (checkIsLogin() === undefined || false) {
+          getProfile();
+        }
+
         setTimeout(() => {
-          router.push("/auth/login");
+          router.push("/");
         }, 200);
       },
     });

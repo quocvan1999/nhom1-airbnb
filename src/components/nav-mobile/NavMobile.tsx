@@ -21,7 +21,7 @@ const NavMobile: React.FC<Props> = ({}) => {
     } else {
       setIsLogin(false);
     }
-  }, []);
+  }, [profile]);
 
   return (
     <div className="w-full py-2 flex items-center justify-center gap-10">
