@@ -123,11 +123,11 @@ const ProfilePage: React.FC<Props> = ({}) => {
             <p className="text-custome-gray-200">
               Xác thực danh tính của bạn với huy hiệu xác minh danh tính
             </p>
-            <button className="border rounded-lg px-3 py-2 inline-block lg:hidden">
+            <button className="border rounded-lg px-3 py-2 inline-block">
               Nhận huy hiệu
             </button>
             <button
-              className="border rounded-lg px-3 py-2 inline-block "
+              className="border rounded-lg px-3 py-2 inline-block lg:hidden"
               onClick={showPropsConfirm}
             >
               Đăng xuất
