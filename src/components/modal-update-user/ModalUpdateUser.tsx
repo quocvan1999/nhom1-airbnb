@@ -55,7 +55,7 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
     phone: profile.phone || "",
     birthday: profile.birthday || "",
     gender: profile.gender,
-    role: profile.role || "",
+    role: profile.role || "USER",
   };
 
   const handleUpdateUser = async (userUpdate: UserUpdate): Promise<void> => {
@@ -236,20 +236,6 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
               options={[
                 { value: true, label: "Nam" },
                 { value: false, label: "Nữ" },
-              ]}
-            />
-          </Form.Item>
-
-          <Form.Item label="Role">
-            <Select
-              size="large"
-              defaultValue={formUpdate.values.role}
-              onChange={(value: string) =>
-                formUpdate.setFieldValue("role", value)
-              }
-              options={[
-                { value: "ADMIN", label: "Admin" },
-                { value: "USER", label: "User" },
               ]}
             />
           </Form.Item>

@@ -7,12 +7,15 @@ import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
-import { getCookie } from "@/utils/method/method";
-import { Button, Empty, Upload, UploadProps } from "antd";
+import { deleteCookie, getCookie } from "@/utils/method/method";
+import { Button, Empty, Modal, Upload, UploadProps } from "antd";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+
+const { confirm } = Modal;
 
 type Props = {};
 
@@ -48,6 +51,25 @@ const ProfilePage: React.FC<Props> = ({}) => {
     },
   };
 
+  const showPropsConfirm = (): void => {
+    confirm({
+      title: "Đăng xuất",
+      icon: <ExclamationCircleFilled />,
+      content: "Bạn có muốn đăng xuất?",
+      okText: "Đăng xuất",
+      okType: "danger",
+      cancelText: "Huỷ",
+      onOk() {
+        openNotification("success", "Đăng xuất", "Đăng xuất thành công");
+        deleteCookie("accessToken");
+        deleteCookie("i_d");
+        setTimeout(() => {
+          router.push("/auth/login");
+        }, 200);
+      },
+    });
+  };
+
   useEffect(() => {
     const isLogin: boolean | undefined = checkIsLogin();
 
@@ -68,8 +90,8 @@ const ProfilePage: React.FC<Props> = ({}) => {
   }, [isLoading]);
 
   return (
-    <div className="w-full flex">
-      <div className="w-[30%] px-10 ">
+    <div className="w-full flex flex-col md:flex-row gap-5">
+      <div className="w-full md:w-[35%] xl:w-[30%] xl:px-5">
         <div className="border w-full shadow-md rounded-2xl px-6 py-8">
           <div className="flex flex-col items-center gap-3">
             <div
@@ -101,8 +123,14 @@ const ProfilePage: React.FC<Props> = ({}) => {
             <p className="text-custome-gray-200">
               Xác thực danh tính của bạn với huy hiệu xác minh danh tính
             </p>
-            <button className="border rounded-lg px-3 py-2 inline-block">
+            <button className="border rounded-lg px-3 py-2 inline-block lg:hidden">
               Nhận huy hiệu
+            </button>
+            <button
+              className="border rounded-lg px-3 py-2 inline-block "
+              onClick={showPropsConfirm}
+            >
+              Đăng xuất
             </button>
           </div>
           <div className="py-10">
@@ -125,7 +153,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
           </div>
         </div>
       </div>
-      <div className="w-[70%]">
+      <div className="w-full md:w-[65%] xl:w-[70%]">
         <h1 className="text-xl font-bold capitalize">
           Xin chào, tôi là {profile.name}
         </h1>
