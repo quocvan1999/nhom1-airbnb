@@ -4,20 +4,67 @@ import { LoginType } from "@/types/login/loginType.type";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
-import { getCookie } from "@/utils/method/method";
+import { getCookie, setCookie } from "@/utils/method/method";
 import { Checkbox, ConfigProvider, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Link from "next/link";
+import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { User } from "@/types/user/userType.type";
+import { LoginAsync } from "@/services/login/login.service";
+import useNotification from "@/custome-hook/useNotification/useNotification";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/globalRedux/store";
+import { getProfileAsync } from "@/services/profile/profile.service";
 
 type Props = {};
 
 const AdminLoginPage: React.FC<Props> = ({}) => {
+  const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
+  const { openNotification } = useNotification();
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const initialValues: LoginType = {
     email: "",
     password: "",
+  };
+
+  const handleLogin: (userLogin: LoginType) => Promise<void> = async (
+    userLogin
+  ) => {
+    const res: ReqType<{ user: User; token: string }> = await LoginAsync(
+      userLogin
+    );
+
+    switch (res.statusCode) {
+      case 200:
+        if (typeof res.content === "object") {
+          if (res.content.user.role === "ADMIN") {
+            setTimeout(() => {
+              router.push("/admin");
+            }, 300);
+
+            const action = getProfileAsync(res.content.user.id);
+            dispatch(action);
+
+            if (isRemember === true) {
+              setCookie("m_a", userLogin.email, 7);
+              setCookie("p_a", userLogin.password, 7);
+            }
+
+            setCookie("accessToken", res.content.token, 7);
+          } else {
+            openNotification(
+              "warning",
+              "Đăng nhập",
+              "Tài khoản không có quyền truy cập"
+            );
+          }
+        }
+        break;
+      default:
+        break;
+    }
   };
 
   const formLogin = useFormik({
@@ -30,7 +77,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
       password: Yup.string().required("Password không được để trống"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      handleLogin(values);
     },
   });
 
