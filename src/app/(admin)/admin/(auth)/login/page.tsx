@@ -40,6 +40,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
       case 200:
         if (typeof res.content === "object") {
           if (res.content.user.role === "ADMIN") {
+            openNotification("success", "Đăng nhập", "Đăng nhập thành công");
             setTimeout(() => {
               router.push("/admin");
             }, 300);
@@ -53,6 +54,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
             }
 
             setCookie("accessToken", res.content.token, 7);
+            setCookie("i_d", res.content.user.id.toString(), 7);
           } else {
             openNotification(
               "warning",
@@ -63,6 +65,9 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
         }
         break;
       default:
+        if (typeof res.content === "string") {
+          openNotification("warning", "Đăng nhập", res.content);
+        }
         break;
     }
   };
