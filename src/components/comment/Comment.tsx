@@ -12,7 +12,7 @@ import useNotification from "@/custome-hook/useNotification/useNotification";
 import { commentAsync } from "@/services/comment/comment.service";
 import { NewCommentType } from "@/types/new-comment/newCommentType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { getCurrentDateTime } from "@/utils/method/method";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 

@@ -1,12 +1,15 @@
 "use client";
 
 import { BookingType } from "@/types/booking/bookingType.type";
+import { reqPaginationType } from "@/types/req-pagination/reqPaginationType.type";
 import { User } from "@/types/user/userType.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { stat } from "fs";
 
 type UserSlice = {
   profile: User;
   bookings: BookingType[];
+  users: reqPaginationType<User[]> | null;
 };
 
 const initialState: UserSlice = {
@@ -22,6 +25,7 @@ const initialState: UserSlice = {
     role: "",
   },
   bookings: [],
+  users: null,
 };
 
 export const userSlice = createSlice({
@@ -34,8 +38,14 @@ export const userSlice = createSlice({
     setBooking: (state: UserSlice, action: PayloadAction<BookingType[]>) => {
       state.bookings = action.payload;
     },
+    setUsers: (
+      state: UserSlice,
+      action: PayloadAction<reqPaginationType<User[]>>
+    ) => {
+      state.users = action.payload;
+    },
   },
 });
 
-export const { setProfile, setBooking } = userSlice.actions;
+export const { setProfile, setBooking, setUsers } = userSlice.actions;
 export default userSlice.reducer;

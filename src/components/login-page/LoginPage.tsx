@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import { LoginType } from "@/types/login/loginType.type";
 import { LoginAsync } from "@/services/login/login.service";
-import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "@/utils/method/method";

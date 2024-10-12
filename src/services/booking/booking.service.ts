@@ -1,5 +1,5 @@
 import { BookingType } from "@/types/booking/bookingType.type";
-import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { httpClient } from "@/utils/setting/setting";
 
 export const bookingAsync = async (

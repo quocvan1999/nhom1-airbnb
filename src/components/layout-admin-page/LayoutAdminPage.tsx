@@ -229,11 +229,11 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
             <Content
               style={{
                 margin: "24px 16px",
-                padding: 24,
                 minHeight: 280,
                 background: colorBgContainer,
                 borderRadius: borderRadiusLG,
               }}
+              className="overflow-scroll scrollbar-hide"
             >
               {children}
             </Content>

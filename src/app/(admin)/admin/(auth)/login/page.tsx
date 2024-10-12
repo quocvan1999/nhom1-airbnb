@@ -9,7 +9,7 @@ import { Checkbox, ConfigProvider, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Link from "next/link";
-import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { User } from "@/types/user/userType.type";
 import { LoginAsync } from "@/services/login/login.service";
 import useNotification from "@/custome-hook/useNotification/useNotification";

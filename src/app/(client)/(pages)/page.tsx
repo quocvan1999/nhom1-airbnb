@@ -75,5 +75,4 @@ const Home: React.FC<Props> = ({ searchParams }) => {
     </div>
   );
 };
-// -[calc((100%-36px)/4)]
 export default Home;

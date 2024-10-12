@@ -17,7 +17,7 @@ import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import dayjs from "dayjs";
 import { updateUserAsync } from "@/services/update-user/updateUser.service";
 import { UserUpdate } from "@/types/user-update/userUpdate.type";
-import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { User } from "@/types/user/userType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getProfileAsync } from "@/services/profile/profile.service";

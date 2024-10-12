@@ -1,5 +1,5 @@
 import { LoginType } from "@/types/login/loginType.type";
-import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { User } from "@/types/user/userType.type";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";

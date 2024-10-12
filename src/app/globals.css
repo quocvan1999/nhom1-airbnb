@@ -13,6 +13,19 @@
   }
 }
 
+@layer base {
+
+  /* Hỗ trợ Chrome, Safari và Edge */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hỗ trợ Firefox */
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+}
+
 @font-face {
   font-family: 'AirbnbCerealVF';
   src: url('/fonts/AirbnbCerealVF.woff2') format('woff2');

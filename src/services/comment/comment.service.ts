@@ -1,5 +1,5 @@
 import { NewCommentType } from "@/types/new-comment/newCommentType.type";
-import { ReqType } from "@/types/req-login/reqLoginType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { getCookie } from "@/utils/method/method";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";

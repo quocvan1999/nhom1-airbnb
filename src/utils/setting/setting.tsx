@@ -1,4 +1,3 @@
-import { getCookie } from "@/utils/method/method";
 import axios, {
   AxiosError,
   AxiosResponse,
