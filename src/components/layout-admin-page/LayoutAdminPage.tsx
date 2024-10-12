@@ -25,7 +25,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/globalRedux/store";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { deleteCookie, getCookie, setCookie } from "@/utils/method/method";
+import { deleteCookie } from "@/utils/method/method";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import LoadingPage from "@/components/loading-page/LoadingPage";
@@ -46,7 +46,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
   const { getProfile } = useGetProfile();
   const { profile } = useSelector((state: RootState) => state.user);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken();
 
   const showPropsConfirm = (): void => {
@@ -107,6 +107,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
             darkItemColor: "#222",
             darkItemSelectedBg: "#FF385C",
             darkItemHoverColor: "#FF385C",
+            itemHeight: 35,
           },
         },
       }}
@@ -142,7 +143,6 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
             </div>
             <Menu
               theme="dark"
-              mode="inline"
               defaultSelectedKeys={["1"]}
               items={[
                 {
@@ -235,6 +235,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 margin: "24px 16px",
                 minHeight: 280,
               }}
+              className="overflow-scroll scrollbar-hide"
             >
               {children}
             </Content>

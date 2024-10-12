@@ -11,6 +11,7 @@ import { createStyles } from "antd-style";
 import {
   DeleteOutlined,
   EditOutlined,
+  EyeFilled,
   MinusOutlined,
   PlusOutlined,
   SearchOutlined,
@@ -185,8 +186,9 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       key: "actions",
       render: () => (
         <div className="flex items-center justify-start gap-5">
-          <DeleteOutlined className="cursor-pointer !text-red-600" />
-          <EditOutlined className="cursor-pointer" />
+          <DeleteOutlined className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600" />
+          <EditOutlined className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]" />
+          <EyeFilled className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]" />
         </div>
       ),
     },
@@ -201,7 +203,6 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       {users && users.data && (
         <Table
           className={styles.customTable}
-          scroll={{ y: 70 * 5 }}
           dataSource={users.data.map((item, index) => ({
             ...item,
             key: index,
@@ -209,11 +210,15 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
           columns={columns}
           pagination={false}
           title={() => (
-            <div className="flex items-center justify-start gap-4 w-[400px]">
+            <div className="flex items-center justify-between">
               <Button className="!bg-primary-100 !text-white !border-none">
-                Thêm người dùng
+                + Thêm người dùng
               </Button>
-              <Input placeholder="Nhập tìm kiếm" />
+              <Input
+                prefix={<SearchOutlined />}
+                className="!w-[400px]"
+                placeholder="Nhập tìm kiếm"
+              />
             </div>
           )}
           footer={() => (
@@ -229,76 +234,6 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
               }}
             />
           )}
-          expandable={{
-            expandedRowRender: (record) => (
-              <div className="w-full bg-white rounded-xl p-2 flex items-start justify-start gap-5">
-                <Avatar
-                  size="large"
-                  src={record.avatar !== "" && record.avatar}
-                  icon={record.avatar === "" && <UserOutlined />}
-                />
-                <div>
-                  <p>
-                    <span className="font-bold">ID: </span>
-                    {record.id}
-                  </p>
-                  <h1>
-                    <span className="font-bold">Tên: </span>
-                    {record.name}
-                  </h1>
-                  <p>
-                    <span className="font-bold">Email: </span>
-                    {record.email}
-                  </p>
-                  <p>
-                    <span className="font-bold">Loại tài khoản: </span>
-                    <Tag
-                      color={
-                        record.role.toUpperCase() === "ADMIN" ? "red" : "green"
-                      }
-                    >
-                      {record.role}
-                    </Tag>
-                  </p>
-                </div>
-                <div>
-                  <p className="flex items-center gap-2">
-                    <span className="font-bold">Mật khẩu: </span>
-                    <PassComponent password={record.password} />
-                  </p>
-                  <p>
-                    <span className="font-bold">Số điện thoại: </span>
-                    {record.phone}
-                  </p>
-                  <p>
-                    <span className="font-bold">Ngày sinh: </span>
-                    {record.birthday}
-                  </p>
-                  <p>
-                    <span className="font-bold">Giới tính: </span>
-                    {record.gender === true ? "Nam" : "Nữ"}
-                  </p>
-                </div>
-              </div>
-            ),
-            expandIcon: ({ expanded, onExpand, record }) => {
-              return expanded ? (
-                <div
-                  className="w-4 h-4 border flex items-center justify-center transition-all duration-500 ease-in-out rounded hover:border-primary-100 group cursor-pointer"
-                  onClick={(e) => onExpand(record, e)}
-                >
-                  <MinusOutlined className="text-[10px] transition-all duration-500 ease-in-out group-hover:text-primary-100" />
-                </div>
-              ) : (
-                <div
-                  className="w-4 h-4 border flex items-center justify-center transition-all duration-500 ease-in-out rounded hover:border-primary-100 group cursor-pointer"
-                  onClick={(e) => onExpand(record, e)}
-                >
-                  <PlusOutlined className="text-[10px] transition-all duration-500 ease-in-out group-hover:text-primary-100" />
-                </div>
-              );
-            },
-          }}
         />
       )}
     </>
