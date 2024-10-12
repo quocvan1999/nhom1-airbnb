@@ -207,11 +207,15 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
               >
                 <div className="w-[45px] h-[45px] border me-3 rounded-full border-primary-100 flex items-center justify-center cursor-pointer">
                   {isLogin === true ? (
-                    <img
-                      src={profile && profile.avatar}
-                      alt="image"
-                      className="w-[45px] h-[45px] rounded-full object-cover"
-                    />
+                    profile.avatar !== "" ? (
+                      <img
+                        src={profile && profile.avatar}
+                        alt="image"
+                        className="w-[45px] h-[45px] rounded-full object-cover"
+                      />
+                    ) : (
+                      <UserOutlined />
+                    )
                   ) : (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -230,10 +234,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
               style={{
                 margin: "24px 16px",
                 minHeight: 280,
-                background: colorBgContainer,
-                borderRadius: borderRadiusLG,
               }}
-              className="overflow-scroll scrollbar-hide"
             >
               {children}
             </Content>

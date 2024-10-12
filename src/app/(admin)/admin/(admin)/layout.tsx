@@ -17,6 +17,7 @@ export default function AdminLayout({
         },
         token: {
           colorPrimary: "#FF385C",
+          colorLink: "#FF385C",
         },
       }}
     >
