@@ -24,6 +24,13 @@
   .scrollbar-hide {
     scrollbar-width: none;
   }
+
+  .custom-cancel-button:hover {
+    border-color: red !important;
+    /* Đổi màu viền khi hover */
+    color: red !important;
+    /* Đổi màu chữ khi hover */
+  }
 }
 
 @font-face {

@@ -3,7 +3,17 @@
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { getUsersAsync } from "@/services/users/getUsers.service";
 import type { InputRef, TableColumnType, TableColumnsType } from "antd";
-import { Avatar, Button, Input, Pagination, Space, Table, Tag } from "antd";
+import {
+  Avatar,
+  Button,
+  Input,
+  message,
+  Modal,
+  Pagination,
+  Space,
+  Table,
+  Tag,
+} from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +21,7 @@ import { createStyles } from "antd-style";
 import {
   DeleteOutlined,
   EditOutlined,
+  ExclamationCircleFilled,
   EyeFilled,
   MinusOutlined,
   PlusOutlined,
@@ -21,6 +32,8 @@ import PassComponent from "@/components/pass-component/PassComponent";
 import { User } from "@/types/user/userType.type";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
+import { deleteUserAsync } from "@/services/delete-user/deleteUser.service";
+import useNotification from "@/custome-hook/useNotification/useNotification";
 
 type Props = {
   searchParams: {
@@ -45,15 +58,44 @@ const useStyle = createStyles(({ css }) => {
   };
 });
 
+const { confirm } = Modal;
+
 const AdminPage: React.FC<Props> = ({ searchParams }) => {
   const router = useRouter();
   const { styles } = useStyle();
   const dispatch: AppDispatch = useDispatch();
+  const { openNotification } = useNotification();
   const { users } = useSelector((state: RootState) => state.user);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+
+  const handleDeleteUser = (id: number): void => {
+    confirm({
+      title: "Người dùng",
+      icon: <ExclamationCircleFilled />,
+      content: "Bạn có muốn xoá người dùng này?",
+      okText: "Xoá",
+      okType: "danger",
+      cancelText: "Huỷ",
+      cancelButtonProps: {
+        className: "custom-cancel-button",
+      },
+      onOk: async (): Promise<void> => {
+        const res = await deleteUserAsync(id);
+
+        switch (res.statusCode) {
+          case 200:
+            openNotification("success", "Người dùng", `${res.message}`);
+            setIsLoading(!isLoading);
+            break;
+          default:
+            break;
+        }
+      },
+    });
+  };
 
   const handleSearch = (
     selectedKeys: string[],
@@ -184,9 +226,14 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       title: "Chức năng",
       dataIndex: "",
       key: "actions",
-      render: () => (
+      render: (record: User) => (
         <div className="flex items-center justify-start gap-5">
-          <DeleteOutlined className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600" />
+          <DeleteOutlined
+            onClick={() => {
+              handleDeleteUser(record.id);
+            }}
+            className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600"
+          />
           <EditOutlined className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]" />
           <EyeFilled className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]" />
         </div>
@@ -196,7 +243,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
 
   useEffect(() => {
     getData();
-  }, [searchParams.page, searchParams.size]);
+  }, [searchParams.page, searchParams.size, isLoading]);
 
   return (
     <>
