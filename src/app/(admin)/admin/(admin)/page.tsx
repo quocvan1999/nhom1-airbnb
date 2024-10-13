@@ -23,12 +23,8 @@ import {
   EditOutlined,
   ExclamationCircleFilled,
   EyeFilled,
-  MinusOutlined,
-  PlusOutlined,
   SearchOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
-import PassComponent from "@/components/pass-component/PassComponent";
 import { User } from "@/types/user/userType.type";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
@@ -84,13 +80,13 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       },
       onOk: async (): Promise<void> => {
         const res = await deleteUserAsync(id);
-
         switch (res.statusCode) {
           case 200:
             openNotification("success", "Người dùng", `${res.message}`);
             setIsLoading(!isLoading);
             break;
           default:
+            openNotification("error", "Người dùng", `${res.message}`);
             break;
         }
       },

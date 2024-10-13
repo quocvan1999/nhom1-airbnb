@@ -89,7 +89,6 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
         deleteCookie("accessToken");
         deleteCookie("i_d");
       } else {
-        getProfile();
         setIsLogin(true);
       }
     }
