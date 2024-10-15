@@ -4,7 +4,7 @@ import { LoginType } from "@/types/login/loginType.type";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
-import { getCookie, setCookie } from "@/utils/method/method";
+import { deleteCookie, getCookie, setCookie } from "@/utils/method/method";
 import { Checkbox, ConfigProvider, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -13,9 +13,11 @@ import { ReqType } from "@/types/req/reqType.type";
 import { User } from "@/types/user/userType.type";
 import { LoginAsync } from "@/services/login/login.service";
 import useNotification from "@/custome-hook/useNotification/useNotification";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/app/globalRedux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { getProfileAsync } from "@/services/profile/profile.service";
+import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
+import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 
 type Props = {};
 
@@ -23,6 +25,9 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
   const { openNotification } = useNotification();
+  const { checkIsLogin } = useCheckLogin();
+  const { getProfile } = useGetProfile();
+  const { profile } = useSelector((state: RootState) => state.user);
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const initialValues: LoginType = {
     email: "",
@@ -87,9 +92,28 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
   });
 
   useEffect(() => {
-    formLogin.setFieldValue("email", getCookie("m_a"));
-    formLogin.setFieldValue("password", getCookie("p_a"));
+    const login: boolean | undefined = checkIsLogin();
+
+    if (login === true) {
+      getProfile();
+    } else {
+      formLogin.setFieldValue("email", getCookie("m_a"));
+      formLogin.setFieldValue("password", getCookie("p_a"));
+    }
   }, []);
+
+  useEffect(() => {
+    if (profile.role !== "" && checkIsLogin() === true) {
+      if (profile.role === "ADMIN") {
+        router.push("/admin");
+      } else {
+        deleteCookie("accessToken");
+        deleteCookie("i_d");
+        formLogin.setFieldValue("email", getCookie("m_a"));
+        formLogin.setFieldValue("password", getCookie("p_a"));
+      }
+    }
+  }, [profile]);
 
   return (
     <ConfigProvider
