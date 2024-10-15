@@ -11,6 +11,7 @@ import {
   Modal,
   Pagination,
   Space,
+  Spin,
   Table,
   Tag,
 } from "antd";
@@ -243,7 +244,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
 
   return (
     <>
-      {users && users.data && (
+      {users && users.data ? (
         <Table
           className={styles.customTable}
           dataSource={users.data.map((item, index) => ({
@@ -278,6 +279,10 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
             />
           )}
         />
+      ) : (
+        <div className="w-full h-[500px] flex items-center justify-center">
+          <Spin />
+        </div>
       )}
     </>
   );
