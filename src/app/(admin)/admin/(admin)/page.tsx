@@ -87,7 +87,11 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
             setIsLoading(!isLoading);
             break;
           default:
-            openNotification("error", "Người dùng", `${res.message}`);
+            openNotification(
+              "error",
+              "Người dùng",
+              "Xoá người dùng không thành công"
+            );
             break;
         }
       },
@@ -243,48 +247,48 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   }, [searchParams.page, searchParams.size, isLoading]);
 
   return (
-    <>
-      {users && users.data ? (
-        <Table
-          className={styles.customTable}
-          dataSource={users.data.map((item, index) => ({
-            ...item,
-            key: index,
-          }))}
-          columns={columns}
-          pagination={false}
-          title={() => (
-            <div className="flex items-center justify-between">
-              <Button className="!bg-primary-100 !text-white !border-none">
-                + Thêm người dùng
-              </Button>
-              <Input
-                prefix={<SearchOutlined />}
-                className="!w-[400px]"
-                placeholder="Nhập tìm kiếm"
-              />
-            </div>
-          )}
-          footer={() => (
-            <Pagination
-              align="end"
-              defaultCurrent={1}
-              current={users?.pageIndex}
-              defaultPageSize={10}
-              pageSize={users?.pageSize}
-              total={users?.totalRow}
-              onChange={(page: number, pageSize: number): void => {
-                router.push(`/admin/?page=${page}&size=${pageSize}`);
-              }}
-            />
-          )}
+    <div className="w-full h-full !relative">
+      <div className="w-full h-[50px] flex items-center justify-between">
+        <Input
+          prefix={<SearchOutlined />}
+          placeholder="Nhập tìm kiếm"
+          className="!w-[450px]"
         />
-      ) : (
-        <div className="w-full h-[500px] flex items-center justify-center">
-          <Spin />
-        </div>
-      )}
-    </>
+        <Button className="!bg-primary-100  !text-white !border-none">
+          + Thêm người dùng
+        </Button>
+      </div>
+      <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg">
+        {users && users.data ? (
+          <Table
+            className={styles.customTable}
+            dataSource={users.data.map((item, index) => ({
+              ...item,
+              key: index,
+            }))}
+            columns={columns}
+            pagination={false}
+            footer={() => (
+              <Pagination
+                align="end"
+                defaultCurrent={1}
+                current={users?.pageIndex}
+                defaultPageSize={10}
+                pageSize={users?.pageSize}
+                total={users?.totalRow}
+                onChange={(page: number, pageSize: number): void => {
+                  router.push(`/admin/?page=${page}&size=${pageSize}`);
+                }}
+              />
+            )}
+          />
+        ) : (
+          <div className="w-full h-[500px] flex items-center justify-center">
+            <Spin />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
