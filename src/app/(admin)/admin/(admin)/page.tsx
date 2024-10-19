@@ -36,6 +36,7 @@ type Props = {
   searchParams: {
     page: string | number;
     size: string | number;
+    keyword: string;
   };
 };
 
@@ -72,6 +73,25 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [isModalCreateUserOpen, setIsModalCreateUserOpen] =
     useState<boolean>(false);
+
+  const handleSearchUsers = async (searchValue: string): Promise<void> => {
+    if (searchValue !== "") {
+      router.push(
+        `/admin/?page=${searchParams.page}&size=${searchParams.size}&keyword=${searchValue}`
+      );
+    } else {
+      router.push(
+        `/admin/?page=${searchParams.page}&size=${searchParams.size}`
+      );
+    }
+
+    const action = await getUsersAsync(
+      searchParams.page,
+      searchParams.size,
+      searchValue
+    );
+    dispatch(action);
+  };
 
   const handleDeleteUser = (id: number): void => {
     confirm({
@@ -269,6 +289,9 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
             prefix={<SearchOutlined />}
             placeholder="Nhập tìm kiếm"
             className="!w-[450px]"
+            onChange={(e) => {
+              handleSearchUsers(e.target.value);
+            }}
           />
           <Button
             onClick={() => {
@@ -280,7 +303,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
             + Thêm người dùng
           </Button>
         </div>
-        <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg">
+        <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg mt-2">
           {users && users.data ? (
             <Table
               className={styles.customTable}

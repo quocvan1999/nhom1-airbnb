@@ -24,6 +24,7 @@ type Props = {
   searchParams: {
     page: string | number;
     size: string | number;
+    keyword: string;
   };
   isUpdate: boolean;
   setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
