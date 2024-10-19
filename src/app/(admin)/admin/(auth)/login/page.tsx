@@ -29,7 +29,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
   const { getProfile } = useGetProfile();
   const { profile } = useSelector((state: RootState) => state.user);
   const [isRemember, setIsRemember] = useState<boolean>(false);
-  
+
   const initialValues: LoginType = {
     email: "",
     password: "",
@@ -63,7 +63,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
             setCookie("i_d", res.content.user.id.toString(), 7);
           } else {
             openNotification(
-              "warning",
+              "error",
               "Đăng nhập",
               "Tài khoản không có quyền truy cập"
             );
@@ -72,7 +72,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
         break;
       default:
         if (typeof res.content === "string") {
-          openNotification("warning", "Đăng nhập", res.content);
+          openNotification("error", "Đăng nhập", res.content);
         }
         break;
     }

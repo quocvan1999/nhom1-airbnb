@@ -75,7 +75,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
 
   const handleDeleteUser = (id: number): void => {
     confirm({
-      title: "Người dùng",
+      title: "Xoá người dùng",
       icon: <ExclamationCircleFilled />,
       content: "Bạn có muốn xoá người dùng này?",
       okText: "Xoá",
@@ -88,15 +88,11 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
         const res = await deleteUserAsync(id);
         switch (res.statusCode) {
           case 200:
-            openNotification("success", "Người dùng", `${res.message}`);
+            openNotification("success", "Xoá người dùng", `${res.message}`);
             setIsLoading(!isLoading);
             break;
           default:
-            openNotification(
-              "error",
-              "Người dùng",
-              "Xoá người dùng không thành công"
-            );
+            openNotification("error", "Xoá người dùng", `${res.content}`);
             break;
         }
       },

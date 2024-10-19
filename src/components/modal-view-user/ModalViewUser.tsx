@@ -63,16 +63,16 @@ const ModalViewUser: React.FC<Props> = ({
 
     switch (res.statusCode) {
       case 200:
-        openNotification("success", "Profile", "Cập nhật thông tin thành công");
+        openNotification(
+          "success",
+          "Cập nhật thông tin",
+          "Cập nhật thông tin thành công"
+        );
         setIsUpdate(false);
         getData();
         break;
       default:
-        openNotification(
-          "warning",
-          "Profile",
-          "Cập nhật thông tin không thành công"
-        );
+        openNotification("error", "Cập nhật thông tin", `${res.content}`);
         break;
     }
   };
