@@ -211,7 +211,11 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   });
 
   const getData = (): void => {
-    const action = getUsersAsync(searchParams.page, searchParams.size);
+    const action = getUsersAsync(
+      searchParams.page,
+      searchParams.size,
+      searchParams.keyword
+    );
     dispatch(action);
   };
 
