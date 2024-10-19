@@ -331,6 +331,20 @@ const ModalViewUser: React.FC<Props> = ({
                     default:
                       break;
                   }
+
+                  if (userView !== null) {
+                    formUser.setValues({
+                      avatar: userView.avatar,
+                      birthday: userView.birthday,
+                      email: userView.email,
+                      gender: userView.gender,
+                      id: userView.id,
+                      name: userView.name,
+                      password: userView.password,
+                      phone: userView.phone,
+                      role: userView.role,
+                    });
+                  }
                 }}
                 className="!bg-primary-100 !text-white !border-primary-100"
               >
