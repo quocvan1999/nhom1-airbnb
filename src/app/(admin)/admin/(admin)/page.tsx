@@ -77,11 +77,17 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   const handleSearchUsers = async (searchValue: string): Promise<void> => {
     if (searchValue !== "") {
       router.push(
-        `/admin/?page=${searchParams.page}&size=${searchParams.size}&keyword=${searchValue}`
+        `/admin/?page=${
+          searchParams.page !== undefined ? searchParams.page : 1
+        }&size=${
+          searchParams.size !== undefined ? searchParams.size : 10
+        }&keyword=${searchValue}`
       );
     } else {
       router.push(
-        `/admin/?page=${searchParams.page}&size=${searchParams.size}`
+        `/admin/?page=${
+          searchParams.page !== undefined ? searchParams.page : 1
+        }&size=${searchParams.size !== undefined ? searchParams.size : 10}`
       );
     }
 
