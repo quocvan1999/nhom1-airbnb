@@ -334,6 +334,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
                   total={users?.totalRow}
                   onChange={(page: number, pageSize: number): void => {
                     router.push(`/admin/?page=${page}&size=${pageSize}`);
+                    console.log("CHECK CALL API");
                   }}
                 />
               )}

@@ -12,8 +12,6 @@ export const getUsersAsync = (
     const res: AxiosResponse = await httpClient.get(
       `https://airbnbnew.cybersoft.edu.vn/api/users/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${searchValue}`
     );
-    console.log("CHECK CALL API");
-
     const action = setUsers(res.data.content);
     dispatch(action);
   };
