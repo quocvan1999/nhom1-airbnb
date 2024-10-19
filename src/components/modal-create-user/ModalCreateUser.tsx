@@ -136,6 +136,7 @@ const ModalCreateUser: React.FC<Props> = ({
                 >
                   <p className="font-bold uppercase text-xs mb-3">Tên</p>
                   <Input
+                    allowClear
                     size="large"
                     name="name"
                     placeholder="Nhập tên"
@@ -155,6 +156,7 @@ const ModalCreateUser: React.FC<Props> = ({
                 >
                   <p className="font-bold uppercase text-xs mb-3">Email</p>
                   <Input
+                    allowClear
                     size="large"
                     name="email"
                     placeholder="Nhập email"
@@ -178,6 +180,7 @@ const ModalCreateUser: React.FC<Props> = ({
                 >
                   <p className="font-bold uppercase text-xs mb-3">Mật khẩu</p>
                   <Input.Password
+                    allowClear
                     size="large"
                     name="password"
                     placeholder="Nhập mật khẩu"
@@ -199,6 +202,7 @@ const ModalCreateUser: React.FC<Props> = ({
                     Số điện thoại
                   </p>
                   <Input
+                    allowClear
                     size="large"
                     name="phone"
                     placeholder="Nhập số điện thoại"

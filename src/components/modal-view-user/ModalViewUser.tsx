@@ -189,6 +189,7 @@ const ModalViewUser: React.FC<Props> = ({
               <p className="font-bold uppercase text-xs mb-3">Tên</p>
               {isUpdate ? (
                 <Input
+                  allowClear
                   size="large"
                   name="name"
                   placeholder="Enter name"
@@ -210,6 +211,7 @@ const ModalViewUser: React.FC<Props> = ({
               <p className="font-bold uppercase text-xs mb-3">Email</p>
               {isUpdate ? (
                 <Input
+                  allowClear
                   size="large"
                   name="email"
                   placeholder="Enter email"
@@ -231,6 +233,7 @@ const ModalViewUser: React.FC<Props> = ({
               <p className="font-bold uppercase text-xs mb-3">Số điện thoại</p>
               {isUpdate ? (
                 <Input
+                  allowClear
                   size="large"
                   name="phone"
                   placeholder="Enter phone"

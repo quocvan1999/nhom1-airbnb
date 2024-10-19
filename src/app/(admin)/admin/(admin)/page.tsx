@@ -285,6 +285,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       <div className="w-full h-full !relative">
         <div className="w-full h-[50px] flex items-center justify-between">
           <Input
+            allowClear
             size="large"
             prefix={<SearchOutlined />}
             placeholder="Nhập tìm kiếm"

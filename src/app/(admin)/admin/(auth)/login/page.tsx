@@ -140,7 +140,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
     >
       <div className="w-[350px] md:w-[400px] bg-white rounded-xl px-5 md:px-7 py-7 shadow-lg border mx-2">
         <div className="flex items-center justify-between mb-14">
-          <h1 className="text-2xl">Đăng Nhập</h1>
+          <h1 className="text-2xl font-bold">Đăng Nhập</h1>
         </div>
         <Form layout="vertical" onSubmitCapture={formLogin.handleSubmit}>
           <Form.Item
@@ -151,9 +151,10 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
           >
             <p className="font-bold uppercase text-xs mb-3">Email</p>
             <Input
+              allowClear
               size="large"
               name="email"
-              placeholder="Enter email"
+              placeholder="Nhập email"
               value={formLogin.values.email}
               onChange={formLogin.handleChange}
               onBlur={formLogin.handleBlur}
@@ -167,11 +168,12 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
             }
             help={formLogin.touched.password && formLogin.errors.password}
           >
-            <p className="font-bold uppercase text-xs mb-3">Password</p>
+            <p className="font-bold uppercase text-xs mb-3">Mật khẩu</p>
             <Input.Password
+              allowClear
               size="large"
               name="password"
-              placeholder="Enter password"
+              placeholder="Nhập mật khẩu"
               value={formLogin.values.password}
               onChange={formLogin.handleChange}
               onBlur={formLogin.handleBlur}
