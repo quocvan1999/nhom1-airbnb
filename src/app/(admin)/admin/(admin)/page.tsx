@@ -90,13 +90,6 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
         }&size=${searchParams.size !== undefined ? searchParams.size : 10}`
       );
     }
-
-    const action = await getUsersAsync(
-      searchParams.page,
-      searchParams.size,
-      searchParams.keyword || ""
-    );
-    dispatch(action);
   };
 
   const handleDeleteUser = (id: number): void => {
@@ -211,7 +204,11 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   });
 
   const getData = (): void => {
-    const action = getUsersAsync(searchParams.page, searchParams.size);
+    const action = getUsersAsync(
+      searchParams.page,
+      searchParams.size,
+      searchParams.keyword || ""
+    );
     dispatch(action);
   };
 
