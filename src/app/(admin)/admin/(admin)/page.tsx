@@ -211,13 +211,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   });
 
   const getData = (): void => {
-    console.log("getData");
-
-    const action = getUsersAsync(
-      searchParams.page,
-      searchParams.size,
-      searchParams.keyword || ""
-    );
+    const action = getUsersAsync(searchParams.page, searchParams.size);
     dispatch(action);
   };
 
@@ -289,9 +283,8 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   ];
 
   useEffect(() => {
-    console.log("Rendering useEffect");
     getData();
-  }, [searchParams, isLoading]);
+  }, [searchParams.page, searchParams.size, isLoading]);
 
   return (
     <>
