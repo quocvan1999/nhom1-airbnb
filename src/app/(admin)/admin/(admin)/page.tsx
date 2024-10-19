@@ -4,10 +4,8 @@ import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { getUsersAsync } from "@/services/users/getUsers.service";
 import type { InputRef, TableColumnType, TableColumnsType } from "antd";
 import {
-  Avatar,
   Button,
   Input,
-  message,
   Modal,
   Pagination,
   Space,
@@ -31,6 +29,7 @@ import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import { deleteUserAsync } from "@/services/delete-user/deleteUser.service";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 
 type Props = {
   searchParams: {
@@ -67,6 +66,8 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [userView, setUserView] = useState<User | null>(null);
 
   const handleDeleteUser = (id: number): void => {
     confirm({
@@ -236,7 +237,13 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600"
           />
           <EditOutlined className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]" />
-          <EyeFilled className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]" />
+          <EyeFilled
+            onClick={() => {
+              setIsModalOpen(true);
+              setUserView(record);
+            }}
+            className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]"
+          />
         </div>
       ),
     },
@@ -247,48 +254,58 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   }, [searchParams.page, searchParams.size, isLoading]);
 
   return (
-    <div className="w-full h-full !relative">
-      <div className="w-full h-[50px] flex items-center justify-between">
-        <Input
-          prefix={<SearchOutlined />}
-          placeholder="Nhập tìm kiếm"
-          className="!w-[450px]"
-        />
-        <Button className="!bg-primary-100  !text-white !border-none">
-          + Thêm người dùng
-        </Button>
-      </div>
-      <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg">
-        {users && users.data ? (
-          <Table
-            className={styles.customTable}
-            dataSource={users.data.map((item, index) => ({
-              ...item,
-              key: index,
-            }))}
-            columns={columns}
-            pagination={false}
-            footer={() => (
-              <Pagination
-                align="end"
-                defaultCurrent={1}
-                current={users?.pageIndex}
-                defaultPageSize={10}
-                pageSize={users?.pageSize}
-                total={users?.totalRow}
-                onChange={(page: number, pageSize: number): void => {
-                  router.push(`/admin/?page=${page}&size=${pageSize}`);
-                }}
-              />
-            )}
+    <>
+      <div className="w-full h-full !relative">
+        <div className="w-full h-[50px] flex items-center justify-between">
+          <Input
+            prefix={<SearchOutlined />}
+            placeholder="Nhập tìm kiếm"
+            className="!w-[450px]"
           />
-        ) : (
-          <div className="w-full h-[500px] flex items-center justify-center">
-            <Spin />
-          </div>
-        )}
+          <Button className="!bg-primary-100  !text-white !border-none">
+            + Thêm người dùng
+          </Button>
+        </div>
+        <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg">
+          {users && users.data ? (
+            <Table
+              className={styles.customTable}
+              dataSource={users.data.map((item, index) => ({
+                ...item,
+                key: index,
+              }))}
+              columns={columns}
+              pagination={false}
+              footer={() => (
+                <Pagination
+                  align="end"
+                  defaultCurrent={1}
+                  current={users?.pageIndex}
+                  defaultPageSize={10}
+                  pageSize={users?.pageSize}
+                  total={users?.totalRow}
+                  onChange={(page: number, pageSize: number): void => {
+                    router.push(`/admin/?page=${page}&size=${pageSize}`);
+                  }}
+                />
+              )}
+            />
+          ) : (
+            <div className="w-full h-[500px] flex items-center justify-center">
+              <Spin />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      {isModalOpen === true && (
+        <ModalViewUser
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          userView={userView}
+          searchParams={searchParams}
+        />
+      )}
+    </>
   );
 };
 

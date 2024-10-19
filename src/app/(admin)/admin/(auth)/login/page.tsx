@@ -29,6 +29,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
   const { getProfile } = useGetProfile();
   const { profile } = useSelector((state: RootState) => state.user);
   const [isRemember, setIsRemember] = useState<boolean>(false);
+  
   const initialValues: LoginType = {
     email: "",
     password: "",
