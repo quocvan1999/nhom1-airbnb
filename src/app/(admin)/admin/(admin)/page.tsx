@@ -68,6 +68,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   const searchInput = useRef<InputRef>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [userView, setUserView] = useState<User | null>(null);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const handleDeleteUser = (id: number): void => {
     confirm({
@@ -236,7 +237,14 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
             }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600"
           />
-          <EditOutlined className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]" />
+          <EditOutlined
+            onClick={() => {
+              setUserView(record);
+              setIsModalOpen(true);
+              setIsUpdate(true);
+            }}
+            className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]"
+          />
           <EyeFilled
             onClick={() => {
               setIsModalOpen(true);
@@ -303,6 +311,8 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
           setIsModalOpen={setIsModalOpen}
           userView={userView}
           searchParams={searchParams}
+          isUpdate={isUpdate}
+          setIsUpdate={setIsUpdate}
         />
       )}
     </>

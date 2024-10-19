@@ -25,6 +25,8 @@ type Props = {
     page: string | number;
     size: string | number;
   };
+  isUpdate: boolean;
+  setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ModalViewUser: React.FC<Props> = ({
@@ -32,9 +34,11 @@ const ModalViewUser: React.FC<Props> = ({
   setIsModalOpen,
   userView,
   searchParams,
+  isUpdate,
+  setIsUpdate,
 }) => {
   const dispatch: AppDispatch = useDispatch();
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+
   const { openNotification } = useNotification();
 
   const initialValues: User = {
