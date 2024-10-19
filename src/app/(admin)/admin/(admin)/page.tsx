@@ -284,7 +284,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
 
   useEffect(() => {
     getData();
-  }, [isLoading]);
+  }, [searchParams.page, searchParams.size, isLoading]);
 
   return (
     <>
@@ -330,7 +330,6 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
                   total={users?.totalRow}
                   onChange={(page: number, pageSize: number): void => {
                     router.push(`/admin/?page=${page}&size=${pageSize}`);
-                    setIsLoading(!isLoading);
                   }}
                 />
               )}
