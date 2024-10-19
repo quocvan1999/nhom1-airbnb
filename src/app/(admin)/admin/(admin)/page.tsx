@@ -30,6 +30,7 @@ import Highlighter from "react-highlight-words";
 import { deleteUserAsync } from "@/services/delete-user/deleteUser.service";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
+import ModalCreateUser from "@/components/modal-create-user/ModalCreateUser";
 
 type Props = {
   searchParams: {
@@ -69,6 +70,8 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [userView, setUserView] = useState<User | null>(null);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [isModalCreateUserOpen, setIsModalCreateUserOpen] =
+    useState<boolean>(false);
 
   const handleDeleteUser = (id: number): void => {
     confirm({
@@ -266,11 +269,18 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       <div className="w-full h-full !relative">
         <div className="w-full h-[50px] flex items-center justify-between">
           <Input
+            size="large"
             prefix={<SearchOutlined />}
             placeholder="Nhập tìm kiếm"
             className="!w-[450px]"
           />
-          <Button className="!bg-primary-100  !text-white !border-none">
+          <Button
+            onClick={() => {
+              setIsModalCreateUserOpen(true);
+            }}
+            size="large"
+            className="!bg-primary-100  !text-white !border-none"
+          >
             + Thêm người dùng
           </Button>
         </div>
@@ -313,6 +323,13 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
           searchParams={searchParams}
           isUpdate={isUpdate}
           setIsUpdate={setIsUpdate}
+        />
+      )}
+
+      {isModalCreateUserOpen && (
+        <ModalCreateUser
+          isModalCreateUserOpen={isModalCreateUserOpen}
+          setIsModalCreateUserOpen={setIsModalCreateUserOpen}
         />
       )}
     </>

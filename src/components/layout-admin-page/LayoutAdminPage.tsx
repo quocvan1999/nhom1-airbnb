@@ -106,7 +106,6 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
             darkItemColor: "#222",
             darkItemSelectedBg: "#FF385C",
             darkItemHoverColor: "#FF385C",
-            itemHeight: 35,
           },
         },
       }}
