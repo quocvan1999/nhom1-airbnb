@@ -13,11 +13,7 @@ import {
   Table,
   Tag,
 } from "antd";
-import {
-  ReadonlyURLSearchParams,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createStyles } from "antd-style";
@@ -63,7 +59,6 @@ const useStyle = createStyles(({ css }) => {
 const { confirm } = Modal;
 
 const AdminPage: React.FC<Props> = ({ searchParams }) => {
-  const searchParam: ReadonlyURLSearchParams = useSearchParams();
   const router = useRouter();
   const { styles } = useStyle();
   const dispatch: AppDispatch = useDispatch();
@@ -286,7 +281,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
 
   useEffect(() => {
     getData();
-  }, [searchParam, isLoading]);
+  }, [searchParams, isLoading]);
 
   return (
     <>
