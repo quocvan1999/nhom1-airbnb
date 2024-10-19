@@ -9,7 +9,7 @@ export const getUsersAsync = (
   searchValue: string = ""
 ) => {
   return async (dispatch: AppDispatch): Promise<void> => {
-    console.log("CHECK CALL API");
+    console.log("Call API");
     const res: AxiosResponse = await httpClient.get(
       `https://airbnbnew.cybersoft.edu.vn/api/users/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${searchValue}`
     );
