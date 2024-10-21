@@ -14,6 +14,7 @@ import {
   Tag,
 } from "antd";
 import { useRouter } from "next/navigation";
+import { useRouter as useRouterNext } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createStyles } from "antd-style";
@@ -200,8 +201,10 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
 
     console.log("kiem tra index va size tai getData", page, size, keyword);
 
-    const action = getUsersAsync(page, size, keyword);
-    dispatch(action);
+    if (page !== undefined && size !== undefined) {
+      const action = getUsersAsync(page, size, keyword);
+      dispatch(action);
+    }
   };
 
   const columns: TableColumnsType<User> = [
