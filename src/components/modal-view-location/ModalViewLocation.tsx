@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ConfigProvider, Form, Input, Modal } from "antd";
+import { useRouter } from "next/navigation";
 
 type Props = {
   isModalCreateLocationOpen: boolean;
@@ -19,7 +20,7 @@ const ModalViewLocation: React.FC<Props> = ({
   isModalCreateLocationOpen,
   setIsModalCreateLocationOpen,
 }) => {
-  const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
   const { openNotification } = useNotification();
 
   const initialValues: LocationType = {
@@ -34,20 +35,15 @@ const ModalViewLocation: React.FC<Props> = ({
     setIsModalCreateLocationOpen(false);
   };
 
-  const getData = (): void => {
-    const action = getLocationsPaginationAsync("1", "10", "");
-    dispatch(action);
-  };
-
   const handleChangeCreateLocation = async (
     newLocation: LocationType
   ): Promise<void> => {
     const res: ReqType<LocationType> = await createLocationAsync(newLocation);
 
     switch (res.statusCode) {
-      case 200:
+      case 201:
         openNotification("success", "Thêm vị trí", "Thêm vị trí thành công");
-        getData();
+        router.push("/admin/locations");
         setIsModalCreateLocationOpen(false);
         break;
       default:

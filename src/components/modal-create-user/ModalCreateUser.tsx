@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/globalRedux/store";
 import { createUserAsync } from "@/services/create-user/createUser.service";
 import { ReqType } from "@/types/req/reqType.type";
+import { useRouter } from "next/navigation";
 
 type Props = {
   isModalCreateUserOpen: boolean;
@@ -21,7 +22,7 @@ const ModalCreateUser: React.FC<Props> = ({
   isModalCreateUserOpen,
   setIsModalCreateUserOpen,
 }) => {
-  const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
   const { openNotification } = useNotification();
 
   const initialValues: User = {
@@ -40,11 +41,6 @@ const ModalCreateUser: React.FC<Props> = ({
     setIsModalCreateUserOpen(false);
   };
 
-  const getData = (): void => {
-    const action = getUsersAsync("1", "10", "");
-    dispatch(action);
-  };
-
   const handleChangeRegister = async (newUser: User): Promise<void> => {
     const res: ReqType<User> = await createUserAsync(newUser);
 
@@ -55,7 +51,7 @@ const ModalCreateUser: React.FC<Props> = ({
           "Thêm người dùng",
           "Thêm người dùng thành công"
         );
-        getData();
+        router.push("/admin");
         setIsModalCreateUserOpen(false);
         break;
       default:
