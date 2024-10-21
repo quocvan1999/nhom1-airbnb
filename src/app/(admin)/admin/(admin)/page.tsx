@@ -280,6 +280,8 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   ];
 
   useEffect(() => {
+    console.log("IS LOADING DATA");
+
     getData();
   }, [searchParams, isLoading]);
 
