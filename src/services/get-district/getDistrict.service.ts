@@ -5,7 +5,7 @@ export const getDistrictAysnc = async (
   id: string
 ): Promise<OptionLocationtype[]> => {
   const res: AxiosResponse = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/2/${id}.htm`
+    `${process.env.NEXT_PUBLIC_API_LOCATION_URL}/2/${id}.htm`
   );
   return res.data.data;
 };
