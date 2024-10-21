@@ -41,7 +41,7 @@ const ModalCreateUser: React.FC<Props> = ({
   };
 
   const getData = (): void => {
-    const action = getUsersAsync(1, 10);
+    const action = getUsersAsync("1", "10", "");
     dispatch(action);
   };
 
