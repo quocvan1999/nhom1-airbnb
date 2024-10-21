@@ -2,11 +2,14 @@
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
+import useNotification from "@/custome-hook/useNotification/useNotification";
+import { deleteLocationAsync } from "@/services/delete-location/deleteLocation.service";
 import { getLocationsPaginationAsync } from "@/services/locations-pagination/locationsPagination.service";
 import { LocationType } from "@/types/location/locationType.type";
 import {
   DeleteOutlined,
   EditOutlined,
+  ExclamationCircleFilled,
   SearchOutlined,
 } from "@ant-design/icons";
 import {
@@ -56,6 +59,33 @@ const Locations: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [searchedColumn, setSearchedColumn] = useState<string>("");
   const { locations } = useSelector((state: RootState) => state.room);
+  const { openNotification } = useNotification();
+
+  const handleDeleteLocation = (id: number): void => {
+    confirm({
+      title: "Xoá vị trí",
+      icon: <ExclamationCircleFilled />,
+      content: "Bạn có muốn xoá vị trí này?",
+      okText: "Xoá",
+      okType: "danger",
+      cancelText: "Huỷ",
+      cancelButtonProps: {
+        className: "custom-cancel-button",
+      },
+      onOk: async (): Promise<void> => {
+        const res = await deleteLocationAsync(id);
+        switch (res.statusCode) {
+          case 200:
+            openNotification("success", "Xoá vị trí", `${res.message}`);
+            setIsLoading(!isLoading);
+            break;
+          default:
+            openNotification("error", "Xoá vị trí", `${res.content}`);
+            break;
+        }
+      },
+    });
+  };
 
   const handleSearchUsers = async (searchValue: string): Promise<void> => {
     if (searchValue !== "") {
@@ -203,7 +233,9 @@ const Locations: React.FC = () => {
       render: (record: LocationType) => (
         <div className="flex items-center justify-start gap-5">
           <DeleteOutlined
-            onClick={() => {}}
+            onClick={() => {
+              handleDeleteLocation(record.id);
+            }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600"
           />
           <EditOutlined
