@@ -194,17 +194,15 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       ),
   });
 
-  const getData = (): void => {
-    console.log("Goi ham get data");
+  const getData = (
+    size: number | string,
+    page: number | string,
+    keyword: string
+  ): void => {
+    console.log("CHECK:", size, page, keyword);
 
-    const { page, size, keyword } = searchParams;
-
-    console.log("kiem tra index va size tai getData", page, size, keyword);
-
-    if (page !== undefined && size !== undefined) {
-      const action = getUsersAsync(page, size, keyword);
-      dispatch(action);
-    }
+    const action = getUsersAsync(page, size, keyword);
+    dispatch(action);
   };
 
   const columns: TableColumnsType<User> = [
@@ -275,9 +273,8 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   ];
 
   useEffect(() => {
-    console.log("Goi useEffect");
-
-    getData();
+    const { size, page, keyword } = searchParams;
+    getData(size, page, keyword);
   }, [searchParams, isLoading]);
 
   return (
