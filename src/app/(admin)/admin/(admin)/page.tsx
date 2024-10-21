@@ -31,14 +31,7 @@ import { deleteUserAsync } from "@/services/delete-user/deleteUser.service";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 import ModalCreateUser from "@/components/modal-create-user/ModalCreateUser";
-
-type Props = {
-  searchParams: {
-    page: string | number;
-    size: string | number;
-    keyword: string;
-  };
-};
+import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 
 type DataIndex = keyof User;
 
@@ -58,9 +51,10 @@ const useStyle = createStyles(({ css }) => {
 
 const { confirm } = Modal;
 
-const AdminPage: React.FC<Props> = ({ searchParams }) => {
+const AdminPage: React.FC = () => {
   const router = useRouter();
   const { styles } = useStyle();
+  const { getParams, searchParams } = useGetSearchPrams();
   const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
   const { users } = useSelector((state: RootState) => state.user);
@@ -194,11 +188,9 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   });
 
   const getData = (): void => {
-    const action = getUsersAsync(
-      searchParams.page,
-      searchParams.size,
-      searchParams.keyword || ""
-    );
+    const { size, page, keyword } = getParams();
+
+    const action = getUsersAsync(page, size, keyword || "");
     dispatch(action);
   };
 
@@ -271,7 +263,6 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
 
   useEffect(() => {
     getData();
-    console.log("CHECK PARAMS", searchParams);
   }, [searchParams, isLoading]);
 
   return (
@@ -329,7 +320,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
           )}
         </div>
       </div>
-      {isModalOpen === true && (
+      {/* {isModalOpen === true && (
         <ModalViewUser
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
@@ -338,7 +329,7 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
           isUpdate={isUpdate}
           setIsUpdate={setIsUpdate}
         />
-      )}
+      )} */}
 
       {isModalCreateUserOpen && (
         <ModalCreateUser
