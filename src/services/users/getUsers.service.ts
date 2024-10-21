@@ -8,8 +8,6 @@ export const getUsersAsync = (
   pageSize: string,
   searchValue: string
 ) => {
-  console.log("CHECK PAGE", pageIndex, pageSize, searchValue);
-
   return async (dispatch: AppDispatch): Promise<void> => {
     const res: AxiosResponse = await httpClient.get(
       `https://airbnbnew.cybersoft.edu.vn/api/users/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${searchValue}`
