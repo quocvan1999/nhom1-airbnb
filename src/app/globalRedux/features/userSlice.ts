@@ -42,6 +42,8 @@ export const userSlice = createSlice({
       state: UserSlice,
       action: PayloadAction<reqPaginationType<User[]>>
     ) => {
+      console.log("kiem tra payload", action.payload);
+
       state.users = action.payload;
     },
   },
