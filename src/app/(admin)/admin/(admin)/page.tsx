@@ -196,11 +196,11 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   const getData = (): void => {
     console.log("Goi ham get data");
 
-    const action = getUsersAsync(
-      searchParams.page,
-      searchParams.size,
-      searchParams.keyword || ""
-    );
+    const { page, size, keyword } = searchParams;
+
+    console.log("kiem tra index va size tai getData", page, size, keyword);
+
+    const action = getUsersAsync(page, size, keyword);
     dispatch(action);
   };
 

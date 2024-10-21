@@ -15,8 +15,8 @@ export const getUsersAsync = (
       `https://airbnbnew.cybersoft.edu.vn/api/users/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${searchValue}`
     );
 
-    console.log("kiem tra res tra ve");
-    
+    console.log("kiem tra res tra ve", res);
+
     const action = setUsers(res.data.content);
     dispatch(action);
   };
