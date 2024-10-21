@@ -14,6 +14,7 @@ import { ReqType } from "@/types/req/reqType.type";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/globalRedux/store";
 import { getUsersAsync } from "@/services/users/getUsers.service";
+import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 
 const { confirm } = Modal;
 
@@ -21,11 +22,6 @@ type Props = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   userView: User | null;
-  searchParams: {
-    page: string | number;
-    size: string | number;
-    keyword: string;
-  };
   isUpdate: boolean;
   setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -34,12 +30,11 @@ const ModalViewUser: React.FC<Props> = ({
   isModalOpen,
   setIsModalOpen,
   userView,
-  searchParams,
   isUpdate,
   setIsUpdate,
 }) => {
   const dispatch: AppDispatch = useDispatch();
-
+  const { getParams } = useGetSearchPrams();
   const { openNotification } = useNotification();
 
   const initialValues: User = {
@@ -55,7 +50,8 @@ const ModalViewUser: React.FC<Props> = ({
   };
 
   const getData = (): void => {
-    const action = getUsersAsync(searchParams.page, searchParams.size);
+    const { page, size, keyword } = getParams();
+    const action = getUsersAsync(page, size, keyword);
     dispatch(action);
   };
 

@@ -320,16 +320,15 @@ const AdminPage: React.FC = () => {
           )}
         </div>
       </div>
-      {/* {isModalOpen === true && (
+      {isModalOpen === true && (
         <ModalViewUser
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           userView={userView}
-          searchParams={searchParams}
           isUpdate={isUpdate}
           setIsUpdate={setIsUpdate}
         />
-      )} */}
+      )}
 
       {isModalCreateUserOpen && (
         <ModalCreateUser
