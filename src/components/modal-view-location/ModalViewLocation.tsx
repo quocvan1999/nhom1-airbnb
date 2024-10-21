@@ -1,15 +1,16 @@
-import { AppDispatch } from "@/app/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { createLocationAsync } from "@/services/create-location/createLocation.service";
-import { getLocationsPaginationAsync } from "@/services/locations-pagination/locationsPagination.service";
 import { LocationType } from "@/types/location/locationType.type";
 import { ReqType } from "@/types/req/reqType.type";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ConfigProvider, Form, Input, Modal } from "antd";
+import { ConfigProvider, Form, Input, Modal, Select } from "antd";
 import { useRouter } from "next/navigation";
+import { getProvinceAysnc } from "@/services/get-province/getProvince.service";
+import { getDistrictAysnc } from "@/services/get-district/getDistrict.service";
+import { OptionLocationtype } from "@/types/option-location/optionLocationType.type";
+import { OptionSelectType } from "@/types/option-select/optionSelectType.type";
 
 type Props = {
   isModalCreateLocationOpen: boolean;
@@ -21,6 +22,8 @@ const ModalViewLocation: React.FC<Props> = ({
   setIsModalCreateLocationOpen,
 }) => {
   const router = useRouter();
+  const [province, setProvince] = useState<OptionSelectType[]>([]);
+  const [district, setDistrict] = useState<OptionSelectType[]>([]);
   const { openNotification } = useNotification();
 
   const initialValues: LocationType = {
@@ -29,6 +32,31 @@ const ModalViewLocation: React.FC<Props> = ({
     quocGia: "",
     tinhThanh: "",
     hinhAnh: "",
+  };
+
+  const getDistrict = async (id: string): Promise<void> => {
+    const res: OptionLocationtype[] = await getDistrictAysnc(id);
+    if (res.length > 0) {
+      res.map((district: OptionLocationtype) =>
+        setDistrict((prevItems) => [
+          ...prevItems,
+          { value: district.id, label: district.full_name },
+        ])
+      );
+    }
+  };
+
+  const getProvince = async (): Promise<void> => {
+    const res: OptionLocationtype[] = await getProvinceAysnc();
+
+    if (res.length > 0) {
+      res.map((province: OptionLocationtype) =>
+        setProvince((prevItems) => [
+          ...prevItems,
+          { value: province.id, label: province.name },
+        ])
+      );
+    }
   };
 
   const handleCancel = (): void => {
@@ -65,6 +93,10 @@ const ModalViewLocation: React.FC<Props> = ({
       handleChangeCreateLocation(values);
     },
   });
+
+  useEffect(() => {
+    getProvince();
+  }, []);
 
   return (
     <ConfigProvider
@@ -113,23 +145,30 @@ const ModalViewLocation: React.FC<Props> = ({
             <div className="w-full">
               <Form.Item
                 validateStatus={
-                  formLocation.touched.tenViTri && formLocation.errors.tenViTri
+                  formLocation.touched.quocGia && formLocation.errors.quocGia
                     ? "error"
                     : ""
                 }
                 help={
-                  formLocation.touched.tenViTri && formLocation.errors.tenViTri
+                  formLocation.touched.quocGia && formLocation.errors.quocGia
                 }
               >
-                <p className="font-bold uppercase text-xs mb-3">Tên vị trí</p>
-                <Input
-                  allowClear
+                <p className="font-bold uppercase text-xs mb-3">Quốc gia</p>
+                <Select
                   size="large"
-                  name="tenViTri"
-                  placeholder="Nhập tên vị trí"
-                  value={formLocation.values.tenViTri}
-                  onChange={formLocation.handleChange}
-                  onBlur={formLocation.handleBlur}
+                  showSearch
+                  placeholder="Chọn tỉnh thành"
+                  optionFilterProp="label"
+                  value={formLocation.values.quocGia}
+                  onChange={(value: string) => {
+                    formLocation.setFieldValue("quocGia", value);
+                  }}
+                  options={[
+                    {
+                      value: "Việt Nam",
+                      label: "Việt Nam",
+                    },
+                  ]}
                 />
               </Form.Item>
 
@@ -146,36 +185,51 @@ const ModalViewLocation: React.FC<Props> = ({
                 }
               >
                 <p className="font-bold uppercase text-xs mb-3">Tỉnh thành</p>
-                <Input
-                  allowClear
+                <Select
                   size="large"
-                  name="tinhThanh"
-                  placeholder="Nhập tỉnh thành"
+                  showSearch
+                  placeholder="Chọn tỉnh thành"
+                  optionFilterProp="label"
                   value={formLocation.values.tinhThanh}
-                  onChange={formLocation.handleChange}
-                  onBlur={formLocation.handleBlur}
+                  onChange={(
+                    data: string,
+                    option: OptionSelectType | OptionSelectType[]
+                  ): void => {
+                    if (option && !Array.isArray(option)) {
+                      formLocation.setFieldValue("tinhThanh", option.label);
+                      getDistrict(option.value);
+                    }
+                  }}
+                  options={province}
                 />
               </Form.Item>
 
               <Form.Item
                 validateStatus={
-                  formLocation.touched.quocGia && formLocation.errors.quocGia
+                  formLocation.touched.tenViTri && formLocation.errors.tenViTri
                     ? "error"
                     : ""
                 }
                 help={
-                  formLocation.touched.quocGia && formLocation.errors.quocGia
+                  formLocation.touched.tenViTri && formLocation.errors.tenViTri
                 }
               >
-                <p className="font-bold uppercase text-xs mb-3">Quốc gia</p>
-                <Input
-                  allowClear
+                <p className="font-bold uppercase text-xs mb-3">Tên vị trí</p>
+                <Select
                   size="large"
-                  name="quocGia"
-                  placeholder="Nhập quốc gia"
-                  value={formLocation.values.quocGia}
-                  onChange={formLocation.handleChange}
-                  onBlur={formLocation.handleBlur}
+                  showSearch
+                  placeholder="Chọn vị trí"
+                  optionFilterProp="label"
+                  value={formLocation.values.tenViTri}
+                  onChange={(
+                    data: string,
+                    option: OptionSelectType | OptionSelectType[]
+                  ): void => {
+                    if (option && !Array.isArray(option)) {
+                      formLocation.setFieldValue("tenViTri", option.label);
+                    }
+                  }}
+                  options={district}
                 />
               </Form.Item>
 
