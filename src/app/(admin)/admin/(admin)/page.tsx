@@ -14,7 +14,6 @@ import {
   Tag,
 } from "antd";
 import { useRouter } from "next/navigation";
-import { useRouter as useRouterNext } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createStyles } from "antd-style";
@@ -194,14 +193,12 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
       ),
   });
 
-  const getData = (
-    size: number | string,
-    page: number | string,
-    keyword: string
-  ): void => {
-    console.log("CHECK:", size, page, keyword);
-
-    const action = getUsersAsync(page, size, keyword);
+  const getData = (): void => {
+    const action = getUsersAsync(
+      searchParams.page,
+      searchParams.size,
+      searchParams.keyword || ""
+    );
     dispatch(action);
   };
 
@@ -273,8 +270,8 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   ];
 
   useEffect(() => {
-    const { size, page, keyword } = searchParams;
-    getData(size, page, keyword);
+    getData();
+    console.log("CHECK PARAMS", searchParams);
   }, [searchParams, isLoading]);
 
   return (
