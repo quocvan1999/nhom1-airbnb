@@ -272,7 +272,14 @@ const AdminPage: React.FC<Props> = ({ searchParams }) => {
   useEffect(() => {
     console.log("IS LOADING DATA");
 
-    getData();
+    // getData();
+
+    const action = getUsersAsync(
+      searchParams.page,
+      searchParams.size,
+      searchParams.keyword || ""
+    );
+    dispatch(action);
   }, [searchParams, isLoading]);
 
   return (
