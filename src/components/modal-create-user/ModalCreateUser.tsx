@@ -55,6 +55,7 @@ const ModalCreateUser: React.FC<Props> = ({
           "Thêm người dùng",
           "Thêm người dùng thành công"
         );
+        getData();
         setIsModalCreateUserOpen(false);
         break;
       default:

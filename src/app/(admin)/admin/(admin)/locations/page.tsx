@@ -1,6 +1,7 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import ModalViewLocation from "@/components/modal-view-location/ModalViewLocation";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { deleteLocationAsync } from "@/services/delete-location/deleteLocation.service";
@@ -60,6 +61,8 @@ const Locations: React.FC = () => {
   const [searchedColumn, setSearchedColumn] = useState<string>("");
   const { locations } = useSelector((state: RootState) => state.room);
   const { openNotification } = useNotification();
+  const [isModalCreateLocationOpen, setIsModalCreateLocationOpen] =
+    useState<boolean>(false);
 
   const handleDeleteLocation = (id: number): void => {
     confirm({
@@ -275,7 +278,7 @@ const Locations: React.FC = () => {
           />
           <Button
             onClick={() => {
-              // setIsModalCreateUserOpen(true);
+              setIsModalCreateLocationOpen(true);
             }}
             size="large"
             className="!bg-primary-100  !text-white !border-none"
@@ -316,22 +319,12 @@ const Locations: React.FC = () => {
           )}
         </div>
       </div>
-      {/* {isModalOpen === true && (
-        <ModalViewUser
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          userView={userView}
-          isUpdate={isUpdate}
-          setIsUpdate={setIsUpdate}
+      {isModalCreateLocationOpen && (
+        <ModalViewLocation
+          isModalCreateLocationOpen={isModalCreateLocationOpen}
+          setIsModalCreateLocationOpen={setIsModalCreateLocationOpen}
         />
       )}
-
-      {isModalCreateUserOpen && (
-        <ModalCreateUser
-          isModalCreateUserOpen={isModalCreateUserOpen}
-          setIsModalCreateUserOpen={setIsModalCreateUserOpen}
-        />
-      )} */}
     </>
   );
 };
