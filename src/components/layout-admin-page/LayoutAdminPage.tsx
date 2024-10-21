@@ -23,7 +23,7 @@ import Link from "next/link";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/globalRedux/store";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { deleteCookie } from "@/utils/method/method";
 import useNotification from "@/custome-hook/useNotification/useNotification";
@@ -38,6 +38,8 @@ type Props = {
 };
 
 const LayoutAdminPage: React.FC<Props> = ({ children }) => {
+  const pathname = usePathname();
+  const [selectedKey, setSelectedKey] = useState<string>("");
   const router: AppRouterInstance = useRouter();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -92,7 +94,11 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
         setIsLogin(true);
       }
     }
-  }, [profile]);
+
+    const path = pathname?.split("/").filter((item) => item);
+    const currentPath = path?.[path.length - 1] || "admin";
+    setSelectedKey(currentPath);
+  }, [profile, pathname]);
 
   return (
     <ConfigProvider
@@ -141,25 +147,27 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
             </div>
             <Menu
               theme="dark"
-              defaultSelectedKeys={["1"]}
+              defaultSelectedKeys={["admin"]}
+              defaultOpenKeys={["admin"]}
+              selectedKeys={[selectedKey]}
               items={[
                 {
-                  key: "1",
+                  key: "admin",
                   icon: <UserOutlined />,
                   label: <Link href="/admin">Quản lý người dùng</Link>,
                 },
                 {
-                  key: "2",
+                  key: "locations",
                   icon: <EnvironmentOutlined />,
                   label: <Link href="/admin/locations">Quản lý vị trí</Link>,
                 },
                 {
-                  key: "3",
+                  key: "rooms",
                   icon: <HomeOutlined />,
                   label: <Link href="/admin/rooms">Quản lý phòng</Link>,
                 },
                 {
-                  key: "4",
+                  key: "bookings",
                   icon: <StockOutlined />,
                   label: <Link href="/admin/bookings">Quản lý đặt phòng</Link>,
                 },
