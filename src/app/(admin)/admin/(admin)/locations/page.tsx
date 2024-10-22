@@ -56,6 +56,7 @@ const Locations: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const searchInput = useRef<InputRef>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const { getParams, searchParams } = useGetSearchPrams();
   const [searchText, setSearchText] = useState<string>("");
   const [searchedColumn, setSearchedColumn] = useState<string>("");
@@ -63,6 +64,7 @@ const Locations: React.FC = () => {
   const { openNotification } = useNotification();
   const [isModalCreateLocationOpen, setIsModalCreateLocationOpen] =
     useState<boolean>(false);
+  const [locationId, setLocationId] = useState<number | null>(null);
 
   const handleDeleteLocation = (id: number): void => {
     confirm({
@@ -250,7 +252,11 @@ const Locations: React.FC = () => {
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600"
           />
           <EditOutlined
-            onClick={() => {}}
+            onClick={() => {
+              setIsModalCreateLocationOpen(true);
+              setIsUpdate(true);
+              setLocationId(record.id);
+            }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]"
           />
         </div>
@@ -279,6 +285,7 @@ const Locations: React.FC = () => {
           <Button
             onClick={() => {
               setIsModalCreateLocationOpen(true);
+              setIsUpdate(false);
             }}
             size="large"
             className="!bg-primary-100  !text-white !border-none"
@@ -321,6 +328,8 @@ const Locations: React.FC = () => {
       </div>
       {isModalCreateLocationOpen && (
         <ModalViewLocation
+          locationId={locationId}
+          isUpdate={isUpdate}
           isModalCreateLocationOpen={isModalCreateLocationOpen}
           setIsModalCreateLocationOpen={setIsModalCreateLocationOpen}
         />

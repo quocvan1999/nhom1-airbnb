@@ -118,7 +118,7 @@ const ModalCreateUser: React.FC<Props> = ({
       >
         <div className="w-full bg-white rounded-xl">
           <div className="flex items-center justify-between mb-14">
-            <h1 className="text-2xl">Thêm người dùng</h1>
+            <h1 className="text-2xl font-bold">Thêm người dùng</h1>
           </div>
           <Form layout="vertical" onSubmitCapture={formRegister.handleSubmit}>
             <div className="flex flex-col lg:flex-row items-start justify-between w-full gap-5">

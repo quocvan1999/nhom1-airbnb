@@ -11,13 +11,19 @@ import { getProvinceAysnc } from "@/services/get-province/getProvince.service";
 import { getDistrictAysnc } from "@/services/get-district/getDistrict.service";
 import { OptionLocationtype } from "@/types/option-location/optionLocationType.type";
 import { OptionSelectType } from "@/types/option-select/optionSelectType.type";
+import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
+import { updateLocationAsync } from "@/services/update-location/updateLocation.service";
 
 type Props = {
+  locationId: number | null;
+  isUpdate: boolean;
   isModalCreateLocationOpen: boolean;
   setIsModalCreateLocationOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ModalViewLocation: React.FC<Props> = ({
+  locationId,
+  isUpdate,
   isModalCreateLocationOpen,
   setIsModalCreateLocationOpen,
 }) => {
@@ -80,6 +86,32 @@ const ModalViewLocation: React.FC<Props> = ({
     }
   };
 
+  const handleChangeUpdateLocation = async (
+    newLocation: LocationType
+  ): Promise<void> => {
+    const res: ReqType<LocationType> = await updateLocationAsync(
+      newLocation.id,
+      newLocation
+    );
+
+    console.log("CHECK RES", res);
+
+    switch (res.statusCode) {
+      case 200:
+        openNotification(
+          "success",
+          "Cập nhật vị trí",
+          "Cập nhật thông tin vị trí thành công"
+        );
+        router.push("/admin/locations");
+        setIsModalCreateLocationOpen(false);
+        break;
+      default:
+        openNotification("error", "Cập nhật vị trí", `${res.content}`);
+        break;
+    }
+  };
+
   const formLocation = useFormik({
     initialValues,
     enableReinitialize: true,
@@ -90,12 +122,35 @@ const ModalViewLocation: React.FC<Props> = ({
       hinhAnh: Yup.string().required("Hình ảnh không được để trống"),
     }),
     onSubmit: (values) => {
-      handleChangeCreateLocation(values);
+      if (isUpdate) {
+        handleChangeUpdateLocation(values);
+      } else {
+        handleChangeCreateLocation(values);
+      }
     },
   });
 
+  const getLocation = async (id: number): Promise<void> => {
+    const res: ReqType<LocationType> = await getLocationIdAsync(id);
+
+    if (typeof res.content === "object") {
+      formLocation.setValues({
+        id: res.content.id,
+        tenViTri: res.content.tenViTri,
+        tinhThanh: res.content.tinhThanh,
+        quocGia: res.content.quocGia,
+        hinhAnh: res.content.hinhAnh,
+      });
+    }
+  };
+
   useEffect(() => {
     getProvince();
+    if (isUpdate) {
+      if (locationId !== null) {
+        getLocation(locationId);
+      }
+    }
   }, []);
 
   return (
@@ -139,10 +194,31 @@ const ModalViewLocation: React.FC<Props> = ({
       >
         <div className="w-full bg-white rounded-xl">
           <div className="flex items-center justify-between mb-14">
-            <h1 className="text-2xl">Thêm người dùng</h1>
+            <h1 className="text-2xl font-bold">
+              {isUpdate ? "Cập nhật thông tin vị trí" : "Thêm vị trí"}
+            </h1>
           </div>
           <Form layout="vertical" onSubmitCapture={formLocation.handleSubmit}>
             <div className="w-full">
+              {isUpdate && (
+                <Form.Item
+                  validateStatus={
+                    formLocation.touched.id && formLocation.errors.id
+                      ? "error"
+                      : ""
+                  }
+                  help={formLocation.touched.id && formLocation.errors.id}
+                >
+                  <p className="font-bold uppercase text-xs mb-3">Id</p>
+                  <Input
+                    disabled
+                    size="large"
+                    name="id"
+                    value={formLocation.values.id}
+                  />
+                </Form.Item>
+              )}
+
               <Form.Item
                 validateStatus={
                   formLocation.touched.quocGia && formLocation.errors.quocGia
@@ -260,7 +336,7 @@ const ModalViewLocation: React.FC<Props> = ({
                 type="submit"
                 className="w-full bg-primary-100 text-white py-3 rounded-[7px] transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom"
               >
-                Thêm vị trí
+                {isUpdate ? "Lưu thông tin" : "Thêm vị trí"}
               </button>
             </Form.Item>
           </Form>
