@@ -3,6 +3,7 @@
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import { deleteRoomAsync } from "@/services/delete-room/deleteRoom.service";
 import { getRoomsPaginationAsync } from "@/services/rooms-pagination/roomsPagination.service";
 import { RoomType } from "@/types/room/roomType.type";
 import {
@@ -64,9 +65,9 @@ const Rooms: React.FC = () => {
 
   const handleDeleteRoom = (id: number): void => {
     confirm({
-      title: "Xoá vị trí",
+      title: "Xoá phòng",
       icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn xoá vị trí này?",
+      content: "Bạn có muốn xoá phòng này?",
       okText: "Xoá",
       okType: "danger",
       cancelText: "Huỷ",
@@ -74,16 +75,18 @@ const Rooms: React.FC = () => {
         className: "custom-cancel-button",
       },
       onOk: async (): Promise<void> => {
-        // const res = await deleteLocationAsync(id);
-        // switch (res.statusCode) {
-        //   case 200:
-        //     openNotification("success", "Xoá vị trí", `${res.message}`);
-        //     setIsLoading(!isLoading);
-        //     break;
-        //   default:
-        //     openNotification("error", "Xoá vị trí", `${res.content}`);
-        //     break;
-        // }
+        const res = await deleteRoomAsync(id);
+        console.log("CHECK DELETE RES", res);
+
+        switch (res.statusCode) {
+          case 200:
+            openNotification("success", "Xoá phòng", `${res.message}`);
+            setIsLoading(!isLoading);
+            break;
+          default:
+            openNotification("error", "Xoá phòng", `${res.content}`);
+            break;
+        }
       },
     });
   };
@@ -226,7 +229,9 @@ const Rooms: React.FC = () => {
       render: (record: RoomType) => (
         <div className="flex items-center justify-start gap-5">
           <DeleteOutlined
-            onClick={() => {}}
+            onClick={() => {
+              handleDeleteRoom(record.id);
+            }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600"
           />
           <EditOutlined
