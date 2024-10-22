@@ -1,7 +1,7 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
-import { getUsersAsync } from "@/services/users/getUsers.service";
+import { getUsersPaginationAsync } from "@/services/users-pagination/getUsersPagination.service";
 import type { InputRef, TableColumnType, TableColumnsType } from "antd";
 import {
   Button,
@@ -29,9 +29,8 @@ import type { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import { deleteUserAsync } from "@/services/delete-user/deleteUser.service";
 import useNotification from "@/custome-hook/useNotification/useNotification";
-import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
-import ModalCreateUser from "@/components/modal-create-user/ModalCreateUser";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
+import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 
 type DataIndex = keyof User;
 
@@ -62,10 +61,11 @@ const AdminPage: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [userView, setUserView] = useState<User | null>(null);
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [isModalCreateUserOpen, setIsModalCreateUserOpen] =
+  const [modalType, setModalType] = useState<"create" | "view" | "update">(
+    "create"
+  );
+  const [isModalViewUserOpen, setIsModalViewUserOpen] =
     useState<boolean>(false);
 
   const handleSearchUsers = async (searchValue: string): Promise<void> => {
@@ -190,7 +190,7 @@ const AdminPage: React.FC = () => {
   const getData = (): void => {
     const { size, page, keyword } = getParams();
 
-    const action = getUsersAsync(page, size, keyword || "");
+    const action = getUsersPaginationAsync(page, size, keyword || "");
     dispatch(action);
   };
 
@@ -244,15 +244,16 @@ const AdminPage: React.FC = () => {
           <EditOutlined
             onClick={() => {
               setUserView(record);
-              setIsModalOpen(true);
-              setIsUpdate(true);
+              setModalType("update");
+              setIsModalViewUserOpen(true);
             }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]"
           />
           <EyeFilled
             onClick={() => {
-              setIsModalOpen(true);
               setUserView(record);
+              setModalType("view");
+              setIsModalViewUserOpen(true);
             }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]"
           />
@@ -281,7 +282,8 @@ const AdminPage: React.FC = () => {
           />
           <Button
             onClick={() => {
-              setIsModalCreateUserOpen(true);
+              setModalType("create");
+              setIsModalViewUserOpen(true);
             }}
             size="large"
             className="!bg-primary-100  !text-white !border-none"
@@ -320,20 +322,14 @@ const AdminPage: React.FC = () => {
           )}
         </div>
       </div>
-      {isModalOpen === true && (
+      {isModalViewUserOpen && (
         <ModalViewUser
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
+          getData={getData}
           userView={userView}
-          isUpdate={isUpdate}
-          setIsUpdate={setIsUpdate}
-        />
-      )}
-
-      {isModalCreateUserOpen && (
-        <ModalCreateUser
-          isModalCreateUserOpen={isModalCreateUserOpen}
-          setIsModalCreateUserOpen={setIsModalCreateUserOpen}
+          setModalType={setModalType}
+          modalType={modalType}
+          isModalViewUserOpen={isModalViewUserOpen}
+          setIsModalViewUserOpen={setIsModalViewUserOpen}
         />
       )}
     </>

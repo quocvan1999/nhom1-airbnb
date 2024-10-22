@@ -3,7 +3,7 @@ import { AppDispatch } from "@/app/globalRedux/store";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 
-export const getUsersAsync = (
+export const getUsersPaginationAsync = (
   pageIndex: string,
   pageSize: string,
   searchValue: string

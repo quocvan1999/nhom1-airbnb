@@ -1,40 +1,41 @@
 "use client";
 
-import { Button, DatePicker, Flex, Form, Input, Modal, Select } from "antd";
-import React, { useEffect, useState } from "react";
+import { User } from "@/types/user/userType.type";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import dayjs from "dayjs";
-import { User } from "@/types/user/userType.type";
-import { ExclamationCircleFilled, UserOutlined } from "@ant-design/icons";
-import { UserUpdate } from "@/types/user-update/userUpdate.type";
+import React, { useEffect } from "react";
+import { ConfigProvider, DatePicker, Form, Input, Modal, Select } from "antd";
 import useNotification from "@/custome-hook/useNotification/useNotification";
-import { updateUserAsync } from "@/services/update-user/updateUser.service";
+import { createUserAsync } from "@/services/create-user/createUser.service";
 import { ReqType } from "@/types/req/reqType.type";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/app/globalRedux/store";
-import { getUsersAsync } from "@/services/users/getUsers.service";
-import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
+import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
+import { ExclamationCircleFilled, UserOutlined } from "@ant-design/icons";
+import { updateUserAsync } from "@/services/update-user/updateUser.service";
+import { UserUpdate } from "@/types/user-update/userUpdate.type";
+
+type Props = {
+  setModalType: React.Dispatch<
+    React.SetStateAction<"create" | "view" | "update">
+  >;
+  userView: User | null;
+  isModalViewUserOpen: boolean;
+  setIsModalViewUserOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  modalType: "create" | "view" | "update";
+  getData: () => void;
+};
 
 const { confirm } = Modal;
 
-type Props = {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  userView: User | null;
-  isUpdate: boolean;
-  setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 const ModalViewUser: React.FC<Props> = ({
-  isModalOpen,
-  setIsModalOpen,
+  setModalType,
   userView,
-  isUpdate,
-  setIsUpdate,
+  isModalViewUserOpen,
+  setIsModalViewUserOpen,
+  modalType,
+  getData,
 }) => {
-  const dispatch: AppDispatch = useDispatch();
-  const { getParams } = useGetSearchPrams();
+  const router = useRouter();
   const { openNotification } = useNotification();
 
   const initialValues: User = {
@@ -49,12 +50,6 @@ const ModalViewUser: React.FC<Props> = ({
     avatar: "",
   };
 
-  const getData = (): void => {
-    const { page, size, keyword } = getParams();
-    const action = getUsersAsync(page, size, keyword);
-    dispatch(action);
-  };
-
   const handleUpdateUser = async (userUpdate: UserUpdate): Promise<void> => {
     const res: ReqType<User> = await updateUserAsync(userUpdate);
 
@@ -65,7 +60,7 @@ const ModalViewUser: React.FC<Props> = ({
           "Cập nhật thông tin",
           "Cập nhật thông tin thành công"
         );
-        setIsUpdate(false);
+        setModalType("view");
         getData();
         break;
       default:
@@ -74,291 +69,366 @@ const ModalViewUser: React.FC<Props> = ({
     }
   };
 
-  const showPropsConfirm = (userUpdate: UserUpdate): void => {
-    confirm({
-      title: "Cập nhật thông tin",
-      icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn cập nhật lại thông tin",
-      okText: "Cập nhật",
-      okType: "danger",
-      cancelText: "Huỷ",
-      onCancel() {},
-      onOk: () => {
-        handleUpdateUser(userUpdate);
-      },
-    });
+  const handleChange = async (newUser: User): Promise<void> => {
+    switch (modalType) {
+      case "view":
+        setModalType("update");
+        break;
+      case "create":
+        const res: ReqType<User> = await createUserAsync(newUser);
+        switch (res.statusCode) {
+          case 200:
+            openNotification(
+              "success",
+              "Thêm người dùng",
+              "Thêm người dùng thành công"
+            );
+            router.push("/admin");
+            setIsModalViewUserOpen(false);
+            break;
+          default:
+            openNotification("error", "Thêm người dùng", `${res.content}`);
+            break;
+        }
+        break;
+      case "update":
+        confirm({
+          title: "Cập nhật thông tin",
+          icon: <ExclamationCircleFilled />,
+          content: "Bạn có muốn cập nhật lại thông tin",
+          okText: "Cập nhật",
+          okType: "danger",
+          cancelText: "Huỷ",
+          onCancel() {},
+          onOk: () => {
+            handleUpdateUser(newUser);
+          },
+        });
+        break;
+      default:
+        break;
+    }
   };
 
-  const formUser = useFormik({
+  const formRegister = useFormik({
     initialValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      name: Yup.string().required("Name không được để trống"),
+      name: Yup.string().required("Tên không được để trống"),
       email: Yup.string()
         .required("Email không được để trống")
         .email("Email không đúng định dạng"),
-      phone: Yup.string().required("Phone không được để trống"),
-      birthday: Yup.string().required("Birthday không được để trống"),
+      password: Yup.string().required("Mật khẩu không được để trống"),
+      phone: Yup.string().required("Số điện thoại không được để trống"),
+      birthday: Yup.string().required("Ngày sinh không được để trống"),
     }),
     onSubmit: (values) => {
-      switch (isUpdate) {
-        case true:
-          showPropsConfirm(values);
-          break;
-        case false:
-          setIsUpdate(true);
-          break;
-        default:
-          break;
-      }
+      handleChange(values);
     },
   });
 
   useEffect(() => {
-    if (userView !== null) {
-      formUser.setValues({
-        avatar: userView.avatar,
-        birthday: userView.birthday,
-        email: userView.email,
-        gender: userView.gender,
-        id: userView.id,
-        name: userView.name,
-        password: userView.password,
-        phone: userView.phone,
-        role: userView.role,
-      });
+    if (modalType === "update" || modalType === "view") {
+      if (userView !== null) {
+        formRegister.setValues({
+          avatar: userView.avatar,
+          birthday: userView.birthday,
+          email: userView.email,
+          gender: userView.gender,
+          id: userView.id,
+          name: userView.name,
+          password: userView.password,
+          phone: userView.phone,
+          role: userView.role,
+        });
+      }
     }
   }, []);
 
   return (
-    <Modal
-      title="Thông tin người dùng"
-      width={750}
-      open={isModalOpen}
-      closable={false}
-      footer={null}
+    <ConfigProvider
+      theme={{
+        components: {
+          Input: {
+            borderRadiusLG: 7,
+            colorBgContainer: "#f7f7f7",
+            lineType: "none",
+            paddingInlineLG: 20,
+            paddingBlockLG: 8,
+            activeShadow: "none",
+          },
+          DatePicker: {
+            lineWidth: 0,
+            activeShadow: "transparent",
+            colorBgContainer: "#f7f7f7",
+            paddingInline: 10,
+          },
+          Dropdown: {
+            borderRadiusLG: 0,
+            borderRadius: 0,
+            borderRadiusOuter: 0,
+            borderRadiusSM: 0,
+            borderRadiusXS: 0,
+          },
+          Select: {
+            colorBorder: "transparent",
+            colorBgContainer: "#f7f7f7",
+            borderRadiusLG: 7,
+          },
+        },
+      }}
     >
-      <div className="w-full flex items-center justify-center py-7">
-        <div className="w-[70px] h-[70px] rounded-full border border-primary-100 flex items-center justify-center">
-          {formUser.values.avatar === "" ? (
-            <UserOutlined className="text-[30px] !text-primary-100" />
-          ) : (
-            <img
-              src={formUser.values.avatar}
-              alt="image"
-              className="w-full h-full bg-cover rounded-full"
-            />
+      <Modal
+        width={750}
+        open={isModalViewUserOpen}
+        footer={null}
+        closable={false}
+      >
+        <div className="w-full bg-white rounded-xl">
+          <div
+            className={`flex items-center justify-between ${
+              modalType !== "view" && "mb-14"
+            }`}
+          >
+            <h1 className="text-2xl font-bold">
+              {modalType === "create"
+                ? "Thêm người dùng"
+                : modalType === "update"
+                ? "Cập nhật thông tin người dùng"
+                : "Thông tin người dùng"}
+            </h1>
+          </div>
+
+          {modalType === "view" && (
+            <div className="w-full flex items-center justify-center py-7">
+              <div className="w-[70px] h-[70px] rounded-full border border-primary-100 flex items-center justify-center">
+                {formRegister.values.avatar === "" ? (
+                  <UserOutlined className="text-[30px] !text-primary-100" />
+                ) : (
+                  <img
+                    src={formRegister.values.avatar}
+                    alt="image"
+                    className="w-full h-full bg-cover rounded-full"
+                  />
+                )}
+              </div>
+            </div>
           )}
+
+          <Form layout="vertical" onSubmitCapture={formRegister.handleSubmit}>
+            <div className="flex flex-col lg:flex-row items-start justify-between w-full gap-5">
+              <div className="w-full">
+                <Form.Item
+                  validateStatus={
+                    formRegister.touched.name && formRegister.errors.name
+                      ? "error"
+                      : ""
+                  }
+                  help={formRegister.touched.name && formRegister.errors.name}
+                >
+                  <p className="font-bold uppercase text-xs mb-3">Tên</p>
+                  {modalType !== "view" ? (
+                    <Input
+                      allowClear
+                      size="large"
+                      name="name"
+                      placeholder="Nhập tên"
+                      value={formRegister.values.name}
+                      onChange={formRegister.handleChange}
+                      onBlur={formRegister.handleBlur}
+                    />
+                  ) : (
+                    <p>{formRegister.values.name}</p>
+                  )}
+                </Form.Item>
+
+                <Form.Item
+                  validateStatus={
+                    formRegister.touched.email && formRegister.errors.email
+                      ? "error"
+                      : ""
+                  }
+                  help={formRegister.touched.email && formRegister.errors.email}
+                >
+                  <p className="font-bold uppercase text-xs mb-3">Email</p>
+                  {modalType !== "view" ? (
+                    <Input
+                      allowClear
+                      size="large"
+                      name="email"
+                      placeholder="Nhập email"
+                      value={formRegister.values.email}
+                      onChange={formRegister.handleChange}
+                      onBlur={formRegister.handleBlur}
+                    />
+                  ) : (
+                    <p>{formRegister.values.email}</p>
+                  )}
+                </Form.Item>
+
+                {modalType === "create" && (
+                  <Form.Item
+                    validateStatus={
+                      formRegister.touched.password &&
+                      formRegister.errors.password
+                        ? "error"
+                        : ""
+                    }
+                    help={
+                      formRegister.touched.password &&
+                      formRegister.errors.password
+                    }
+                  >
+                    <p className="font-bold uppercase text-xs mb-3">Mật khẩu</p>
+                    <Input.Password
+                      allowClear
+                      size="large"
+                      name="password"
+                      placeholder="Nhập mật khẩu"
+                      value={formRegister.values.password}
+                      onChange={formRegister.handleChange}
+                      onBlur={formRegister.handleBlur}
+                    />
+                  </Form.Item>
+                )}
+
+                <Form.Item
+                  validateStatus={
+                    formRegister.touched.phone && formRegister.errors.phone
+                      ? "error"
+                      : ""
+                  }
+                  help={formRegister.touched.phone && formRegister.errors.phone}
+                >
+                  <p className="font-bold uppercase text-xs mb-3">
+                    Số điện thoại
+                  </p>
+                  {modalType !== "view" ? (
+                    <Input
+                      allowClear
+                      size="large"
+                      name="phone"
+                      placeholder="Nhập số điện thoại"
+                      value={formRegister.values.phone}
+                      onChange={formRegister.handleChange}
+                      onBlur={formRegister.handleBlur}
+                    />
+                  ) : (
+                    <p>{formRegister.values.phone}</p>
+                  )}
+                </Form.Item>
+              </div>
+
+              <div className="w-full">
+                <Form.Item
+                  validateStatus={
+                    formRegister.touched.birthday &&
+                    formRegister.errors.birthday
+                      ? "error"
+                      : ""
+                  }
+                  help={
+                    formRegister.touched.birthday &&
+                    formRegister.errors.birthday
+                  }
+                >
+                  <p className="font-bold uppercase text-xs mb-3">Ngày sinh</p>
+                  {modalType !== "view" ? (
+                    <DatePicker
+                      name="birthday"
+                      value={
+                        formRegister.values.birthday
+                          ? dayjs(formRegister.values.birthday)
+                          : null
+                      }
+                      onChange={(date: dayjs.Dayjs | null) =>
+                        formRegister.setFieldValue(
+                          "birthday",
+                          date ? date.toISOString() : null
+                        )
+                      }
+                      size="large"
+                      className="w-full"
+                    />
+                  ) : (
+                    <p>{formRegister.values.birthday}</p>
+                  )}
+                </Form.Item>
+
+                <Form.Item>
+                  <p className="font-bold uppercase text-xs mb-3">Giới tính</p>
+                  {modalType !== "view" ? (
+                    <Select
+                      size="large"
+                      defaultValue={formRegister.values.gender}
+                      value={formRegister.values.gender}
+                      onChange={(value: boolean) =>
+                        formRegister.setFieldValue("gender", value)
+                      }
+                      options={[
+                        { value: true, label: "Nam" },
+                        { value: false, label: "Nữ" },
+                      ]}
+                    />
+                  ) : (
+                    <p>{formRegister.values.gender ? "Nam" : "Nữ"}</p>
+                  )}
+                </Form.Item>
+
+                <Form.Item>
+                  <p className="font-bold uppercase text-xs mb-3">
+                    Loại tài khoản
+                  </p>
+                  {modalType !== "view" ? (
+                    <Select
+                      size="large"
+                      defaultValue={formRegister.values.role}
+                      value={formRegister.values.role}
+                      onChange={(value: string) =>
+                        formRegister.setFieldValue("role", value)
+                      }
+                      options={[
+                        { value: "ADMIN", label: "ADMIN" },
+                        { value: "USER", label: "USER" },
+                      ]}
+                    />
+                  ) : (
+                    <p>{formRegister.values.role}</p>
+                  )}
+                </Form.Item>
+              </div>
+            </div>
+
+            <Form.Item className="!mb-0">
+              <div className="flex items-center justify-end gap-3">
+                <button
+                  type="submit"
+                  className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
+                >
+                  {modalType === "create"
+                    ? "Thêm người dùng"
+                    : modalType === "update"
+                    ? "Lưu thông tin"
+                    : "Cập nhật thông tin"}
+                </button>
+                <button
+                  onClick={() => {
+                    setIsModalViewUserOpen(false);
+                  }}
+                  className="text-primary-100 py-2 px-7 rounded-md font-custom border border-primary-100"
+                >
+                  {modalType === "create"
+                    ? "Đóng"
+                    : modalType === "update"
+                    ? "Huỷ"
+                    : "Đóng"}
+                </button>
+              </div>
+            </Form.Item>
+          </Form>
         </div>
-      </div>
-      <Form layout="vertical" onSubmitCapture={formUser.handleSubmit}>
-        <div className="flex flex-col lg:flex-row items-start justify-between w-full gap-5">
-          <div className="w-full">
-            <Form.Item
-              validateStatus={
-                formUser.touched.id && formUser.errors.id ? "error" : ""
-              }
-              help={formUser.touched.id && formUser.errors.id}
-            >
-              <p className="font-bold uppercase text-xs mb-3">ID</p>
-              {isUpdate ? (
-                <Input
-                  disabled
-                  size="large"
-                  name="id"
-                  placeholder="Enter id"
-                  value={formUser.values.id}
-                  onChange={formUser.handleChange}
-                  onBlur={formUser.handleBlur}
-                />
-              ) : (
-                <p>{formUser.values.id}</p>
-              )}
-            </Form.Item>
-
-            <Form.Item
-              validateStatus={
-                formUser.touched.name && formUser.errors.name ? "error" : ""
-              }
-              help={formUser.touched.name && formUser.errors.name}
-            >
-              <p className="font-bold uppercase text-xs mb-3">Tên</p>
-              {isUpdate ? (
-                <Input
-                  allowClear
-                  size="large"
-                  name="name"
-                  placeholder="Enter name"
-                  value={formUser.values.name}
-                  onChange={formUser.handleChange}
-                  onBlur={formUser.handleBlur}
-                />
-              ) : (
-                <p>{formUser.values.name}</p>
-              )}
-            </Form.Item>
-
-            <Form.Item
-              validateStatus={
-                formUser.touched.email && formUser.errors.email ? "error" : ""
-              }
-              help={formUser.touched.email && formUser.errors.email}
-            >
-              <p className="font-bold uppercase text-xs mb-3">Email</p>
-              {isUpdate ? (
-                <Input
-                  allowClear
-                  size="large"
-                  name="email"
-                  placeholder="Enter email"
-                  value={formUser.values.email}
-                  onChange={formUser.handleChange}
-                  onBlur={formUser.handleBlur}
-                />
-              ) : (
-                <p>{formUser.values.email}</p>
-              )}
-            </Form.Item>
-
-            <Form.Item
-              validateStatus={
-                formUser.touched.phone && formUser.errors.phone ? "error" : ""
-              }
-              help={formUser.touched.phone && formUser.errors.phone}
-            >
-              <p className="font-bold uppercase text-xs mb-3">Số điện thoại</p>
-              {isUpdate ? (
-                <Input
-                  allowClear
-                  size="large"
-                  name="phone"
-                  placeholder="Enter phone"
-                  value={formUser.values.phone}
-                  onChange={formUser.handleChange}
-                  onBlur={formUser.handleBlur}
-                />
-              ) : (
-                <p>{formUser.values.phone}</p>
-              )}
-            </Form.Item>
-          </div>
-
-          <div className="w-full">
-            <Form.Item
-              validateStatus={
-                formUser.touched.birthday && formUser.errors.birthday
-                  ? "error"
-                  : ""
-              }
-              help={formUser.touched.birthday && formUser.errors.birthday}
-            >
-              <p className="font-bold uppercase text-xs mb-3">Ngày sinh</p>
-              {isUpdate ? (
-                <DatePicker
-                  name="birthday"
-                  value={
-                    formUser.values.birthday
-                      ? dayjs(formUser.values.birthday)
-                      : null
-                  }
-                  onChange={(date: dayjs.Dayjs | null) =>
-                    formUser.setFieldValue(
-                      "birthday",
-                      date ? date.toISOString() : null
-                    )
-                  }
-                  size="large"
-                  className="w-full"
-                />
-              ) : (
-                <p>{formUser.values.birthday}</p>
-              )}
-            </Form.Item>
-
-            <Form.Item>
-              <p className="font-bold uppercase text-xs mb-3">Giới tính</p>
-              {isUpdate ? (
-                <Select
-                  size="large"
-                  defaultValue={formUser.values.gender}
-                  onChange={(value: boolean) =>
-                    formUser.setFieldValue("gender", value)
-                  }
-                  options={[
-                    { value: true, label: "Nam" },
-                    { value: false, label: "Nữ" },
-                  ]}
-                />
-              ) : (
-                <p>{formUser.values.gender ? "Nam" : "Nữ"}</p>
-              )}
-            </Form.Item>
-
-            <Form.Item>
-              <p className="font-bold uppercase text-xs mb-3">Loại tài khoản</p>
-              {isUpdate ? (
-                <Select
-                  size="large"
-                  defaultValue={formUser.values.role}
-                  onChange={(value: string) =>
-                    formUser.setFieldValue("role", value)
-                  }
-                  options={[
-                    { value: "ADMIN", label: "ADMIN" },
-                    { value: "USER", label: "USER" },
-                  ]}
-                />
-              ) : (
-                <p>{formUser.values.role}</p>
-              )}
-            </Form.Item>
-          </div>
-        </div>
-        <div className="flex items-center justify-end">
-          <Form.Item className="!mb-0">
-            <Flex align="center" justify="end" gap={5}>
-              <button
-                type="submit"
-                className="w-full text-primary-100 py-1 px-4 rounded-md font-custom border border-primary-100"
-              >
-                {isUpdate ? "Lưu thông tin" : "Cập nhật thông tin"}
-              </button>
-              <Button
-                onClick={() => {
-                  switch (isUpdate) {
-                    case false:
-                      setIsModalOpen(false);
-                      break;
-                    case true:
-                      setIsUpdate(false);
-                      break;
-                    default:
-                      break;
-                  }
-
-                  if (userView !== null) {
-                    formUser.setValues({
-                      avatar: userView.avatar,
-                      birthday: userView.birthday,
-                      email: userView.email,
-                      gender: userView.gender,
-                      id: userView.id,
-                      name: userView.name,
-                      password: userView.password,
-                      phone: userView.phone,
-                      role: userView.role,
-                    });
-                  }
-                }}
-                className="!bg-primary-100 !text-white !border-primary-100"
-              >
-                {isUpdate ? "Huỷ" : "Đóng"}
-              </Button>
-            </Flex>
-          </Form.Item>
-        </div>
-      </Form>
-    </Modal>
+      </Modal>
+    </ConfigProvider>
   );
 };
 
