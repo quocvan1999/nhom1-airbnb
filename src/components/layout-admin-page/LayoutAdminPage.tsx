@@ -119,7 +119,10 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
       {isLogin === true ? (
         <Layout className="w-full h-full">
           <Sider trigger={null} collapsible collapsed={collapsed}>
-            <div className="w-full flex items-center justify-center py-3">
+            <Link
+              href="/admin"
+              className="w-full flex items-center justify-center py-3"
+            >
               {collapsed === true ? (
                 <svg
                   fill="none"
@@ -144,7 +147,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                   className="w-[50%]"
                 />
               )}
-            </div>
+            </Link>
             <Menu
               theme="dark"
               defaultSelectedKeys={["admin"]}
