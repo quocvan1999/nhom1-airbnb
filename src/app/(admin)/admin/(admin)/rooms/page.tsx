@@ -1,6 +1,7 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import ModalViewRoom from "@/components/modal-view-room/ModalViewRoom";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { deleteRoomAsync } from "@/services/delete-room/deleteRoom.service";
@@ -56,12 +57,17 @@ const Rooms: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const searchInput = useRef<InputRef>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const { getParams, searchParams } = useGetSearchPrams();
   const [searchText, setSearchText] = useState<string>("");
   const [searchedColumn, setSearchedColumn] = useState<string>("");
   const { openNotification } = useNotification();
   const { rooms } = useSelector((state: RootState) => state.room);
+  const [roomView, setRoomView] = useState<RoomType | null>(null);
+  const [modalType, setModalType] = useState<"create" | "view" | "update">(
+    "create"
+  );
+  const [isModalViewRoomsOpen, setIsModalViewRoomsOpen] =
+    useState<boolean>(false);
 
   const handleDeleteRoom = (id: number): void => {
     confirm({
@@ -235,11 +241,19 @@ const Rooms: React.FC = () => {
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86] hover:!text-red-600"
           />
           <EditOutlined
-            onClick={() => {}}
+            onClick={() => {
+              setModalType("update");
+              setIsModalViewRoomsOpen(true);
+              setRoomView(record);
+            }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]"
           />
           <EyeFilled
-            onClick={() => {}}
+            onClick={() => {
+              setModalType("view");
+              setIsModalViewRoomsOpen(true);
+              setRoomView(record);
+            }}
             className="cursor-pointer transition-all duration-500 ease-in-out !text-[#7E7C86]"
           />
         </div>
@@ -266,8 +280,8 @@ const Rooms: React.FC = () => {
           />
           <Button
             onClick={() => {
-              // setIsModalCreateLocationOpen(true);
-              setIsUpdate(false);
+              setModalType("create");
+              setIsModalViewRoomsOpen(true);
             }}
             size="large"
             className="!bg-primary-100  !text-white !border-none"
@@ -306,6 +320,15 @@ const Rooms: React.FC = () => {
           )}
         </div>
       </div>
+      {isModalViewRoomsOpen && (
+        <ModalViewRoom
+          roomView={roomView}
+          modalType={modalType}
+          setModalType={setModalType}
+          isModalViewRoomsOpen={isModalViewRoomsOpen}
+          setIsModalViewRoomsOpen={setIsModalViewRoomsOpen}
+        />
+      )}
     </>
   );
 };
