@@ -199,22 +199,6 @@ const Rooms: React.FC = () => {
 
   const columns: TableColumnsType<RoomType> = [
     {
-      title: "Hình ảnh",
-      dataIndex: "hinhAnh",
-      key: "hinhAnh",
-      render: (hinhAnh: string) => {
-        return (
-          <div className="w-full h-16 flex items-center justify-center">
-            <img
-              src={hinhAnh}
-              alt="hinhAnh"
-              className="w-[50%] h-full rounded-lg object-cover"
-            />
-          </div>
-        );
-      },
-    },
-    {
       title: "ID",
       dataIndex: "id",
       key: "id",
