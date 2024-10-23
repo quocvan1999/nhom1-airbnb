@@ -9,6 +9,8 @@ import { ReqType } from "@/types/req/reqType.type";
 import { createRoomAsync } from "@/services/create-room/createRoom.service";
 import { useRouter } from "next/navigation";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { updateRoomAsync } from "@/services/update-room/updateRoom.service";
 
 const { TextArea } = Input;
 
@@ -20,9 +22,13 @@ type Props = {
   >;
   isModalViewRoomsOpen: boolean;
   setIsModalViewRoomsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  getData: () => void;
 };
 
+const { confirm } = Modal;
+
 const ModalViewRoom: React.FC<Props> = ({
+  getData,
   roomView,
   modalType,
   setModalType,
@@ -54,6 +60,25 @@ const ModalViewRoom: React.FC<Props> = ({
     hinhAnh: "",
   };
 
+  const handleUpdateRoom = async (roomUpdate: RoomType): Promise<void> => {
+    const res: ReqType<RoomType> = await updateRoomAsync(roomUpdate);
+
+    switch (res.statusCode) {
+      case 200:
+        openNotification(
+          "success",
+          "Cập nhật thông tin",
+          "Cập nhật thông tin thành công"
+        );
+        setModalType("view");
+        getData();
+        break;
+      default:
+        openNotification("error", "Cập nhật thông tin", `${res.content}`);
+        break;
+    }
+  };
+
   const handleChange = async (newRoom: RoomType): Promise<void> => {
     switch (modalType) {
       case "view":
@@ -75,6 +100,18 @@ const ModalViewRoom: React.FC<Props> = ({
         }
         break;
       case "update":
+        confirm({
+          title: "Cập nhật thông tin",
+          icon: <ExclamationCircleFilled />,
+          content: "Bạn có muốn cập nhật lại thông tin",
+          okText: "Cập nhật",
+          okType: "danger",
+          cancelText: "Huỷ",
+          onCancel() {},
+          onOk: () => {
+            handleUpdateRoom(newRoom);
+          },
+        });
         break;
       default:
         break;
@@ -687,8 +724,8 @@ const ModalViewRoom: React.FC<Props> = ({
                         <div className="flex items-center gap-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="50"
-                            height="50"
+                            width="35"
+                            height="35"
                             viewBox="0 0 35 35"
                             style={{ fill: "#6a6a6a" }}
                           >

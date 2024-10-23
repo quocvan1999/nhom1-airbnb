@@ -322,6 +322,7 @@ const Rooms: React.FC = () => {
       </div>
       {isModalViewRoomsOpen && (
         <ModalViewRoom
+          getData={getData}
           roomView={roomView}
           modalType={modalType}
           setModalType={setModalType}
