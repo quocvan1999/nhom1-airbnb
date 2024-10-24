@@ -7,18 +7,19 @@ import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { deleteBookingAsync } from "@/services/delete-booking/deleteBooking.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { formatDateTime } from "@/utils/method/method";
-import {
-  DeleteOutlined,
-  ExclamationCircleFilled,
-  SearchOutlined,
-} from "@ant-design/icons";
-import { Input, Modal, Pagination, Spin, Table, TableColumnsType } from "antd";
+import { DeleteOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+import { Modal, Pagination, Spin, Table, TableColumnsType } from "antd";
 import { createStyles } from "antd-style";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 type Props = {};
+
+type ValueFilter = {
+  text: string | number;
+  value: string | number;
+};
 
 const useStyle = createStyles(({ css }) => {
   return {
@@ -43,6 +44,18 @@ const Bookings: React.FC<Props> = ({}) => {
   const { openNotification } = useNotification();
   const { getParams, searchParams } = useGetSearchPrams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [valuesFilterNgayDen, setValuesFilterNgayDen] = useState<ValueFilter[]>(
+    []
+  );
+  const [valuesFilterNgayDi, setValuesFilterNgayDi] = useState<ValueFilter[]>(
+    []
+  );
+  const [valuesFilterMaNguoiDung, setValuesFilterMaNguoiDung] = useState<
+    ValueFilter[]
+  >([]);
+  const [valuesFilterMaPhong, setValuesFilterMaPhong] = useState<ValueFilter[]>(
+    []
+  );
 
   const { bookings } = useSelector((state: RootState) => state.room);
   const [paginatedData, setPaginatedData] = useState<BookingType[] | null>(
@@ -50,6 +63,22 @@ const Bookings: React.FC<Props> = ({}) => {
   );
 
   const { size, page } = getParams();
+
+  function transformData(array: BookingType[], field: keyof BookingType) {
+    const uniqueValues = new Set();
+
+    return array.reduce((result, item) => {
+      const value = item[field];
+      if (!uniqueValues.has(value)) {
+        uniqueValues.add(value);
+        result.push({
+          text: value,
+          value: value,
+        });
+      }
+      return result;
+    }, [] as { text: any; value: any }[]);
+  }
 
   const handleDeleteBooking = (id: number): void => {
     confirm({
@@ -88,25 +117,33 @@ const Bookings: React.FC<Props> = ({}) => {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      sorter: (a: BookingType, b: BookingType) => a.id - b.id,
     },
     {
       title: "Mã phòng",
       dataIndex: "maPhong",
       key: "maPhong",
       sorter: (a: BookingType, b: BookingType) => a.maPhong - b.maPhong,
+      filters: valuesFilterMaPhong,
+      onFilter: (value, record) => record.maPhong === value,
+      filterSearch: true,
     },
     {
       title: "Ngày đến",
       dataIndex: "ngayDen",
       key: "ngayDen",
       render: (date) => formatDateTime(date),
+      filters: valuesFilterNgayDen,
+      onFilter: (value, record) => record.ngayDen === value,
+      filterSearch: true,
     },
     {
       title: "Ngày đi",
       dataIndex: "ngayDi",
       key: "ngayDi",
       render: (date) => formatDateTime(date),
+      filters: valuesFilterNgayDi,
+      onFilter: (value, record) => record.ngayDi === value,
+      filterSearch: true,
     },
     {
       title: "Số lượng khách",
@@ -119,6 +156,9 @@ const Bookings: React.FC<Props> = ({}) => {
       title: "Mã người dùng",
       dataIndex: "maNguoiDung",
       key: "maNguoiDung",
+      filters: valuesFilterMaNguoiDung,
+      onFilter: (value, record) => record.maNguoiDung === value,
+      filterSearch: true,
     },
     {
       title: "Chức năng",
@@ -148,6 +188,11 @@ const Bookings: React.FC<Props> = ({}) => {
         Number(page) * Number(size)
       );
       setPaginatedData(data);
+
+      setValuesFilterMaPhong(transformData(data, "maPhong"));
+      setValuesFilterMaNguoiDung(transformData(data, "maNguoiDung"));
+      setValuesFilterNgayDen(transformData(data, "ngayDen"));
+      setValuesFilterNgayDi(transformData(data, "ngayDi"));
     }
   }, [bookings, searchParams]);
 
