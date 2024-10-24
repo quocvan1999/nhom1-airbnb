@@ -3,7 +3,6 @@ import Comments from "@/components/comments/comments";
 import OptionBookingContainer from "@/components/option-booking-container/OptionBookingContainer";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { RoomType } from "@/types/room/roomType.type";
-import { Metadata } from "next";
 import React from "react";
 
 type Props = {

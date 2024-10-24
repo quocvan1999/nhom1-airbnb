@@ -82,7 +82,6 @@ const Rooms: React.FC = () => {
       },
       onOk: async (): Promise<void> => {
         const res = await deleteRoomAsync(id);
-        console.log("CHECK DELETE RES", res);
 
         switch (res.statusCode) {
           case 200:
