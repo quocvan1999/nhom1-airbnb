@@ -35,7 +35,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
       case 200:
         openNotification(
           "success",
-          "Signup",
+          "Đăng ký",
           "Đăng ký tài khoản mới thành công"
         );
         setTimeout(() => {
@@ -45,7 +45,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
       default:
         openNotification(
           "warning",
-          "Signup",
+          "Đăng ký",
           "Đăng ký tài khoản không thành công"
         );
         break;

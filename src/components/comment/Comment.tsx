@@ -46,7 +46,11 @@ const Comment: React.FC<Props> = ({ data }) => {
 
     switch (res.statusCode) {
       case 201:
-        openNotification("success", "Comment", "Thêm mới bình luận thành công");
+        openNotification(
+          "success",
+          "Bình luận",
+          "Thêm mới bình luận thành công"
+        );
         const action = getCommentToRoomAsync(data.id);
         dispatch(action);
         formComment.resetForm();
@@ -66,7 +70,7 @@ const Comment: React.FC<Props> = ({ data }) => {
       if (login === false) {
         openNotification(
           "warning",
-          "Comment",
+          "Bình luận",
           "Bạn phải đăng nhập để thêm comment"
         );
       } else {
@@ -89,14 +93,14 @@ const Comment: React.FC<Props> = ({ data }) => {
   return (
     <Form onSubmitCapture={formComment.handleSubmit}>
       <div className="flex flex-col md:flex-row gap-2 md:gap-3">
-        <div
-          className="w-[50px] h-[50px] rounded-full flex items-center justify-center border"
-          style={{
-            backgroundImage: login === true ? `url("${profile.avatar}")` : "",
-            backgroundSize: "cover",
-          }}
-        >
-          {login === false && (
+        <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center border">
+          {login ? (
+            <img
+              src={profile.avatar}
+              alt="image"
+              className="w-[50px] h-[50px] rounded-full object-cover"
+            />
+          ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

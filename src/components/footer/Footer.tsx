@@ -25,7 +25,7 @@ const Footer: React.FC<Props> = ({}) => {
         <div className="flex flex-col gap-10 md:flex-row md:gap-3 py-10">
           {contacts.map((item: FooterContactType, index: number) => (
             <div
-              className="w-full md:w-[calc((100%-24px)/3)] text-center"
+              className="w-full md:w-[calc((100%-24px)/3)] text-center md:text-start"
               key={index}
             >
               <h1 className="font-bold text-black">{item.title}</h1>
