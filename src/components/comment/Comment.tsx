@@ -88,7 +88,7 @@ const Comment: React.FC<Props> = ({ data }) => {
     } else {
       setLogin(false);
     }
-  }, []);
+  }, [profile]);
 
   return (
     <Form onSubmitCapture={formComment.handleSubmit}>
