@@ -163,3 +163,16 @@ export const getCurrentDateTime = (): string => {
 
   return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 };
+
+export function isDateInPast(dateString: string): boolean {
+  const inputDate = new Date(dateString);
+  const currentDate = new Date();
+
+  // Đặt giờ, phút, giây, và mili giây của ngày hiện tại về 0 để chỉ so sánh ngày
+  currentDate.setHours(0, 0, 0, 0);
+
+  // Đặt giờ, phút, giây, và mili giây của ngày đầu vào về 0 để chỉ so sánh ngày
+  inputDate.setHours(0, 0, 0, 0);
+
+  return inputDate < currentDate;
+}

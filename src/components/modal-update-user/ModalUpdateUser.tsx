@@ -25,11 +25,13 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
-type Props = {};
+type Props = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const ModalUpdateUser: React.FC<Props> = ({}) => {
+const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
   const dispatch: AppDispatch = useDispatch();
-  const [open, setOpen] = useState<boolean>(false);
   const { openNotification } = useNotification();
   const { profile } = useSelector((state: RootState) => state.user);
 
@@ -41,6 +43,9 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
       okText: "Cập nhật",
       okType: "danger",
       cancelText: "Huỷ",
+      cancelButtonProps: {
+        className: "custom-cancel-button",
+      },
       onCancel() {},
       onOk: () => {
         handleUpdateUser(userUpdate);
@@ -95,10 +100,6 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
     },
   });
 
-  const showModal = (): void => {
-    setOpen(true);
-  };
-
   return (
     <ConfigProvider
       theme={{
@@ -124,12 +125,6 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
         },
       }}
     >
-      <p
-        onClick={showModal}
-        className="!border-none !shadow-none !outline-none underline hover:!text-black !bg-transparent !text-custome-black-100 cursor-pointer mt-4"
-      >
-        Chỉnh sửa hồ sơ
-      </p>
       <Modal
         title="Chỉnh sửa hồ sơ"
         open={open}
@@ -244,7 +239,7 @@ const ModalUpdateUser: React.FC<Props> = ({}) => {
             <Flex justify="end">
               <button
                 type="submit"
-                className="bg-primary-100 rounded-lg text-white px-5 py-2"
+                className="bg-primary-100 rounded-lg text-white px-5 py-2 font-[600]"
               >
                 Cập nhật
               </button>

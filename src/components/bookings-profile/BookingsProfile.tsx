@@ -28,10 +28,12 @@ const BookingsProfile: React.FC<Props> = ({ data }) => {
 
   return (
     <>
-      {paginatedData &&
-        paginatedData.map((item: BookingType, index: number) => (
-          <ProfileCard id={item.maPhong} key={index} />
-        ))}
+      <div className="flex flex-wrap gap-3">
+        {paginatedData &&
+          paginatedData.map((item: BookingType, index: number) => (
+            <ProfileCard booking={item} key={index} />
+          ))}
+      </div>
       <div className="mt-5">
         <Pagination
           align="end"

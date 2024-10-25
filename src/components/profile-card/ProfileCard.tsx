@@ -1,21 +1,27 @@
 "use client";
 
+import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { BookingType } from "@/types/booking/bookingType.type";
+import { LocationType } from "@/types/location/locationType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { truncateString } from "@/utils/method/method";
-import Link from "next/link";
+import { formatDate, truncateString } from "@/utils/method/method";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { Card, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 
+const { Meta } = Card;
+
 type Props = {
-  id: number | undefined;
+  booking: BookingType;
 };
 
-const ProfileCard: React.FC<Props> = ({ id }) => {
+const ProfileCard: React.FC<Props> = ({ booking }) => {
   const [roomDetail, setRoomDetail] = useState<RoomType>();
 
   const getRoomDetail = async (): Promise<void> => {
-    const data: RoomType = await getRoomDetailAsync(Number(id));
+    const data: RoomType = await getRoomDetailAsync(Number(booking.maPhong));
     setRoomDetail(data);
   };
 
@@ -26,40 +32,58 @@ const ProfileCard: React.FC<Props> = ({ id }) => {
   return (
     <>
       {roomDetail && (
-        <Link
-          href={`/room/${roomDetail.id}`}
-          className="flex flex-col md:flex-row md:h-[200px] md:gap-3 items-center py-5 border-b cursor-pointer"
+        <Card
+          className="mb-5"
+          style={{ width: "calc((100% - 24px)/3)" }}
+          cover={<img alt="example" src={roomDetail.hinhAnh} />}
+          actions={[
+            <DeleteOutlined key="delete" />,
+            <EditOutlined key="edit" />,
+            <EyeOutlined key="view" />,
+          ]}
         >
-          <div className="w-full h-[200px] md:w-[35%] md:h-full">
-            <img
-              src={roomDetail.hinhAnh}
-              alt="image"
-              className="w-full h-full object-cover rounded-2xl"
-            />
-          </div>
-          <div className="w-full h-full flex md:w-[65%] flex-col justify-between">
-            <div>
-              <p className="text-custome-gray-200">
-                Toàn bộ căn hộ dịch vụ tại Bình Thạnh
-              </p>
-              <h1 className="text-[18px] font-medium text-custome-black-100">
-                {truncateString(roomDetail.tenPhong, 100)}
-              </h1>
-              <hr className="w-[30px] my-3" />
-              <p className="text-custome-gray-200">
-                2 khách - phòng studio - 1 giường - 1 phòng tắm
-              </p>
-              <p className="text-custome-gray-200">
-                Wifi - Bếp - Điều hoà nhiệt độ - Máy giặt
-              </p>
-            </div>
-            <div className="text-end">
-              <p className="text-custome-black-100 font-bold">
-                ${roomDetail.giaTien}/<span className="font-normal">tháng</span>
-              </p>
-            </div>
-          </div>
-        </Link>
+          <Meta
+            title={
+              <>
+                <Tooltip title={truncateString(roomDetail.tenPhong, 50)}>
+                  <span>{roomDetail.tenPhong}</span>
+                </Tooltip>
+                <hr className="w-[30px] mt-4 mb-2" />
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
+                    <h3 className="font-bold">Ngày đến:</h3>
+                    <p className="font-normal">{formatDate(booking.ngayDen)}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
+                    <h3 className="font-bold">Ngày đi:</h3>
+                    <p className="font-normal">{formatDate(booking.ngayDen)}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
+                    <h3 className="font-bold">Số người:</h3>
+                    <p className="font-normal">{booking.soLuongKhach}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
+                    <h3 className="font-bold">Giá phòng:</h3>
+                    <p className="font-normal">{roomDetail.giaTien}$</p>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
+                    <h3 className="font-bold">Tổng tiền:</h3>
+                    <p className="font-normal">
+                      {Number(booking.soLuongKhach) *
+                        Number(roomDetail.giaTien)}
+                      $
+                    </p>
+                  </div>
+                </div>
+              </>
+            }
+            description={<div></div>}
+          />
+        </Card>
       )}
     </>
   );
