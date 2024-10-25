@@ -1,11 +1,11 @@
 import Map from "@/components/map/Map";
-import SearchCard from "@/components/search-card/SearchCard";
 import SearchResult from "@/components/search-result/SearchResult";
 import TitleH1 from "@/components/titleH1/TitleH1";
 import { getRoomsLocation } from "@/services/rooms-location/roomsLocation.service";
 import { RoomType } from "@/types/room/roomType.type";
 import { getCurrentDate } from "@/utils/method/method";
 import { tagData } from "@/utils/tag-data/tag.data";
+import { Empty } from "antd";
 import React from "react";
 
 type Props = {
@@ -49,9 +49,8 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
 
   return (
     <>
-      {data.length > 0 && (
+      {data.length > 0 ? (
         <div className="flex flex-col md:flex-row gap-3">
-          {/* <div className="w-[60%]"> */}
           <div className="w-full md:w-[60%]">
             <p>{`Hơn ${data.length} chỗ ở - ${getCurrentDate()}`}</p>
             <TitleH1 title="Chỗ ở tại khu vực đã chọn" />
@@ -67,10 +66,13 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
               <SearchResult data={data} />
             </div>
           </div>
-          {/* <div className="w-[40%]"> */}
           <div className="w-full mt-5 md:mt-0 md:w-[40%]">
             <Map />
           </div>
+        </div>
+      ) : (
+        <div className="w-full h-[150px] flex items-center justify-center">
+          <h1 className="text-custome-gray-200">Không có dữ liệu</h1>
         </div>
       )}
     </>

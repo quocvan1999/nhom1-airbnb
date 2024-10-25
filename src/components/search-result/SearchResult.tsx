@@ -22,7 +22,7 @@ const SearchResult: React.FC<Props> = ({ data }) => {
     setPageIndex(page);
   };
 
-  const handlePageSizeChange  = (current: number, size: number) => {
+  const handlePageSizeChange = (current: number, size: number) => {
     setPageSize(size);
   };
 
