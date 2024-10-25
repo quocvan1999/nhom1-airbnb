@@ -30,6 +30,9 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
       okText: "Đăng xuất",
       okType: "danger",
       cancelText: "Huỷ",
+      cancelButtonProps: {
+        className: "custom-cancel-button",
+      },
       onOk() {
         openNotification("success", "Đăng xuất", "Đăng xuất thành công");
         deleteCookie("accessToken");

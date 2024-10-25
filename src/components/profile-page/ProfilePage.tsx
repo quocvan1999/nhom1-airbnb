@@ -37,6 +37,27 @@ const ProfilePage: React.FC<Props> = ({}) => {
       token: token,
     },
     showUploadList: false,
+    beforeUpload() {
+      return new Promise((resolve, reject) => {
+        confirm({
+          title: "Cập nhật ảnh đại diện",
+          icon: <ExclamationCircleFilled />,
+          content: "Bạn có muốn đổi ảnh đại diện?",
+          okText: "Cập nhật",
+          okType: "danger",
+          cancelText: "Huỷ",
+          cancelButtonProps: {
+            className: "custom-cancel-button",
+          },
+          onOk() {
+            resolve(true);
+          },
+          onCancel() {
+            reject();
+          },
+        });
+      });
+    },
     onChange(info) {
       if (info.file.status === "done") {
         openNotification("success", "Profile", "Cập nhật avatar thành công");

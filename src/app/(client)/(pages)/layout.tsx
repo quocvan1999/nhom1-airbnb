@@ -16,6 +16,9 @@ export default function ClientLayout({
           Pagination: {
             colorPrimary: "#FF385C",
           },
+          Button: {
+            colorPrimary: "#FF385C",
+          },
         },
         token: {
           colorPrimary: "#FF385C",
