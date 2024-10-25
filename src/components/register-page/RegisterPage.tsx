@@ -100,6 +100,10 @@ const RegisterPage: React.FC<Props> = ({}) => {
             borderRadiusLG: 7,
           },
         },
+        token: {
+          colorPrimary: "#FF385C",
+          colorLink: "#FF385C",
+        },
       }}
     >
       <div className="w-full bg-white rounded-xl px-5 py-7 lg:px-10 lg:py-14">
