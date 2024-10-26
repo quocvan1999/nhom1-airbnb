@@ -177,6 +177,7 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     placement="bottom"
                     dropdownRender={() => (
                       <ModalCustomer
+                        member={0}
                         handleChangeCountMember={handleChangeCountMember}
                       />
                     )}
