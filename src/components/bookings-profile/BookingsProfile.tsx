@@ -34,7 +34,7 @@ const BookingsProfile: React.FC<Props> = ({ data }) => {
             <ProfileCard booking={item} key={index} />
           ))}
       </div>
-      {paginatedData.length >= 10 && (
+      {data.length >= 10 && (
         <div className="mt-5">
           <Pagination
             align="end"
