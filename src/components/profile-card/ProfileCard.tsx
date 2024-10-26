@@ -75,7 +75,13 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
         <Card
           className="mb-5"
           style={{ width: "calc((100% - 24px)/3)" }}
-          cover={<img alt="example" src={roomDetail.hinhAnh} />}
+          cover={
+            <img
+              alt="example"
+              src={roomDetail.hinhAnh}
+              className="w-full h-[150px] object-cover"
+            />
+          }
           actions={[
             <Tooltip title="Huỷ đặt phòng">
               <Button

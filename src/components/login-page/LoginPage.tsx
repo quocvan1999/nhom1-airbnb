@@ -126,6 +126,7 @@ const LoginPage: React.FC<Props> = ({}) => {
           >
             <p className="font-bold uppercase text-xs mb-3">Email</p>
             <Input
+              allowClear
               size="large"
               name="email"
               placeholder="Enter email"
@@ -144,6 +145,7 @@ const LoginPage: React.FC<Props> = ({}) => {
           >
             <p className="font-bold uppercase text-xs mb-3">Password</p>
             <Input.Password
+              allowClear
               size="large"
               name="password"
               placeholder="Enter password"

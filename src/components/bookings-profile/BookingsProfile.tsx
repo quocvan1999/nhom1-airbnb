@@ -34,17 +34,19 @@ const BookingsProfile: React.FC<Props> = ({ data }) => {
             <ProfileCard booking={item} key={index} />
           ))}
       </div>
-      <div className="mt-5">
-        <Pagination
-          align="end"
-          current={pageIndex}
-          defaultPageSize={pageSize}
-          total={data.length}
-          onChange={handleChangePageIndex}
-          onShowSizeChange={handlePageSizeChange}
-          showSizeChanger
-        />
-      </div>
+      {paginatedData.length >= 10 && (
+        <div className="mt-5">
+          <Pagination
+            align="end"
+            current={pageIndex}
+            defaultPageSize={pageSize}
+            total={data.length}
+            onChange={handleChangePageIndex}
+            onShowSizeChange={handlePageSizeChange}
+            showSizeChanger
+          />
+        </div>
+      )}
     </>
   );
 };
