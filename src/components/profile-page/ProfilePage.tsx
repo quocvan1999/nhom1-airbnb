@@ -13,7 +13,6 @@ import {
   Empty,
   Modal,
   Tabs,
-  TabsProps,
   Upload,
   UploadProps,
 } from "antd";
@@ -42,6 +41,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
   const { checkIsLogin } = useCheckLogin();
   const { getProfile } = useGetProfile();
   const [open, setOpen] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const props: UploadProps = {
     name: "formFile",
@@ -126,8 +126,10 @@ const ProfilePage: React.FC<Props> = ({}) => {
       const id: string | null = getCookie("i_d");
       const action = getBookingUserAsync(Number(id));
       dispatch(action);
+
+      setIsMounted(true);
     }
-  }, [isLoading]);
+  }, [isLoading, profile]);
 
   return (
     <ConfigProvider
@@ -148,14 +150,14 @@ const ProfilePage: React.FC<Props> = ({}) => {
             }}
           >
             <div className="flex flex-col items-center gap-3">
-              <div
-                className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full border !relative"
-                style={{
-                  backgroundImage: `url("${profile.avatar}")`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-              >
+              <div className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full border !relative">
+                {isMounted && profile && (
+                  <img
+                    src={profile.avatar}
+                    alt="image"
+                    className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full object-cover"
+                  />
+                )}
                 <Upload {...props}>
                   <div className="!absolute !bottom-[-10px] !left-0 !right-0 flex items-center justify-center">
                     <Button
@@ -186,62 +188,70 @@ const ProfilePage: React.FC<Props> = ({}) => {
             <div>
               <h1 className="font-bold text-lg">Hồ sơ của bạn</h1>
 
-              <div className="mt-3">
-                <div className="flex items-center gap-2 mb-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    style={{ fill: "#6a6a6a" }}
-                  >
-                    <path d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6 2.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM19 15H9v-.25C9 12.901 11.254 11 14 11s5 1.901 5 3.75V15z"></path>
-                    <path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8z"></path>
-                  </svg>
-                  <p className="text-custome-gray-200">{profile.name}</p>
-                </div>
+              {isMounted && profile && (
+                <div className="mt-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      style={{ fill: "#6a6a6a" }}
+                    >
+                      <path d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6 2.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM19 15H9v-.25C9 12.901 11.254 11 14 11s5 1.901 5 3.75V15z"></path>
+                      <path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8z"></path>
+                    </svg>
+                    <p className="text-custome-gray-200">
+                      {profile && profile.name}
+                    </p>
+                  </div>
 
-                <div className="flex items-center gap-2 mb-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    style={{ fill: "#6a6a6a" }}
-                  >
-                    <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"></path>
-                  </svg>
-                  <p className="text-custome-gray-200">{profile.email}</p>
-                </div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      style={{ fill: "#6a6a6a" }}
+                    >
+                      <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"></path>
+                    </svg>
+                    <p className="text-custome-gray-200">
+                      {profile && profile.email}
+                    </p>
+                  </div>
 
-                <div className="flex items-center gap-2 mb-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    style={{ fill: "#6a6a6a" }}
-                  >
-                    <path d="M17.707 12.293a.999.999 0 0 0-1.414 0l-1.594 1.594c-.739-.22-2.118-.72-2.992-1.594s-1.374-2.253-1.594-2.992l1.594-1.594a.999.999 0 0 0 0-1.414l-4-4a.999.999 0 0 0-1.414 0L3.581 5.005c-.38.38-.594.902-.586 1.435.023 1.424.4 6.37 4.298 10.268s8.844 4.274 10.269 4.298h.028c.528 0 1.027-.208 1.405-.586l2.712-2.712a.999.999 0 0 0 0-1.414l-4-4.001zm-.127 6.712c-1.248-.021-5.518-.356-8.873-3.712-3.366-3.366-3.692-7.651-3.712-8.874L7 4.414 9.586 7 8.293 8.293a1 1 0 0 0-.272.912c.024.115.611 2.842 2.271 4.502s4.387 2.247 4.502 2.271a.991.991 0 0 0 .912-.271L17 14.414 19.586 17l-2.006 2.005z"></path>
-                  </svg>
-                  <p className="text-custome-gray-200">{profile.phone}</p>
-                </div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      style={{ fill: "#6a6a6a" }}
+                    >
+                      <path d="M17.707 12.293a.999.999 0 0 0-1.414 0l-1.594 1.594c-.739-.22-2.118-.72-2.992-1.594s-1.374-2.253-1.594-2.992l1.594-1.594a.999.999 0 0 0 0-1.414l-4-4a.999.999 0 0 0-1.414 0L3.581 5.005c-.38.38-.594.902-.586 1.435.023 1.424.4 6.37 4.298 10.268s8.844 4.274 10.269 4.298h.028c.528 0 1.027-.208 1.405-.586l2.712-2.712a.999.999 0 0 0 0-1.414l-4-4.001zm-.127 6.712c-1.248-.021-5.518-.356-8.873-3.712-3.366-3.366-3.692-7.651-3.712-8.874L7 4.414 9.586 7 8.293 8.293a1 1 0 0 0-.272.912c.024.115.611 2.842 2.271 4.502s4.387 2.247 4.502 2.271a.991.991 0 0 0 .912-.271L17 14.414 19.586 17l-2.006 2.005z"></path>
+                    </svg>
+                    <p className="text-custome-gray-200">
+                      {profile && profile.phone}
+                    </p>
+                  </div>
 
-                <div className="flex items-center gap-2 mb-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    style={{ fill: "#6a6a6a" }}
-                  >
-                    <path d="M19 5h-6V2h-2v3H5C3.346 5 2 6.346 2 8v10c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.654-1.346-3-3-3zM5 7h14a1 1 0 0 1 1 1l.001 3.12c-.896.228-1.469.734-1.916 1.132-.507.45-.842.748-1.588.748-.745 0-1.08-.298-1.587-.747-.595-.529-1.409-1.253-2.915-1.253-1.505 0-2.319.724-2.914 1.253-.507.45-.841.747-1.586.747-.743 0-1.077-.297-1.582-.747-.447-.398-1.018-.905-1.913-1.133V8a1 1 0 0 1 1-1zM4 18v-4.714c.191.123.374.274.583.461C5.178 14.276 5.991 15 7.495 15c1.505 0 2.319-.724 2.914-1.253.507-.45.841-.747 1.586-.747s1.08.298 1.587.747c.595.529 1.409 1.253 2.915 1.253s2.321-.724 2.916-1.253c.211-.188.395-.34.588-.464L20.002 18H4z"></path>
-                  </svg>
-                  <p className="text-custome-gray-200">
-                    {formatDate(profile.birthday)}
-                  </p>
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      style={{ fill: "#6a6a6a" }}
+                    >
+                      <path d="M19 5h-6V2h-2v3H5C3.346 5 2 6.346 2 8v10c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.654-1.346-3-3-3zM5 7h14a1 1 0 0 1 1 1l.001 3.12c-.896.228-1.469.734-1.916 1.132-.507.45-.842.748-1.588.748-.745 0-1.08-.298-1.587-.747-.595-.529-1.409-1.253-2.915-1.253-1.505 0-2.319.724-2.914 1.253-.507.45-.841.747-1.586.747-.743 0-1.077-.297-1.582-.747-.447-.398-1.018-.905-1.913-1.133V8a1 1 0 0 1 1-1zM4 18v-4.714c.191.123.374.274.583.461C5.178 14.276 5.991 15 7.495 15c1.505 0 2.319-.724 2.914-1.253.507-.45.841-.747 1.586-.747s1.08.298 1.587.747c.595.529 1.409 1.253 2.915 1.253s2.321-.724 2.916-1.253c.211-.188.395-.34.588-.464L20.002 18H4z"></path>
+                    </svg>
+                    <p className="text-custome-gray-200">
+                      {formatDate(profile && profile.birthday)}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div>
                 <button

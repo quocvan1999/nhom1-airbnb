@@ -176,3 +176,21 @@ export function isDateInPast(dateString: string): boolean {
 
   return inputDate < currentDate;
 }
+
+export function convertUSDToVND(value: number | string): string {
+  // Chuyển đổi giá trị sang số
+  const numberValue = typeof value === "string" ? parseFloat(value) : value;
+
+  if (isNaN(numberValue)) {
+    throw new Error("Giá trị không hợp lệ, không thể chuyển đổi thành số.");
+  }
+
+  // Tỉ giá chuyển đổi từ USD sang VND (25,000 VND/USD)
+  const exchangeRate = 25000;
+
+  // Tính toán mệnh giá VND
+  const vndValue = numberValue * exchangeRate;
+
+  // Định dạng số với phân đơn vị và thêm "VNĐ" vào cuối
+  return `${vndValue.toLocaleString("vi-VN")} Vnđ`;
+}
