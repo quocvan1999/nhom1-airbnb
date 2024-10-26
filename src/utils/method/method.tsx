@@ -192,5 +192,5 @@ export function convertUSDToVND(value: number | string): string {
   const vndValue = numberValue * exchangeRate;
 
   // Định dạng số với phân đơn vị và thêm "VNĐ" vào cuối
-  return `${vndValue.toLocaleString("vi-VN")} Vnđ`;
+  return `${vndValue.toLocaleString("vi-VN")} VNĐ`;
 }

@@ -23,6 +23,7 @@ import { deleteBookingAsync } from "@/services/delete-booking/deleteBooking.serv
 import { ReqType } from "@/types/req/reqType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import ModalUpdateBooking from "@/components/modal-update-booking/ModalUpdateBooking";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -35,6 +36,9 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
   const router: AppRouterInstance = useRouter();
   const [roomDetail, setRoomDetail] = useState<RoomType>();
   const { openNotification } = useNotification();
+  const [isModalUpdateBookingOpen, setIsModalUpdateBookingOpen] =
+    useState<boolean>(false);
+
   const getRoomDetail = async (): Promise<void> => {
     const data: RoomType = await getRoomDetailAsync(Number(booking.maPhong));
     setRoomDetail(data);
@@ -96,6 +100,9 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
             </Tooltip>,
             <Tooltip title="Sửa lịch đặt phòng">
               <Button
+                onClick={() => {
+                  setIsModalUpdateBookingOpen(true);
+                }}
                 disabled={isDateInPast(booking.ngayDen)}
                 className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none"
               >
@@ -118,9 +125,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
             title={
               <>
                 <Tooltip title={roomDetail.tenPhong}>
-                  <span className="whitespace-normal">
-                    {roomDetail.tenPhong}
-                  </span>
+                  <span>{roomDetail.tenPhong}</span>
                 </Tooltip>
                 <hr className="w-[30px] mt-4 mb-2" />
                 <div className="flex flex-col gap-1">
@@ -131,7 +136,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
 
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
                     <h3 className="font-bold">Ngày đi:</h3>
-                    <p className="font-normal">{formatDate(booking.ngayDen)}</p>
+                    <p className="font-normal">{formatDate(booking.ngayDi)}</p>
                   </div>
 
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
@@ -142,7 +147,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
                     <h3 className="font-bold">Giá phòng:</h3>
                     <p className="font-normal">
-                      {convertUSDToVND(roomDetail.giaTien)}/Đêm
+                      {convertUSDToVND(roomDetail.giaTien)}/đêm
                     </p>
                   </div>
 
@@ -162,6 +167,13 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
           />
         </Card>
       )}
+
+      <ModalUpdateBooking
+        roomDetail={roomDetail}
+        booking={booking}
+        isModalUpdateBookingOpen={isModalUpdateBookingOpen}
+        setIsModalUpdateBookingOpen={setIsModalUpdateBookingOpen}
+      />
     </>
   );
 };

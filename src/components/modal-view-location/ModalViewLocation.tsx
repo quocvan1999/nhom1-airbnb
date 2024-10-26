@@ -94,8 +94,6 @@ const ModalViewLocation: React.FC<Props> = ({
       newLocation
     );
 
-    console.log("CHECK RES", res);
-
     switch (res.statusCode) {
       case 200:
         openNotification(

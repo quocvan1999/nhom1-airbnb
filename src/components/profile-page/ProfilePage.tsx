@@ -6,7 +6,7 @@ import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
-import { deleteCookie, formatDate, getCookie } from "@/utils/method/method";
+import { formatDate, getCookie } from "@/utils/method/method";
 import {
   Button,
   ConfigProvider,
@@ -86,30 +86,6 @@ const ProfilePage: React.FC<Props> = ({}) => {
     },
   };
 
-  const showPropsConfirm = (): void => {
-    confirm({
-      title: "Đăng xuất",
-      icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn đăng xuất?",
-      okText: "Đăng xuất",
-      okType: "danger",
-      cancelText: "Huỷ",
-      onOk() {
-        openNotification("success", "Đăng xuất", "Đăng xuất thành công");
-        deleteCookie("accessToken");
-        deleteCookie("i_d");
-
-        if (checkIsLogin() === undefined || false) {
-          getProfile();
-        }
-
-        setTimeout(() => {
-          router.push("/");
-        }, 200);
-      },
-    });
-  };
-
   useEffect(() => {
     const isLogin: boolean | undefined = checkIsLogin();
 
@@ -126,10 +102,11 @@ const ProfilePage: React.FC<Props> = ({}) => {
       const id: string | null = getCookie("i_d");
       const action = getBookingUserAsync(Number(id));
       dispatch(action);
-
       setIsMounted(true);
     }
-  }, [isLoading, profile]);
+  }, [isLoading]);
+
+  
 
   return (
     <ConfigProvider

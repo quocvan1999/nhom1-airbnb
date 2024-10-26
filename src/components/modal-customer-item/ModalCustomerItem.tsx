@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalMemberType } from "@/types/modal-member/modalMemberType.type";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   item: ModalMemberType;
@@ -31,6 +31,12 @@ const ModalCustomerItem: React.FC<Props> = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (item) {
+      setCount(item.defaultCount);
+    }
+  }, []);
 
   return (
     <div className="flex items-center justify-between py-2">
