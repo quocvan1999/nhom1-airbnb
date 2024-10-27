@@ -236,7 +236,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
               placement="bottom"
               dropdownRender={() => (
                 <ModalCustomer
-                  member={0}
+                  member={1}
                   handleChangeCountMember={handleChangeCountMember}
                 />
               )}
