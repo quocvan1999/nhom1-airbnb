@@ -11,6 +11,7 @@ import {
   Button,
   ConfigProvider,
   Empty,
+  Image,
   Modal,
   Tabs,
   Upload,
@@ -32,7 +33,6 @@ import {
   faPhone,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
-import ModalImage from "react-modal-image";
 
 const { confirm } = Modal;
 
@@ -156,6 +156,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
             fontWeightStrong: 600,
             itemColor: "#6a6a6a",
           },
+          Image: {},
         },
       }}
     >
@@ -170,13 +171,13 @@ const ProfilePage: React.FC<Props> = ({}) => {
             <div className="flex flex-col items-center gap-3">
               <div className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full border !relative">
                 {isMounted && profile && (
-                  <ModalImage
-                    small={profile.avatar}
-                    large={profile.avatar}
-                    alt="avatar"
-                    className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full object-cover relative"
-                    hideDownload={true}
-                  />
+                  <div className="overflow-hidden w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full">
+                    <Image
+                      className="!w-[100px] !h-[100px] md:!w-[200px] md:!h-[200px] rounded-full object-cover"
+                      src={profile.avatar}
+                      alt="image"
+                    />
+                  </div>
                 )}
 
                 <Upload {...props}>
@@ -189,7 +190,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
                     >
                       <FontAwesomeIcon
                         size="lg"
-                        style={{ color: "#6a6a6a" }}
+                        className="transition-all duration-500 ease-in-out text-custome-gray-200 group-hover:!text-primary-100"
                         icon={faCamera}
                       />
                       Cập nhật

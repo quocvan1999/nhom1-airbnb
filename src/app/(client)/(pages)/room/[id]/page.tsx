@@ -4,6 +4,7 @@ import OptionBookingContainer from "@/components/option-booking-container/Option
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { RoomType } from "@/types/room/roomType.type";
 import React from "react";
+import { Image } from "antd";
 
 type Props = {
   params: {
@@ -112,8 +113,9 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
           </div>
         </div>
       </div>
-      <img
-        className="mt-3 h-[200px] md:h-[400px] rounded-2xl w-full object-cover"
+      <Image
+        className="rounded-xl"
+        width="100%"
         src={data.hinhAnh}
         alt="image"
       />

@@ -121,8 +121,9 @@ const HeaderSearch: React.FC<Props> = ({}) => {
           } ${isShowSearch === true && "z-20 !l-[50%] "}`}
           animate={{
             y: isScroll ? 0 : 50,
+            x: isScroll ? 0 : 100,
           }}
-          initial={{ y: 50 }}
+          initial={{ y: 50, x: 100 }}
           transition={{ duration: 0.5 }}
         >
           {isScroll === false ? (
