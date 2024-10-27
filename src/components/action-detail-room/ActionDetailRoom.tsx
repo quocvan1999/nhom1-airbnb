@@ -1,6 +1,7 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import ModalShareRoom from "@/components/modal-share-room/ModalShareRoom";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
@@ -20,7 +21,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FacebookShareButton } from "react-share";
 
 type Props = {
   room: RoomType;
@@ -35,6 +35,8 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
   const [commentCount, setCommentCount] = useState<number>(0);
   const { comments } = useSelector((state: RootState) => state.room);
   const { openNotification } = useNotification();
+  const [isModalViewUserOpen, setIsModalViewUserOpen] =
+    useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
 
   const getLikeRoom = (): void => {
@@ -196,18 +198,22 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           </Link>
         </div>
         <div className="flex items-start gap-4 text-custome-gray-200">
-          <FacebookShareButton url={url}>
-            <div className="flex items-center gap-1 group cursor-pointer">
-              <FontAwesomeIcon
-                className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
-                size="lg"
-                icon={faShare}
-              />
-              <p className="underline transition-all duration-500 ease-in-out group-hover:text-primary-100">
-                Chia sẻ
-              </p>
-            </div>
-          </FacebookShareButton>
+          <div
+            onClick={() => {
+              setIsModalViewUserOpen(true);
+            }}
+            className="flex items-center gap-1 group cursor-pointer"
+          >
+            <FontAwesomeIcon
+              className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
+              size="lg"
+              icon={faShare}
+            />
+            <p className="underline transition-all duration-500 ease-in-out group-hover:text-primary-100">
+              Chia sẻ
+            </p>
+          </div>
+
           <div
             className="flex items-center gap-1 group cursor-pointer"
             onClick={() => {
@@ -231,6 +237,14 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           </div>
         </div>
       </div>
+      {isModalViewUserOpen && (
+        <ModalShareRoom
+          url={url}
+          isModalViewUserOpen={isModalViewUserOpen}
+          setIsModalViewUserOpen={setIsModalViewUserOpen}
+          room={room}
+        />
+      )}
     </ConfigProvider>
   );
 };
