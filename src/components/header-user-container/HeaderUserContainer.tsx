@@ -1,6 +1,7 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
+import { resetProfile } from "@/app/globalRedux/features/userSlice";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
@@ -9,13 +10,14 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Button, Dropdown, Modal } from "antd";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const { confirm } = Modal;
 
 type Props = {};
 
 const HeaderUserContainer: React.FC<Props> = ({}) => {
+  const dispatch: AppDispatch = useDispatch();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { getProfile } = useGetProfile();
   const { checkIsLogin } = useCheckLogin();
@@ -38,6 +40,9 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
         deleteCookie("accessToken");
         deleteCookie("i_d");
         setIsLogin(false);
+
+        const action = resetProfile();
+        dispatch(action);
       },
     });
   };

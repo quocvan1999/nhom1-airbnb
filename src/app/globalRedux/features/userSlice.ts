@@ -12,6 +12,18 @@ type UserSlice = {
   users: reqPaginationType<User[]> | null;
 };
 
+const defaultProfile: User = {
+  id: 0,
+  avatar: "",
+  birthday: "",
+  email: "",
+  gender: false,
+  name: "",
+  password: "",
+  phone: "",
+  role: "",
+};
+
 const initialState: UserSlice = {
   profile: {
     id: 0,
@@ -35,6 +47,9 @@ export const userSlice = createSlice({
     setProfile: (state: UserSlice, action: PayloadAction<User>) => {
       state.profile = action.payload;
     },
+    resetProfile: (state: UserSlice) => {
+      state.profile = defaultProfile;
+    },
     setBooking: (state: UserSlice, action: PayloadAction<BookingType[]>) => {
       state.bookings = action.payload;
     },
@@ -47,5 +62,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setProfile, setBooking, setUsers } = userSlice.actions;
+export const { setProfile, setBooking, setUsers, resetProfile } =
+  userSlice.actions;
 export default userSlice.reducer;

@@ -89,9 +89,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
   useEffect(() => {
     const isLogin: boolean | undefined = checkIsLogin();
 
-    if (isLogin !== true) {
-      router.push("/auth/login");
-    } else {
+    if (isLogin === true) {
       const getTokent: string | null = getCookie("accessToken");
       getProfile();
 
@@ -106,7 +104,13 @@ const ProfilePage: React.FC<Props> = ({}) => {
     }
   }, [isLoading]);
 
-  
+  useEffect(() => {
+    const isLogin: boolean | undefined = checkIsLogin();
+
+    if (isLogin !== true) {
+      router.push("/");
+    }
+  }, [profile]);
 
   return (
     <ConfigProvider
