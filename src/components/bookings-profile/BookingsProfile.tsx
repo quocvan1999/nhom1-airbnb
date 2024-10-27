@@ -13,10 +13,10 @@ const BookingsProfile: React.FC<Props> = ({ data }) => {
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
 
-  const paginatedData = data.slice(
-    (pageIndex - 1) * pageSize,
-    pageIndex * pageSize
-  );
+  const paginatedData = data
+    .slice()
+    .reverse()
+    .slice((pageIndex - 1) * pageSize, pageIndex * pageSize);
 
   const handleChangePageIndex = (page: number) => {
     setPageIndex(page);
