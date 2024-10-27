@@ -92,7 +92,9 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
       email: Yup.string()
         .required("Email không được để trống")
         .email("Email không đúng định dạng"),
-      phone: Yup.string().required("Phone không được để trống"),
+      phone: Yup.string()
+        .matches(/^(0[3|5|7|8|9][0-9]{8})$/, "Số điện thoại không hợp lệ.")
+        .required("Phone không được để trống"),
       birthday: Yup.date().nullable().required("Birthday không được để trống"),
     }),
     onSubmit: (values) => {
