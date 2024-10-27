@@ -20,12 +20,10 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ExclamationCircleFilled,
-  HeartOutlined,
-  HistoryOutlined,
-} from "@ant-design/icons";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import BookingsProfile from "@/components/bookings-profile/BookingsProfile";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClockRotateLeft, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const { confirm } = Modal;
 
@@ -118,6 +116,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
         components: {
           Tabs: {
             fontWeightStrong: 600,
+            itemColor: "#6a6a6a",
           },
         },
       }}
@@ -257,7 +256,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
               {
                 key: "1",
                 label: "Phòng đã thuê",
-                icon: <HistoryOutlined />,
+                icon: <FontAwesomeIcon icon={faClockRotateLeft} />,
                 children: (
                   <>
                     {bookings.length > 0 ? (
@@ -271,7 +270,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
               {
                 key: "2",
                 label: "Phòng yêu thích",
-                icon: <HeartOutlined />,
+                icon: <FontAwesomeIcon icon={faHeart} />,
                 children: "Phòng yêu thích",
               },
             ]}
