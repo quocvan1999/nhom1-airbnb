@@ -52,9 +52,7 @@ const ModalShareRoom: React.FC<Props> = ({
         <div
           onClick={() => {
             copyToClipboard(url);
-            if (isCopied) {
-              infoCopy();
-            }
+            infoCopy();
           }}
           className="w-[40px] h-[40px] justify-center border border-custome-gray-200 rounded-full py-2 px-4 font-semibold text-custome-gray-200 flex items-center gap-2 cursor-pointer group transition-all duration-500 ease-in-out hover:text-primary-100 hover:border-primary-100"
         >
