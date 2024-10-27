@@ -57,25 +57,54 @@ const ProfilePage: React.FC<Props> = ({}) => {
       token: token,
     },
     showUploadList: false,
-    beforeUpload() {
+    beforeUpload(file: any) {
       return new Promise((resolve, reject) => {
-        confirm({
-          title: "Cập nhật ảnh đại diện",
-          icon: <ExclamationCircleFilled />,
-          content: "Bạn có muốn đổi ảnh đại diện?",
-          okText: "Cập nhật",
-          okType: "danger",
-          cancelText: "Huỷ",
-          cancelButtonProps: {
-            className: "custom-cancel-button",
-          },
-          onOk() {
-            resolve(true);
-          },
-          onCancel() {
+        let isPass: boolean = true;
+        if (file) {
+          const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+          if (!allowedExtensions.exec(file.name)) {
             reject();
-          },
-        });
+            isPass = false;
+            openNotification(
+              "error",
+              "Ảnh đại diện",
+              "Vui lòng chọn file có định dạng (jpg, jpeg, png, gif)"
+            );
+            return;
+          }
+
+          const maxSizeInBytes = 1 * 1024 * 1024;
+          if (file.size > maxSizeInBytes) {
+            reject();
+            isPass = false;
+            openNotification(
+              "error",
+              "Ảnh đại diện",
+              "Dung lượng hình phải dưới 1M"
+            );
+            return;
+          }
+
+          if (isPass) {
+            confirm({
+              title: "Cập nhật ảnh đại diện",
+              icon: <ExclamationCircleFilled />,
+              content: "Bạn có muốn đổi ảnh đại diện?",
+              okText: "Cập nhật",
+              okType: "danger",
+              cancelText: "Huỷ",
+              cancelButtonProps: {
+                className: "custom-cancel-button",
+              },
+              onOk() {
+                resolve(true);
+              },
+              onCancel() {
+                reject();
+              },
+            });
+          }
+        }
       });
     },
     onChange(info) {
