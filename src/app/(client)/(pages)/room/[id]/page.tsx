@@ -5,6 +5,7 @@ import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { RoomType } from "@/types/room/roomType.type";
 import React from "react";
 import { Image } from "antd";
+import ActionDetailRoom from "@/components/action-detail-room/ActionDetailRoom";
 
 type Props = {
   params: {
@@ -51,68 +52,9 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
       <h1 className="font-bold uppercase text-base lg:text-lg">
         {data.tenPhong}
       </h1>
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mt-4 lg:mt-0">
-        <div className="flex items-start lg:items-center lg:gap-5 text-custome-gray-200">
-          <div className="hidden lg:flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              style={{ fill: "#FF385C" }}
-            >
-              <path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path>
-            </svg>
-            <p className="font-bold text-custome-black-100">
-              4,83
-              <span className="font-normal text-custome-gray-200">
-                (18 đánh giá)
-              </span>
-            </p>
-          </div>
-          <div className="hidden lg:flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              style={{ fill: "#FF385C" }}
-            >
-              <path d="M17 2h-4v4.059a8.946 8.946 0 0 1 4 1.459V2zm-6 0H7v5.518a8.946 8.946 0 0 1 4-1.459V2zm1 20a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm-1.225-8.519L12 11l1.225 2.481 2.738.397-1.981 1.932.468 2.727L12 17.25l-2.449 1.287.468-2.727-1.981-1.932 2.737-.397z"></path>
-            </svg>
-            <p>Chủ nhà siêu cấp</p>
-          </div>
-          <p className="underline">
-            Thành phố Vũng Tàu, Bà Rịa Vũng Tàu, Việt Nam
-          </p>
-        </div>
-        <div className="flex items-start gap-4 text-custome-gray-200">
-          <div className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              style={{ fill: "#6a6a6a" }}
-            >
-              <path d="M11 7.05V4a1 1 0 0 0-1-1 1 1 0 0 0-.7.29l-7 7a1 1 0 0 0 0 1.42l7 7A1 1 0 0 0 11 18v-3.1h.85a10.89 10.89 0 0 1 8.36 3.72 1 1 0 0 0 1.11.35A1 1 0 0 0 22 18c0-9.12-8.08-10.68-11-10.95zm.85 5.83a14.74 14.74 0 0 0-2 .13A1 1 0 0 0 9 14v1.59L4.42 11 9 6.41V8a1 1 0 0 0 1 1c.91 0 8.11.2 9.67 6.43a13.07 13.07 0 0 0-7.82-2.55z"></path>
-            </svg>
-            <p className="underline">Chia sẻ</p>
-          </div>
-          <div className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              style={{ fill: "#6a6a6a" }}
-            >
-              <path d="M12 4.595a5.904 5.904 0 0 0-3.996-1.558 5.942 5.942 0 0 0-4.213 1.758c-2.353 2.363-2.352 6.059.002 8.412l7.332 7.332c.17.299.498.492.875.492a.99.99 0 0 0 .792-.409l7.415-7.415c2.354-2.354 2.354-6.049-.002-8.416a5.938 5.938 0 0 0-4.209-1.754A5.906 5.906 0 0 0 12 4.595zm6.791 1.61c1.563 1.571 1.564 4.025.002 5.588L12 18.586l-6.793-6.793c-1.562-1.563-1.561-4.017-.002-5.584.76-.756 1.754-1.172 2.799-1.172s2.035.416 2.789 1.17l.5.5a.999.999 0 0 0 1.414 0l.5-.5c1.512-1.509 4.074-1.505 5.584-.002z"></path>
-            </svg>
-            <p className="underline">Lưu</p>
-          </div>
-        </div>
-      </div>
+
+      <ActionDetailRoom room={data} />
+
       <Image
         className="rounded-xl"
         width="100%"
