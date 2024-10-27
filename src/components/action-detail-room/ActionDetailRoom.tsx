@@ -196,9 +196,7 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           </Link>
         </div>
         <div className="flex items-start gap-4 text-custome-gray-200">
-          <FacebookShareButton
-            url={`https://vtcnews.vn/chuyen-gia-nhan-dinh-kha-nang-bao-kong-rey-vao-bien-dong-sau-trami-ar904183.html`}
-          >
+          <FacebookShareButton url={url}>
             <div className="flex items-center gap-1 group cursor-pointer">
               <FontAwesomeIcon
                 className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
