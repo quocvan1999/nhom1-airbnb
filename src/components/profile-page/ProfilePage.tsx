@@ -32,6 +32,7 @@ import {
   faPhone,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
+import ModalImage from "react-modal-image";
 
 const { confirm } = Modal;
 
@@ -169,12 +170,15 @@ const ProfilePage: React.FC<Props> = ({}) => {
             <div className="flex flex-col items-center gap-3">
               <div className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full border !relative">
                 {isMounted && profile && (
-                  <img
-                    src={profile.avatar}
-                    alt="image"
-                    className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full object-cover"
+                  <ModalImage
+                    small={profile.avatar}
+                    large={profile.avatar}
+                    alt="avatar"
+                    className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full object-cover relative"
+                    hideDownload={true}
                   />
                 )}
+
                 <Upload {...props}>
                   <div className="!absolute !bottom-[-10px] !left-0 !right-0 flex items-center justify-center">
                     <Button
