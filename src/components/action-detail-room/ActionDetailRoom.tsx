@@ -146,10 +146,15 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
   };
 
   useEffect(() => {
+    const login = checkIsLogin();
     getLocation();
     getCommentToRoom();
-    getLikeRoom();
+
     getUrl();
+
+    if (login) {
+      getLikeRoom();
+    }
   }, [room]);
 
   useEffect(() => {
