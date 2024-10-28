@@ -33,7 +33,7 @@ type Props = {
 
 const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const dispatch: AppDispatch = useDispatch();
-  const [countMember, setCountMember] = useState<number>(0);
+  const [countMember, setCountMember] = useState<number>(1);
   const [countDate, setCountDate] = useState<number>(0);
   const [dateCheckin, setDateCheckin] = useState<string>("");
   const [dateCheckout, setDateCheckout] = useState<string>("");
@@ -173,8 +173,14 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
     setListDate(disabledDates);
   };
 
+  // const disabledDate = (current: any): boolean => {
+  //   return listDate.some((date) => date.isSame(current, "day"));
+  // };
   const disabledDate = (current: any): boolean => {
-    return listDate.some((date) => date.isSame(current, "day"));
+    return (
+      current.isBefore(dayjs(), "day") || // Ngày trước ngày hiện tại
+      listDate.some((disabledDate) => disabledDate.isSame(current, "day")) // Ngày trong danh sách
+    );
   };
 
   useEffect(() => {
@@ -264,17 +270,14 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
               placement="bottom"
               dropdownRender={() => (
                 <ModalCustomer
-                  member={1}
+                  member={countMember}
                   handleChangeCountMember={handleChangeCountMember}
                 />
               )}
             >
               <div>
                 <p className="text-[12px] font-medium">Khách</p>
-                <Input
-                  placeholder="Số lượng khách"
-                  value={countMember === 0 ? "" : `${countMember} Khách`}
-                />
+                <Input placeholder="Số lượng khách" value={countMember} />
               </div>
             </Dropdown>
           </div>
@@ -285,12 +288,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         >
           Đặt phòng
         </button>
-        <a
+        {/* <a
           href="#"
           className="underline text-center text-custome-gray-200 block my-2"
         >
           Bạn vẫn chưa bị trừ tiền
-        </a>
+        </a> */}
         <div className="mt-5 py-4 border-b">
           <div className="flex items-center justify-between py-1">
             <p className="underline">

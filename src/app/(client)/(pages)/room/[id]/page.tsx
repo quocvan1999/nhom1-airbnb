@@ -64,7 +64,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
       <ActionDetailRoom room={data} />
 
       <Image
-        className="rounded-xl"
+        className="rounded-xl !h-[400px] object-cover"
         width="100%"
         src={data.hinhAnh}
         alt="image"
