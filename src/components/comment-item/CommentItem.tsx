@@ -1,5 +1,5 @@
 import { CommentType } from "@/types/comment/comment.type";
-import { formatDateTime } from "@/utils/method/method";
+import { formatDate } from "@/utils/method/method";
 import React from "react";
 
 type Props = {
@@ -34,7 +34,9 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
           <h1 className="text-custome-black-100 font-medium">
             {comment.tenNguoiBinhLuan}
           </h1>
-          <p className="text-custome-gray-200">{comment.ngayBinhLuan}</p>
+          <p className="text-custome-gray-200">
+            {formatDate(comment.ngayBinhLuan)}
+          </p>
         </div>
       </div>
       <p className="text-custome-black-100 mt-2">{comment.noiDung}</p>
