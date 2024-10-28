@@ -90,13 +90,13 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
                 </Tooltip>,
                 <Tooltip title="Xem chi tiết phòng">
                   <Button
-                    className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none"
+                    className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                     onClick={() => {
                       router.push(`/room/${item.id}`);
                     }}
                   >
                     <FontAwesomeIcon
-                      className="text-custome-gray-200"
+                      className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
                       size="lg"
                       icon={faInfo}
                     />

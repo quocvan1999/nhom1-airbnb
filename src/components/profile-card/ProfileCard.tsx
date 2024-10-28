@@ -4,8 +4,10 @@ import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import {
+  calculateDaysBetween,
   convertUSDToVND,
   formatDate,
+  getCookie,
   isDateInPast,
   truncateString,
 } from "@/utils/method/method";
@@ -14,6 +16,7 @@ import {
   faCalendarXmark,
   faInfo,
   faPenToSquare,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Card, Modal, Tooltip } from "antd";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -24,6 +27,9 @@ import { ReqType } from "@/types/req/reqType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import ModalUpdateBooking from "@/components/modal-update-booking/ModalUpdateBooking";
+import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/globalRedux/store";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -33,6 +39,7 @@ type Props = {
 };
 
 const ProfileCard: React.FC<Props> = ({ booking }) => {
+  const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
   const [roomDetail, setRoomDetail] = useState<RoomType>();
   const { openNotification } = useNotification();
@@ -59,6 +66,9 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
         const res: ReqType<string> = await deleteBookingAsync(id);
         switch (res.statusCode) {
           case 200:
+            const id: string | null = getCookie("i_d");
+            const action = getBookingUserAsync(Number(id));
+            dispatch(action);
             openNotification("success", "Huỷ lịch đặt phòng", `${res.message}`);
             break;
           default:
@@ -67,6 +77,21 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
         }
       },
     });
+  };
+
+  const total = (): string => {
+    let total: number = 0;
+    if (roomDetail) {
+      const countDate: number = calculateDaysBetween(
+        booking.ngayDen,
+        booking.ngayDi
+      );
+      const roomPrice: number = roomDetail.giaTien;
+      const member: number = booking.soLuongKhach;
+
+      total = roomPrice * countDate + member * 1;
+    }
+    return convertUSDToVND(total);
   };
 
   useEffect(() => {
@@ -87,36 +112,77 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
             />
           }
           actions={[
-            <Tooltip title="Huỷ đặt phòng">
-              <Button
-                onClick={() => {
-                  handleDeleteBooking(booking.id);
-                }}
-                disabled={isDateInPast(booking.ngayDen)}
-                className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none"
-              >
-                <FontAwesomeIcon size="lg" icon={faCalendarXmark} />
-              </Button>
-            </Tooltip>,
-            <Tooltip title="Sửa lịch đặt phòng">
-              <Button
-                onClick={() => {
-                  setIsModalUpdateBookingOpen(true);
-                }}
-                disabled={isDateInPast(booking.ngayDen)}
-                className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none"
-              >
-                <FontAwesomeIcon size="lg" icon={faPenToSquare} />
-              </Button>
-            </Tooltip>,
+            <>
+              {isDateInPast(booking.ngayDi) ? (
+                <Tooltip title="Đánh giá phòng">
+                  <Button
+                    onClick={() => {}}
+                    className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none group"
+                  >
+                    <FontAwesomeIcon
+                      className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
+                      size="lg"
+                      icon={faStar}
+                    />
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Huỷ đặt phòng">
+                  <Button
+                    onClick={() => {
+                      handleDeleteBooking(booking.id);
+                    }}
+                    disabled={isDateInPast(booking.ngayDen)}
+                    className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none group"
+                  >
+                    <FontAwesomeIcon
+                      className={`transition-all duration-500 ease-in-out  ${
+                        isDateInPast(booking.ngayDen)
+                          ? "text-[#cfcece]"
+                          : "text-custome-gray-200 group-hover:text-primary-100"
+                      }`}
+                      size="lg"
+                      icon={faCalendarXmark}
+                    />
+                  </Button>
+                </Tooltip>
+              )}
+            </>,
+            <>
+              {isDateInPast(booking.ngayDi) === false && (
+                <Tooltip title="Sửa lịch đặt phòng">
+                  <Button
+                    onClick={() => {
+                      setIsModalUpdateBookingOpen(true);
+                    }}
+                    disabled={isDateInPast(booking.ngayDen)}
+                    className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none group"
+                  >
+                    <FontAwesomeIcon
+                      className={`transition-all duration-500 ease-in-out  ${
+                        isDateInPast(booking.ngayDen)
+                          ? "text-[#cfcece]"
+                          : "text-custome-gray-200 group-hover:text-primary-100"
+                      }`}
+                      size="lg"
+                      icon={faPenToSquare}
+                    />
+                  </Button>
+                </Tooltip>
+              )}
+            </>,
             <Tooltip title="Xem chi tiết phòng">
               <Button
-                className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none"
+                className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                 onClick={() => {
                   router.push(`/room/${roomDetail.id}`);
                 }}
               >
-                <FontAwesomeIcon size="lg" icon={faInfo} />
+                <FontAwesomeIcon
+                  className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
+                  size="lg"
+                  icon={faInfo}
+                />
               </Button>
             </Tooltip>,
           ]}
@@ -153,12 +219,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
 
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
                     <h3 className="font-bold">Tổng tiền:</h3>
-                    <p className="font-normal">
-                      {convertUSDToVND(
-                        Number(booking.soLuongKhach) *
-                          Number(roomDetail.giaTien)
-                      )}
-                    </p>
+                    <p className="font-normal">{total()}</p>
                   </div>
                 </div>
               </>

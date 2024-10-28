@@ -8,7 +8,7 @@ import { bookingAsync } from "@/services/booking/booking.service";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { calculateDaysBetween } from "@/utils/method/method";
+import { calculateDaysBetween, convertUSDToVND } from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   ConfigProvider,
@@ -228,7 +228,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
       <div className="w-full my-5 border shadow-sm p-5 rounded-xl">
         <div className="flex items-center justify-between">
           <p className="font-bold text-lg">
-            ${data.giaTien}
+            {convertUSDToVND(data.giaTien)}
             <span className="text-sm font-normal">/đêm</span>
           </p>
           <div className="flex items-center gap-1">
@@ -251,6 +251,10 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
                 className="!py-0"
                 onChange={onChangeCheckin}
                 disabledDate={disabledDate}
+                format={{
+                  format: "YYYY-MM-DD",
+                  type: "mask",
+                }}
               />
             </div>
             <div className="w-[50%] p-2">
@@ -261,6 +265,10 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
                 className="!py-0"
                 onChange={onChangeCheckout}
                 disabledDate={disabledDate}
+                format={{
+                  format: "YYYY-MM-DD",
+                  type: "mask",
+                }}
               />
             </div>
           </div>
@@ -291,19 +299,21 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         <div className="mt-5 py-4 border-b">
           <div className="flex items-center justify-between py-1">
             <p className="underline">
-              ${data.giaTien} x {countDate} đêm
+              {convertUSDToVND(data.giaTien)} x {countDate} đêm
             </p>
-            <p>${data.giaTien * countDate}</p>
+            <p>{convertUSDToVND(data.giaTien * countDate)}</p>
           </div>
           <div className="flex items-center justify-between py-1">
             <p className="underline">Phí dịch vụ</p>
-            <p>${5}</p>
+            <p>{convertUSDToVND(countMember)}</p>
           </div>
         </div>
 
         <div className="py-3 flex items-center justify-between">
           <h3 className="font-bold">Tổng</h3>
-          <p className="font-bold">${data.giaTien * countDate + 5}</p>
+          <p className="font-bold">
+            ${convertUSDToVND(data.giaTien * countDate + countMember)}
+          </p>
         </div>
       </div>
     </ConfigProvider>

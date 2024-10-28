@@ -174,7 +174,7 @@ export function isDateInPast(dateString: string): boolean {
   // Đặt giờ, phút, giây, và mili giây của ngày đầu vào về 0 để chỉ so sánh ngày
   inputDate.setHours(0, 0, 0, 0);
 
-  return inputDate < currentDate;
+  return inputDate <= currentDate;
 }
 
 export function convertUSDToVND(value: number | string): string {
