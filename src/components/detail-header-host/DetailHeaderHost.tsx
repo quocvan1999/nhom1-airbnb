@@ -108,24 +108,21 @@ const DetailHeaderHost: React.FC<Props> = ({ room }) => {
           className="rounded-full object-cover"
         />
 
-        <div className="absolute right-[-8px] bottom-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            style={{ fill: "#FF385C" }}
-          >
-            <path d="M17 2h-4v4.059a8.946 8.946 0 0 1 4 1.459V2zm-6 0H7v5.518a8.946 8.946 0 0 1 4-1.459V2zm1 20a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm-1.225-8.519L12 11l1.225 2.481 2.738.397-1.981 1.932.468 2.727L12 17.25l-2.449 1.287.468-2.727-1.981-1.932 2.737-.397z"></path>
-          </svg>
-        </div>
+        {setTypeHost() === "Chủ nhà siêu cấp" && (
+          <div className="absolute right-[-8px] bottom-0 bg-white w-7 h-7 shadow-lg flex items-center justify-center rounded-full">
+            <FontAwesomeIcon
+              className="text-primary-100"
+              size="lg"
+              icon={faMedal}
+            />
+          </div>
+        )}
       </div>
       <div className="text-center lg:text-start">
         <h1 className="font-bold text-base text-custome-black-100 text-center lg:text-start">
           Chủ nhà/Người tổ chức: {hostName}
         </h1>
         <div className="hidden lg:flex items-center gap-1">
-          <FontAwesomeIcon className="text-primary-100" icon={faMedal} />
           <p>{setTypeHost()}</p>
         </div>
       </div>

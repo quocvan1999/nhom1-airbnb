@@ -7,6 +7,13 @@ import React from "react";
 import { Image } from "antd";
 import ActionDetailRoom from "@/components/action-detail-room/ActionDetailRoom";
 import DetailHeaderHost from "@/components/detail-header-host/DetailHeaderHost";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBroom,
+  faCalendar,
+  faHouse,
+  faMedal,
+} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   params: {
@@ -69,17 +76,12 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
           <DetailHeaderHost room={data} />
 
           <div className="py-5 border-b flex flex-col gap-2">
-            <div className="flex gap-3 items-start">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                style={{ fill: "#6a6a6a" }}
-              >
-                <path d="M19 2H9c-1.103 0-2 .897-2 2v5.586l-4.707 4.707A1 1 0 0 0 3 16v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4c0-1.103-.897-2-2-2zm-8 18H5v-5.586l3-3 3 3V20zm8 0h-6v-4a.999.999 0 0 0 .707-1.707L9 9.586V4h10v16z"></path>
-                <path d="M11 6h2v2h-2zm4 0h2v2h-2zm0 4.031h2V12h-2zM15 14h2v2h-2zm-8 1h2v2H7z"></path>
-              </svg>
+            <div className="flex gap-3 items-center">
+              <FontAwesomeIcon
+                className="text-custome-gray-200"
+                size="xl"
+                icon={faHouse}
+              />
               <div>
                 <h3 className="font-medium text-custome-black-100">
                   Toàn bộ nhà
@@ -90,14 +92,12 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
               </div>
             </div>
 
-            <div className="flex gap-3 items-start">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 32 32"
-                className="fill-[#6a6a6a] w-[35px] md:w-[24px] h-[35px] md:h-[24px]"
-              >
-                <path d="M24 0v6h-4.3c.13 1.4.67 2.72 1.52 3.78l.2.22-1.5 1.33a9.05 9.05 0 0 1-2.2-5.08c-.83.38-1.32 1.14-1.38 2.2v4.46l4.14 4.02a5 5 0 0 1 1.5 3.09l.01.25.01.25v8.63a3 3 0 0 1-2.64 2.98l-.18.01-.21.01-12-.13A3 3 0 0 1 4 29.2L4 29.02v-8.3a5 5 0 0 1 1.38-3.45l.19-.18L10 12.9V8.85l-4.01-3.4.02-.7A5 5 0 0 1 10.78 0H11zm-5.03 25.69a8.98 8.98 0 0 1-6.13-2.41l-.23-.23A6.97 6.97 0 0 0 6 21.2v7.82c0 .51.38.93.87 1H7l11.96.13h.13a1 1 0 0 0 .91-.88l.01-.12v-3.52c-.34.04-.69.06-1.03.06zM17.67 2H11a3 3 0 0 0-2.92 2.3l-.04.18-.01.08 3.67 3.1h2.72l.02-.1a4.29 4.29 0 0 1 3.23-3.4zM30 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-3-2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-5 0h-2.33v2H22zm8-2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM20 20.52a3 3 0 0 0-.77-2l-.14-.15-4.76-4.61v-4.1H12v4.1l-5.06 4.78a3 3 0 0 0-.45.53 9.03 9.03 0 0 1 7.3 2.34l.23.23A6.98 6.98 0 0 0 20 23.6z"></path>
-              </svg>
+            <div className="flex gap-3 items-center">
+              <FontAwesomeIcon
+                className="text-custome-gray-200"
+                size="xl"
+                icon={faBroom}
+              />
               <div>
                 <h3 className="font-medium text-custome-black-100">
                   Vệ sinh tăng cường
@@ -110,13 +110,11 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
             </div>
 
             <div className="flex gap-3 items-start">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="fill-[#6a6a6a] w-[75px] md:w-[35px] h-[35px]"
-              >
-                <path d="M17 2h-4v4.059a8.946 8.946 0 0 1 4 1.459V2zm-6 0H7v5.518a8.946 8.946 0 0 1 4-1.459V2zm1 20a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm-1.225-8.519L12 11l1.225 2.481 2.738.397-1.981 1.932.468 2.727L12 17.25l-2.449 1.287.468-2.727-1.981-1.932 2.737-.397z"></path>
-              </svg>
+              <FontAwesomeIcon
+                className="text-custome-gray-200"
+                size="xl"
+                icon={faMedal}
+              />
               <div>
                 <h3 className="font-medium text-custome-black-100">
                   Phong là Chủ nhà siêu cấp
@@ -130,13 +128,11 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
             </div>
 
             <div className="flex gap-3 items-start">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="fill-[#6a6a6a] w-[24px] h-[24px]"
-              >
-                <path d="M3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7v2H5a2 2 0 0 0-2 2zm16 14H5V8h14z"></path>
-              </svg>
+              <FontAwesomeIcon
+                className="text-custome-gray-200"
+                size="xl"
+                icon={faCalendar}
+              />
               <div>
                 <h3 className="font-medium text-custome-black-100">
                   Miễn phí huỷ trong 48 giờ
