@@ -6,6 +6,7 @@ import { RoomType } from "@/types/room/roomType.type";
 import React from "react";
 import { Image } from "antd";
 import ActionDetailRoom from "@/components/action-detail-room/ActionDetailRoom";
+import DetailHeaderHost from "@/components/detail-header-host/DetailHeaderHost";
 
 type Props = {
   params: {
@@ -64,41 +65,8 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
 
       {/* content */}
       <div className="w-full flex flex-col lg:flex-row gap-3">
-        {/* <div className="w-[65%]"> */}
         <div className="w-full lg:w-[65%]">
-          <div className="flex flex-col-reverse lg:flex-row gap-4 items-center justify-center lg:justify-between border-b py-3">
-            <div className="text-center lg:text-start">
-              <h1 className="font-bold text-base text-custome-black-100 text-center lg:text-start">
-                Toàn bộ căn hộ Condo. Chủ nhà Phong
-              </h1>
-              <p className="text-custome-gray-200">
-                {`${data.khach} khách - ${data.phongNgu} phòng ngủ - ${data.giuong} giường - ${data.phongTam} phòng tắm`}
-              </p>
-            </div>
-            <div className="w-[50px] h-[50px] relative rounded-full border flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                style={{ fill: "#222" }}
-              >
-                <path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path>
-              </svg>
-
-              <div className="absolute right-[-8px] bottom-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  style={{ fill: "#FF385C" }}
-                >
-                  <path d="M17 2h-4v4.059a8.946 8.946 0 0 1 4 1.459V2zm-6 0H7v5.518a8.946 8.946 0 0 1 4-1.459V2zm1 20a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm-1.225-8.519L12 11l1.225 2.481 2.738.397-1.981 1.932.468 2.727L12 17.25l-2.449 1.287.468-2.727-1.981-1.932 2.737-.397z"></path>
-                </svg>
-              </div>
-            </div>
-          </div>
+          <DetailHeaderHost room={data} />
 
           <div className="py-5 border-b flex flex-col gap-2">
             <div className="flex gap-3 items-start">

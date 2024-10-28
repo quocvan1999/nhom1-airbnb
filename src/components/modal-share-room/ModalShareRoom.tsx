@@ -39,7 +39,7 @@ const ModalShareRoom: React.FC<Props> = ({
     >
       <div className="mt-5">
         <h1 className="font-bold text-lg">Chia sẻ trải nghiệm này</h1>
-        <div className="flex items-start gap-3 mt-2">
+        <div className="flex items-start gap-3 mt-2 bg-custome-gray-100 p-2 rounded-lg">
           <img
             src={room.hinhAnh}
             alt="Hinh anh"

@@ -138,23 +138,6 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
     return rating;
   };
 
-  const setTypeHost = (): string => {
-    const rating: number = setRatingRoom();
-    let typeHost: string = "";
-
-    if (rating) {
-      if (rating >= 0 && rating < 2) {
-        typeHost = "Chủ nhà mới";
-      } else if (rating >= 2 && rating < 4) {
-        typeHost = "Chủ nhà kinh nghiệm";
-      } else if (rating >= 4) {
-        typeHost = "Chủ nhà siêu cấp";
-      }
-    }
-
-    return typeHost;
-  };
-
   const getUrl = (): void => {
     const fullURL: string = `${window.location.origin}${pathname}`;
     if (fullURL) {
@@ -188,10 +171,9 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
               </span>
             </p>
           </div>
-          <div className="hidden lg:flex items-center gap-1">
-            <FontAwesomeIcon className="text-primary-100" icon={faMedal} />
-            <p>{setTypeHost()}</p>
-          </div>
+          <p className="text-custome-gray-200">
+            {`${room.khach} khách - ${room.phongNgu} phòng ngủ - ${room.giuong} giường - ${room.phongTam} phòng tắm`}
+          </p>
           <Link href={`/search?keyword=${location?.id}`} className="underline">
             {location &&
               `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`}

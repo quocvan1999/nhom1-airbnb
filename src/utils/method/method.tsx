@@ -194,3 +194,7 @@ export function convertUSDToVND(value: number | string): string {
   // Định dạng số với phân đơn vị và thêm "VNĐ" vào cuối
   return `${vndValue.toLocaleString("vi-VN")} VNĐ`;
 }
+
+export function randomNumber(limit: number): number {
+  return Math.floor(Math.random() * limit);
+}
