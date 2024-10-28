@@ -21,6 +21,9 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 
 const { confirm } = Modal;
 
@@ -37,8 +40,31 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const [listDate, setListDate] = useState<dayjs.Dayjs[]>([]);
   const { profile } = useSelector((state: RootState) => state.user);
   const { bookings } = useSelector((state: RootState) => state.room);
+  const [commentCount, setCommentCount] = useState<number>(0);
+  const { comments } = useSelector((state: RootState) => state.room);
   const { openNotification } = useNotification();
   const { checkIsLogin } = useCheckLogin();
+
+  const getCommentToRoom = async (): Promise<void> => {
+    const action = getCommentToRoomAsync(data.id);
+    dispatch(action);
+  };
+
+  const setRatingRoom = (): number => {
+    let rating: number = 0;
+    if (commentCount) {
+      if (commentCount >= 7) {
+        rating = 5;
+      } else if (commentCount < 0) {
+        rating = 0;
+      } else {
+        const ratings = (commentCount / 7) * 5;
+        rating = Math.round(ratings);
+      }
+    }
+
+    return rating;
+  };
 
   const showPropsConfirm = (): void => {
     confirm({
@@ -163,6 +189,16 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
     }
   }, [bookings]);
 
+  useEffect(() => {
+    getCommentToRoom();
+  }, [data]);
+
+  useEffect(() => {
+    if (comments) {
+      setCommentCount(comments.length);
+    }
+  }, [comments]);
+
   return (
     <ConfigProvider
       theme={{
@@ -190,19 +226,11 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
             <span className="text-sm font-normal">/đêm</span>
           </p>
           <div className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              style={{ fill: "#FF385C" }}
-            >
-              <path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path>
-            </svg>
+            <FontAwesomeIcon className="text-primary-100" icon={faStar} />
             <p className="font-bold text-custome-black-100">
-              4,83{" "}
+              {setRatingRoom()}
               <span className="font-normal text-custome-gray-200">
-                (18 đánh giá)
+                {` (${commentCount} đánh giá)`}
               </span>
             </p>
           </div>
