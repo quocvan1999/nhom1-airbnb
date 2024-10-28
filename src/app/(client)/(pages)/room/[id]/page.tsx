@@ -300,7 +300,7 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
       {/* Binh luan */}
       <Comments id={data.id} />
 
-      <Comment data={data} />
+      {/* <Comment data={data} /> */}
     </div>
   );
 };

@@ -28,6 +28,8 @@ const Comment: React.FC<Props> = ({ data }) => {
   const { getProfile } = useGetProfile();
   const { openNotification } = useNotification();
 
+  const checkCommentIsRoom = (): void => {};
+
   const initialValues: { comment: string } = {
     comment: "",
   };
@@ -123,7 +125,7 @@ const Comment: React.FC<Props> = ({ data }) => {
         >
           <textarea
             name="comment"
-            placeholder="Enter comment..."
+            placeholder="Nhập vào đánh giá của bạn..."
             onChange={formComment.handleChange}
             value={formComment.values.comment}
             className="border rounded-xl min-h-[100px] md:min-h-[150px] w-[100%] p-3 focus:outline-none"
@@ -136,7 +138,7 @@ const Comment: React.FC<Props> = ({ data }) => {
             type="submit"
             className="bg-primary-100 px-3 py-2 text-white font-medium rounded-lg transition-all duration-500 ease-in-out hover:bg-primary-200"
           >
-            Add comment
+            Thêm đánh giá
           </button>
         </Form.Item>
       </div>
