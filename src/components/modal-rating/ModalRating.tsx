@@ -2,7 +2,7 @@
 
 import { RootState } from "@/app/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
-import { Button, Form, Modal } from "antd";
+import { Button, Form, Modal, Rate } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -27,30 +27,33 @@ const ModalRating: React.FC<Props> = ({
   const { profile } = useSelector((state: RootState) => state.user);
   const { openNotification } = useNotification();
 
-  const initialValues: { comment: string } = {
+  const initialValues: { comment: string; rating: number } = {
     comment: "",
+    rating: 0,
   };
 
-  const handleComment = async (value: string): Promise<void> => {
+  const handleComment = async (values: {
+    comment: string;
+    rating: number;
+  }): Promise<void> => {
     const newComment: NewCommentType = {
       id: 0,
       maNguoiBinhLuan: profile.id,
       ngayBinhLuan: getCurrentDateTime(),
-      noiDung: value,
-      saoBinhLuan: 5,
+      noiDung: values.comment,
+      saoBinhLuan: values.rating,
       maPhong: booking.maPhong,
     };
 
     const res: ReqType<NewCommentType> = await commentAsync(newComment);
 
     if (res) {
-      console.log("CHECK RES", res);
-
       switch (res.statusCode) {
         case 201:
           openNotification("success", "Đánh giá", "Thêm đánh giá thành công");
           setIsModalViewRatingOpen(false);
           formComment.resetForm();
+
           break;
         default:
           openNotification(
@@ -70,7 +73,7 @@ const ModalRating: React.FC<Props> = ({
       comment: Yup.string().required("Đánh giá không được để trống"),
     }),
     onSubmit: (values) => {
-      handleComment(values.comment);
+      handleComment(values);
     },
   });
 
@@ -95,6 +98,12 @@ const ModalRating: React.FC<Props> = ({
             help={formComment.touched.comment && formComment.errors.comment}
             className="w-full !mb-0"
           >
+            <Rate
+              className="!mb-3 !text-2xl"
+              onChange={(count: number) =>
+                formComment.setFieldValue("rating", count)
+              }
+            />
             <textarea
               name="comment"
               placeholder="Nhập vào đánh giá của bạn..."
