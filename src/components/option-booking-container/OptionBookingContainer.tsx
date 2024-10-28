@@ -303,15 +303,13 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
           </div>
           <div className="flex items-center justify-between py-1">
             <p className="underline">Phí dịch vụ</p>
-            <p>${countMember * 5}</p>
+            <p>${5}</p>
           </div>
         </div>
 
         <div className="py-3 flex items-center justify-between">
           <h3 className="font-bold">Tổng</h3>
-          <p className="font-bold">
-            ${data.giaTien * countDate + countMember * 5}
-          </p>
+          <p className="font-bold">${data.giaTien * countDate + 5}</p>
         </div>
       </div>
     </ConfigProvider>
