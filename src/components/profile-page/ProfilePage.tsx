@@ -33,6 +33,7 @@ import {
   faPhone,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
+import FavouriteRoom from "@/components/favourite-room-profile/FavouriteRoom";
 
 const { confirm } = Modal;
 
@@ -276,7 +277,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
               {
                 key: "1",
                 label: "Phòng đã thuê",
-                icon: <FontAwesomeIcon icon={faClockRotateLeft} />,
+                icon: <FontAwesomeIcon size="lg" icon={faClockRotateLeft} />,
                 children: (
                   <>
                     {bookings.length > 0 ? (
@@ -290,8 +291,8 @@ const ProfilePage: React.FC<Props> = ({}) => {
               {
                 key: "2",
                 label: "Phòng yêu thích",
-                icon: <FontAwesomeIcon icon={faHeart} />,
-                children: "Phòng yêu thích",
+                icon: <FontAwesomeIcon size="lg" icon={faHeart} />,
+                children: <FavouriteRoom />,
               },
             ]}
           />

@@ -95,7 +95,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                 disabled={isDateInPast(booking.ngayDen)}
                 className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none"
               >
-                <FontAwesomeIcon size="sm" icon={faCalendarXmark} />
+                <FontAwesomeIcon size="lg" icon={faCalendarXmark} />
               </Button>
             </Tooltip>,
             <Tooltip title="Sửa lịch đặt phòng">
@@ -106,7 +106,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                 disabled={isDateInPast(booking.ngayDen)}
                 className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none"
               >
-                <FontAwesomeIcon size="sm" icon={faPenToSquare} />
+                <FontAwesomeIcon size="lg" icon={faPenToSquare} />
               </Button>
             </Tooltip>,
             <Tooltip title="Xem chi tiết phòng">
@@ -116,7 +116,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                   router.push(`/room/${roomDetail.id}`);
                 }}
               >
-                <FontAwesomeIcon size="sm" icon={faInfo} />
+                <FontAwesomeIcon size="lg" icon={faInfo} />
               </Button>
             </Tooltip>,
           ]}
