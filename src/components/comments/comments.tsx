@@ -21,7 +21,7 @@ const Comments: React.FC<Props> = ({ id }) => {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-3 mt-5">
+    <div className="flex flex-wrap gap-3 mt-3">
       {comments &&
         comments.length > 0 &&
         comments.map((comment: CommentType, index: number) => (

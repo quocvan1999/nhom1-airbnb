@@ -298,7 +298,10 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
       </div>
 
       {/* Binh luan */}
-      <Comments id={data.id} />
+      <div className="mt-5">
+        <h3 className="font-bold text-xl">Đánh giá</h3>
+        <Comments id={data.id} />
+      </div>
 
       {/* <Comment data={data} /> */}
     </div>
