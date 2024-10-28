@@ -288,12 +288,6 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         >
           Đặt phòng
         </button>
-        {/* <a
-          href="#"
-          className="underline text-center text-custome-gray-200 block my-2"
-        >
-          Bạn vẫn chưa bị trừ tiền
-        </a> */}
         <div className="mt-5 py-4 border-b">
           <div className="flex items-center justify-between py-1">
             <p className="underline">
