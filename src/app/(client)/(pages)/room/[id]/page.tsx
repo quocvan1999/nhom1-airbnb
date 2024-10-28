@@ -1,4 +1,3 @@
-import Comment from "@/components/comment/Comment";
 import Comments from "@/components/comments/comments";
 import OptionBookingContainer from "@/components/option-booking-container/OptionBookingContainer";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
@@ -302,8 +301,6 @@ const RoomDetail: React.FC<Props> = async ({ params }) => {
         <h3 className="font-bold text-xl">Đánh giá</h3>
         <Comments id={data.id} />
       </div>
-
-      {/* <Comment data={data} /> */}
     </div>
   );
 };

@@ -30,6 +30,7 @@ import ModalUpdateBooking from "@/components/modal-update-booking/ModalUpdateBoo
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/globalRedux/store";
+import ModalRating from "@/components/modal-rating/ModalRating";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -44,6 +45,8 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
   const [roomDetail, setRoomDetail] = useState<RoomType>();
   const { openNotification } = useNotification();
   const [isModalUpdateBookingOpen, setIsModalUpdateBookingOpen] =
+    useState<boolean>(false);
+  const [isModalViewRatingOpen, setIsModalViewRatingOpen] =
     useState<boolean>(false);
 
   const getRoomDetail = async (): Promise<void> => {
@@ -116,7 +119,9 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
               {isDateInPast(booking.ngayDi) ? (
                 <Tooltip title="Đánh giá phòng">
                   <Button
-                    onClick={() => {}}
+                    onClick={() => {
+                      setIsModalViewRatingOpen(true);
+                    }}
                     className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none group"
                   >
                     <FontAwesomeIcon
@@ -234,6 +239,11 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
         booking={booking}
         isModalUpdateBookingOpen={isModalUpdateBookingOpen}
         setIsModalUpdateBookingOpen={setIsModalUpdateBookingOpen}
+      />
+      <ModalRating
+        booking={booking}
+        isModalViewRatingOpen={isModalViewRatingOpen}
+        setIsModalViewRatingOpen={setIsModalViewRatingOpen}
       />
     </>
   );
