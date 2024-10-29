@@ -56,7 +56,7 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
             </div>
           </div>
           <div className="w-full mt-5 md:mt-0 md:w-[40%]">
-            <Map data={data} />
+            <Map keyword={value} />
           </div>
         </div>
       ) : (
