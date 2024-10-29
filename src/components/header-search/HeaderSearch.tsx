@@ -10,8 +10,12 @@ import { ConfigProvider, DatePicker, Dropdown, Input } from "antd";
 import { motion } from "framer-motion";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dayjs } from "dayjs";
+import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
+import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/globalRedux/store";
 
 type Props = {};
 
@@ -32,6 +36,10 @@ const HeaderSearch: React.FC<Props> = ({}) => {
     setIsScroll,
   } = useStatusHeader();
   const [countMember, setCountMember] = useState<number>(0);
+  const [xValue, setXValue] = useState<number>(40);
+  const { checkIsLogin } = useCheckLogin();
+  const { getProfile } = useGetProfile();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const onChangeCheckin = (date: Dayjs, dateString: string | string[]) => {
     setDateCheckin(date);
@@ -60,6 +68,23 @@ const HeaderSearch: React.FC<Props> = ({}) => {
   const handleChangeCountMember = (value: number): void => {
     setCountMember((prevCount) => prevCount + value);
   };
+
+  useEffect(() => {
+    setXValue(40);
+    const login = checkIsLogin();
+
+    if (login) {
+      getProfile();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (profile.role === "ADMIN") {
+      setXValue(100);
+    } else {
+      setXValue(40);
+    }
+  }, [profile]);
 
   return (
     <ConfigProvider
@@ -128,9 +153,9 @@ const HeaderSearch: React.FC<Props> = ({}) => {
           } ${isShowSearch === true && "z-20 !l-[50%] "}`}
           animate={{
             y: isScroll ? 0 : 50,
-            x: isScroll ? 0 : 100,
+            x: isScroll ? 0 : xValue,
           }}
-          initial={{ y: 50, x: 100 }}
+          initial={{ y: 50, x: xValue }}
           transition={{ duration: 0.5 }}
         >
           {isScroll === false ? (
