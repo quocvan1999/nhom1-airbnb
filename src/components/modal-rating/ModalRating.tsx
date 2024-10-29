@@ -17,12 +17,16 @@ type Props = {
   isModalViewRatingOpen: boolean;
   setIsModalViewRatingOpen: React.Dispatch<React.SetStateAction<boolean>>;
   booking: BookingType;
+  isRating: boolean;
+  setIsRating: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ModalRating: React.FC<Props> = ({
   isModalViewRatingOpen,
   setIsModalViewRatingOpen,
   booking,
+  isRating,
+  setIsRating,
 }) => {
   const { profile } = useSelector((state: RootState) => state.user);
   const { openNotification } = useNotification();
@@ -30,6 +34,19 @@ const ModalRating: React.FC<Props> = ({
   const initialValues: { comment: string; rating: number } = {
     comment: "",
     rating: 0,
+  };
+
+  const setRatingLocal = (idBooking: number): void => {
+    const ratingBooking: number[] = JSON.parse(
+      localStorage.getItem("ratingList") || "[]"
+    );
+
+    const pushRating = ratingBooking.push(idBooking);
+
+    if (pushRating) {
+      localStorage.setItem("ratingList", JSON.stringify(ratingBooking));
+      setIsRating(true);
+    }
   };
 
   const handleComment = async (values: {
@@ -53,7 +70,7 @@ const ModalRating: React.FC<Props> = ({
           openNotification("success", "Đánh giá", "Thêm đánh giá thành công");
           setIsModalViewRatingOpen(false);
           formComment.resetForm();
-
+          setRatingLocal(booking.id);
           break;
         default:
           openNotification(

@@ -44,6 +44,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
   const router: AppRouterInstance = useRouter();
   const [roomDetail, setRoomDetail] = useState<RoomType>();
   const { openNotification } = useNotification();
+  const [isRating, setIsRating] = useState<boolean>(false);
   const [isModalUpdateBookingOpen, setIsModalUpdateBookingOpen] =
     useState<boolean>(false);
   const [isModalViewRatingOpen, setIsModalViewRatingOpen] =
@@ -97,8 +98,23 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
     return convertUSDToVND(total);
   };
 
+  const getRatingRoom = (): void => {
+    const ratingBooking: number[] = JSON.parse(
+      localStorage.getItem("ratingList") || "[]"
+    );
+
+    const rating = ratingBooking.includes(booking.id);
+
+    if (rating) {
+      setIsRating(true);
+    } else {
+      setIsRating(false);
+    }
+  };
+
   useEffect(() => {
     getRoomDetail();
+    getRatingRoom();
   }, []);
 
   return (
@@ -122,10 +138,15 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                     onClick={() => {
                       setIsModalViewRatingOpen(true);
                     }}
+                    disabled={isRating}
                     className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !p-0 !px-3 !h-[20px] focus-visible:outline-none group"
                   >
                     <FontAwesomeIcon
-                      className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
+                      className={`transition-all duration-500 ease-in-out  ${
+                        isRating
+                          ? "text-[#cfcece]"
+                          : "text-custome-gray-200 group-hover:text-primary-100"
+                      }`}
                       size="lg"
                       icon={faStar}
                     />
@@ -241,6 +262,8 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
         setIsModalUpdateBookingOpen={setIsModalUpdateBookingOpen}
       />
       <ModalRating
+        isRating={isRating}
+        setIsRating={setIsRating}
         booking={booking}
         isModalViewRatingOpen={isModalViewRatingOpen}
         setIsModalViewRatingOpen={setIsModalViewRatingOpen}
