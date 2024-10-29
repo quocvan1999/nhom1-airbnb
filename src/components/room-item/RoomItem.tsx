@@ -1,5 +1,5 @@
 import { RoomType } from "@/types/room/roomType.type";
-import { truncateString } from "@/utils/method/method";
+import { convertUSDToVND, truncateString } from "@/utils/method/method";
 import Link from "next/link";
 import React from "react";
 
@@ -25,7 +25,9 @@ const RoomItem: React.FC<Props> = ({ data }) => {
         <p className="mt-1 text-custome-gray-200">
           {truncateString(data.moTa, 60)}
         </p>
-        <p className="text-custome-black-100 font-bold">{data.giaTien}$</p>
+        <p className="text-custome-black-100 font-bold">
+          {convertUSDToVND(data.giaTien)}/đêm
+        </p>
       </div>
     </Link>
   );

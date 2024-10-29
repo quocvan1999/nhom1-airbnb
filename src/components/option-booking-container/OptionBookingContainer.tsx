@@ -8,7 +8,11 @@ import { bookingAsync } from "@/services/booking/booking.service";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { calculateDaysBetween, convertUSDToVND } from "@/utils/method/method";
+import {
+  calculateDaysBetween,
+  convertUSDToVND,
+  roundToDecimal,
+} from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   ConfigProvider,
@@ -24,6 +28,7 @@ import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
+import { CommentType } from "@/types/comment/comment.type";
 
 const { confirm } = Modal;
 
@@ -42,6 +47,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const { bookings } = useSelector((state: RootState) => state.room);
   const [commentCount, setCommentCount] = useState<number>(0);
   const { comments } = useSelector((state: RootState) => state.room);
+  const [countRate, setCountRate] = useState<number>(0);
   const { openNotification } = useNotification();
   const { checkIsLogin } = useCheckLogin();
 
@@ -52,15 +58,8 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
 
   const setRatingRoom = (): number => {
     let rating: number = 0;
-    if (commentCount) {
-      if (commentCount >= 7) {
-        rating = 5;
-      } else if (commentCount < 0) {
-        rating = 0;
-      } else {
-        const ratings = (commentCount / 7) * 5;
-        rating = Math.round(ratings);
-      }
+    if (commentCount && countRate) {
+      rating = roundToDecimal(countRate / commentCount, 1);
     }
 
     return rating;
@@ -173,9 +172,6 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
     setListDate(disabledDates);
   };
 
-  // const disabledDate = (current: any): boolean => {
-  //   return listDate.some((date) => date.isSame(current, "day"));
-  // };
   const disabledDate = (current: any): boolean => {
     return (
       current.isBefore(dayjs(), "day") || // Ngày trước ngày hiện tại
@@ -202,6 +198,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   useEffect(() => {
     if (comments) {
       setCommentCount(comments.length);
+
+      setCountRate(0);
+
+      comments.map((item: CommentType) => {
+        setCountRate((prev: number) => (prev += item.saoBinhLuan));
+      });
     }
   }, [comments]);
 
