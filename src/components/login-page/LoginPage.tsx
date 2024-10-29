@@ -17,6 +17,8 @@ import { getProfileAsync } from "@/services/profile/profile.service";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { User } from "@/types/user/userType.type";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 type Props = {};
 
@@ -116,6 +118,22 @@ const LoginPage: React.FC<Props> = ({}) => {
       <div className="w-full lg:w-[55%] bg-white rounded-xl px-5 py-7 lg:p-10">
         <div className="flex items-center justify-between mb-14">
           <h1 className="text-2xl">Đăng Nhập</h1>
+          <div className="flex items-center gap-3">
+            <div className="w-[35px] h-[35px] flex items-center justify-center border rounded-full transition-all duration-500 ease-in-out hover:shadow-lg cursor-pointer">
+              <FontAwesomeIcon
+                size="lg"
+                className="text-custome-gray-200"
+                icon={faFacebookF}
+              />
+            </div>
+            <div className="w-[35px] h-[35px] flex items-center justify-center border rounded-full transition-all duration-500 ease-in-out hover:shadow-lg cursor-pointer">
+              <FontAwesomeIcon
+                size="lg"
+                className="text-custome-gray-200"
+                icon={faGoogle}
+              />
+            </div>
+          </div>
         </div>
         <Form layout="vertical" onSubmitCapture={formLogin.handleSubmit}>
           <Form.Item
