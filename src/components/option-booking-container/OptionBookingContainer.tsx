@@ -11,6 +11,8 @@ import { RoomType } from "@/types/room/roomType.type";
 import {
   calculateDaysBetween,
   convertUSDToVND,
+  getCurrentDateTime,
+  getFormattedDateTime,
   roundToDecimal,
 } from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -29,6 +31,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 import { CommentType } from "@/types/comment/comment.type";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { NotifiType } from "@/types/notifi/notifi.type";
 
 const { confirm } = Modal;
 
@@ -50,6 +54,7 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
   const [countRate, setCountRate] = useState<number>(0);
   const { openNotification } = useNotification();
   const { checkIsLogin } = useCheckLogin();
+  const { createNotification } = useNotifiCustome();
 
   const getCommentToRoom = async (): Promise<void> => {
     const action = getCommentToRoomAsync(data.id);
@@ -91,6 +96,18 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
             openNotification("success", "Đặt phòng", "Đặt phòng thành công");
             setDateCheckin("");
             setDateCheckout("");
+
+            const newNotification: NotifiType = {
+              id: `Dp${getFormattedDateTime()}`,
+              title: "Đặt phòng",
+              content: "Đặt phòng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+              newNotification
+            );
             break;
           default:
             break;

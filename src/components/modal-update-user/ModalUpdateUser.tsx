@@ -22,6 +22,12 @@ import { User } from "@/types/user/userType.type";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getProfileAsync } from "@/services/profile/profile.service";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 
 const { confirm } = Modal;
 
@@ -34,6 +40,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
   const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
   const { profile } = useSelector((state: RootState) => state.user);
+  const { createNotification } = useNotifiCustome();
 
   const showPropsConfirm = (userUpdate: UserUpdate): void => {
     confirm({
@@ -68,11 +75,23 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
 
     switch (res.statusCode) {
       case 200:
-        openNotification("success", "Profile", "Cập nhật thông tin thành công");
+        openNotification("success", "Hồ sơ", "Cập nhật thông tin thành công");
         setOpen(false);
         if (typeof res.content === "object") {
           dispatch(getProfileAsync(res.content.id));
         }
+
+        const newNotification: NotifiType = {
+          id: `Rt${getFormattedDateTime()}`,
+          title: "Hồ sơ",
+          content: "Cập nhật thông tin thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+          newNotification
+        );
         break;
       default:
         openNotification(

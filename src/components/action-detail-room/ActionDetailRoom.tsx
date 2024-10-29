@@ -4,13 +4,19 @@ import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ModalShareRoom from "@/components/modal-share-room/ModalShareRoom";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
 import { CommentType } from "@/types/comment/comment.type";
 import { LocationType } from "@/types/location/locationType.type";
+import { NotifiType } from "@/types/notifi/notifi.type";
 import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { roundToDecimal } from "@/utils/method/method";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+  roundToDecimal,
+} from "@/utils/method/method";
 import {
   faHeart,
   faMedal,
@@ -42,6 +48,7 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
     useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
   const { profile } = useSelector((state: RootState) => state.user);
+  const { createNotification } = useNotifiCustome();
 
   const getLikeRoom = (): void => {
     const listLikeRoom: number[] = JSON.parse(
@@ -82,6 +89,18 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           "Thêm phòng vào mục yêu thích thành công"
         );
         setIsLike(true);
+
+        const newNotification: NotifiType = {
+          id: `Dtr${getFormattedDateTime()}`,
+          title: "Yêu thích",
+          content: "Thêm phòng vào mục yêu thích thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+          newNotification
+        );
       }
     } else {
       openNotification(
@@ -115,6 +134,18 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           "Xoá phòng khỏi mục yêu thích thành công"
         );
         setIsLike(false);
+
+        const newNotification: NotifiType = {
+          id: `Dtr${getFormattedDateTime()}`,
+          title: "Yêu thích",
+          content: "Xoá phòng khỏi mục yêu thích thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+          newNotification
+        );
       }
     }
   };

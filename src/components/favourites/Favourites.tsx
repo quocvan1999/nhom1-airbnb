@@ -2,7 +2,13 @@
 
 import { RootState } from "@/app/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { NotifiType } from "@/types/notifi/notifi.type";
 import { RoomType } from "@/types/room/roomType.type";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 import { faHeart, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Pagination, Tooltip } from "antd";
@@ -23,6 +29,7 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const { profile } = useSelector((state: RootState) => state.user);
+  const { createNotification } = useNotifiCustome();
 
   const { openNotification } = useNotification();
 
@@ -51,6 +58,18 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
         "Xoá phòng khỏi mục yêu thích thành công"
       );
       setIsLoading(!isLoading);
+
+      const newNotification: NotifiType = {
+        id: `Fav${getFormattedDateTime()}`,
+        title: "Yêu thích",
+        content: "Xoá phòng khỏi mục yêu thích thành công",
+        date: `${getCurrentDateTime()}`,
+        type: "success",
+      };
+      createNotification(
+        `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+        newNotification
+      );
     }
   };
 

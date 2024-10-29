@@ -10,8 +10,13 @@ import * as Yup from "yup";
 import { ReqType } from "@/types/req/reqType.type";
 import { NewCommentType } from "@/types/new-comment/newCommentType.type";
 import { commentAsync } from "@/services/comment/comment.service";
-import { getCurrentDateTime } from "@/utils/method/method";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 import { BookingType } from "@/types/booking/bookingType.type";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { NotifiType } from "@/types/notifi/notifi.type";
 
 type Props = {
   isModalViewRatingOpen: boolean;
@@ -30,6 +35,7 @@ const ModalRating: React.FC<Props> = ({
 }) => {
   const { profile } = useSelector((state: RootState) => state.user);
   const { openNotification } = useNotification();
+  const { createNotification } = useNotifiCustome();
 
   const initialValues: { comment: string; rating: number } = {
     comment: "",
@@ -71,6 +77,18 @@ const ModalRating: React.FC<Props> = ({
           setIsModalViewRatingOpen(false);
           formComment.resetForm();
           setRatingLocal(booking.id);
+
+          const newNotification: NotifiType = {
+            id: `Rt${getFormattedDateTime()}`,
+            title: "Đánh giá",
+            content: "Thêm đánh giá thành công",
+            date: `${getCurrentDateTime()}`,
+            type: "success",
+          };
+          createNotification(
+            `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+            newNotification
+          );
           break;
         default:
           openNotification(
