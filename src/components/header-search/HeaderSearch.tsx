@@ -31,7 +31,7 @@ const HeaderSearch: React.FC<Props> = ({}) => {
     setIsShowSearch,
     setIsScroll,
   } = useStatusHeader();
-  const [totalMember, setTotalMember] = useState<number>(0);
+  const [countMember, setCountMember] = useState<number>(0);
 
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
@@ -46,7 +46,7 @@ const HeaderSearch: React.FC<Props> = ({}) => {
   };
 
   const handleChangeCountMember = (value: number): void => {
-    setTotalMember((prevCount) => prevCount + value);
+    setCountMember((prevCount) => prevCount + value);
   };
 
   return (
@@ -188,14 +188,14 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     placement="bottom"
                     dropdownRender={() => (
                       <ModalCustomer
-                        member={totalMember}
+                        member={countMember}
                         handleChangeCountMember={handleChangeCountMember}
                       />
                     )}
                   >
                     <Input
                       placeholder="Tìm kiếm điểm đến"
-                      value={totalMember === 0 ? "" : totalMember}
+                      value={countMember}
                     />
                   </Dropdown>
                 </div>

@@ -12,16 +12,11 @@ type Props = {};
 const HeaderMobile: React.FC<Props> = ({}) => {
   const router: AppRouterInstance = useRouter();
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
-  const [location, setLocation] = useState<LocationType>({
-    hinhAnh: "",
-    id: 0,
-    quocGia: "",
-    tenViTri: "",
-    tinhThanh: "",
-  });
+  const [location, setLocation] = useState<number | null>();
+  const [searchLocation, setSearchLocation] = useState<string>("");
 
   const handleSearch = (): void => {
-    router.push(`/search?keyword=${location.id}`);
+    router.push(`/search?keyword=${location}`);
   };
 
   return (
@@ -49,14 +44,21 @@ const HeaderMobile: React.FC<Props> = ({}) => {
               onOpenChange={() => setIsOpenDropdown(!isOpenDropdown)}
               dropdownRender={() => (
                 <HeaderModalLocation
+                  searchLocation={searchLocation}
                   setIsOpenDropdown={setIsOpenDropdown}
                   setLocation={setLocation}
+                  setSearchLocation={setSearchLocation}
                 />
               )}
             >
               <Input
-                value={location.tenViTri}
+                allowClear
+                defaultValue={searchLocation}
+                value={searchLocation}
                 placeholder="Tìm kiếm điểm đến"
+                onChange={(e) => {
+                  setSearchLocation(e.target.value);
+                }}
               />
             </Dropdown>
           </div>
