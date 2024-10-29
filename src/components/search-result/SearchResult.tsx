@@ -61,17 +61,19 @@ const SearchResult: React.FC<Props> = ({ data, keyword }) => {
               ))}
           </div>
 
-          <div className="mt-5">
-            <Pagination
-              align="end"
-              current={pageIndex}
-              defaultPageSize={pageSize}
-              total={data.length}
-              onChange={handleChangePageIndex}
-              onShowSizeChange={handlePageSizeChange}
-              showSizeChanger
-            />
-          </div>
+          {paginatedData && paginatedData.length > 10 && (
+            <div className="mt-5">
+              <Pagination
+                align="end"
+                current={pageIndex}
+                defaultPageSize={pageSize}
+                total={data.length}
+                onChange={handleChangePageIndex}
+                onShowSizeChange={handlePageSizeChange}
+                showSizeChanger
+              />
+            </div>
+          )}
         </div>
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
