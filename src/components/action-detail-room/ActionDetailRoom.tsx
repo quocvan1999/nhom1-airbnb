@@ -41,10 +41,13 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
   const [isModalViewUserOpen, setIsModalViewUserOpen] =
     useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const getLikeRoom = (): void => {
     const listLikeRoom: number[] = JSON.parse(
-      localStorage.getItem(`${process.env.NEXT_PUBLIC_NAME_STORAGE}`) || "[]"
+      localStorage.getItem(
+        `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`
+      ) || "[]"
     );
 
     const like = listLikeRoom.includes(room.id);
@@ -61,14 +64,16 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
 
     if (login === true) {
       const listLikeRoom: number[] = JSON.parse(
-        localStorage.getItem(`${process.env.NEXT_PUBLIC_NAME_STORAGE}`) || "[]"
+        localStorage.getItem(
+          `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`
+        ) || "[]"
       );
 
       const pushRoom = listLikeRoom.push(room.id);
 
       if (pushRoom) {
         localStorage.setItem(
-          `${process.env.NEXT_PUBLIC_NAME_STORAGE}`,
+          `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`,
           JSON.stringify(listLikeRoom)
         );
         openNotification(
@@ -92,14 +97,16 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
 
     if (login === true) {
       const listLikeRoom: number[] = JSON.parse(
-        localStorage.getItem(`${process.env.NEXT_PUBLIC_NAME_STORAGE}`) || "[]"
+        localStorage.getItem(
+          `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`
+        ) || "[]"
       );
 
       const updatedArray = listLikeRoom.filter((id) => id !== room.id);
 
       if (updatedArray) {
         localStorage.setItem(
-          `${process.env.NEXT_PUBLIC_NAME_STORAGE}`,
+          `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`,
           JSON.stringify(updatedArray)
         );
         openNotification(

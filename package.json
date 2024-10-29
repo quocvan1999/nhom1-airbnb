@@ -16,6 +16,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@greatsumini/react-facebook-login": "^3.3.3",
     "@mapbox/mapbox-sdk": "^0.16.1",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-slot": "^1.1.0",

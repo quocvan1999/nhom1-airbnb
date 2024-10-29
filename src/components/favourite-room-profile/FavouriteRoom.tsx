@@ -1,10 +1,12 @@
 "use client";
 
+import { RootState } from "@/app/globalRedux/store";
 import Favourites from "@/components/favourites/Favourites";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { RoomType } from "@/types/room/roomType.type";
 import { ConfigProvider, Empty } from "antd";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
@@ -12,6 +14,7 @@ const FavouriteRoom: React.FC<Props> = ({}) => {
   const [favouriteRoom, setFavouriteRoom] = useState<RoomType[] | null>(null);
   const [roomId, setRoomId] = useState<number[] | null>(null);
   const [isLoading, setIsloading] = useState<boolean>(false);
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const getDetailRoom = (): void => {
     setFavouriteRoom(null);
@@ -29,7 +32,9 @@ const FavouriteRoom: React.FC<Props> = ({}) => {
 
   const getFavouriteRoom = (): void => {
     const idRoom: number[] = JSON.parse(
-      localStorage.getItem(`${process.env.NEXT_PUBLIC_NAME_STORAGE}`) || "[]"
+      localStorage.getItem(
+        `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`
+      ) || "[]"
     );
 
     if (idRoom.length > 0) {

@@ -1,5 +1,6 @@
 "use client";
 
+import { RootState } from "@/app/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { RoomType } from "@/types/room/roomType.type";
 import { faHeart, faInfo } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +10,7 @@ import Meta from "antd/es/card/Meta";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 type Props = {
   rooms: RoomType[];
@@ -20,6 +22,7 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
   const router: AppRouterInstance = useRouter();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const { openNotification } = useNotification();
 
@@ -30,14 +33,16 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
 
   const unlikeRoom = (roomId: number): void => {
     const listLikeRoom: number[] = JSON.parse(
-      localStorage.getItem(`${process.env.NEXT_PUBLIC_NAME_STORAGE}`) || "[]"
+      localStorage.getItem(
+        `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`
+      ) || "[]"
     );
 
     const updatedArray = listLikeRoom.filter((id) => id !== roomId);
 
     if (updatedArray) {
       localStorage.setItem(
-        `${process.env.NEXT_PUBLIC_NAME_STORAGE}`,
+        `${process.env.NEXT_PUBLIC_NAME_STORAGE}-${profile.id}`,
         JSON.stringify(updatedArray)
       );
       openNotification(

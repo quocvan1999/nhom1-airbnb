@@ -220,6 +220,10 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
               }
               size="large"
               className="w-full"
+              format={{
+                format: "YYYY-MM-DD",
+                type: "mask",
+              }}
             />
           </Form.Item>
 

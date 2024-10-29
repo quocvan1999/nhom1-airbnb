@@ -18,7 +18,12 @@ import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { User } from "@/types/user/userType.type";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
+import FacebookLogin, {
+  ProfileSuccessResponse,
+  SuccessResponse,
+} from "@greatsumini/react-facebook-login";
+import { registerAsync } from "@/services/register/register.service";
 
 type Props = {};
 
@@ -61,7 +66,9 @@ const LoginPage: React.FC<Props> = ({}) => {
         }
         break;
       case 400:
-        openNotification("error", "Đăng nhập", "Đăng nhập không thành công");
+        if (typeof res.content === "string") {
+          openNotification("error", "Đăng nhập", res.content);
+        }
         break;
       default:
         break;
@@ -81,6 +88,56 @@ const LoginPage: React.FC<Props> = ({}) => {
       handleChangeLogin(values);
     },
   });
+
+  const handleLoginToFacebook = async (
+    response: ProfileSuccessResponse
+  ): Promise<void> => {
+    if (response) {
+      const newUser: User = {
+        id: 0,
+        name: response.name || "",
+        email: response.email || "",
+        avatar: `${response.picture?.data.url}`,
+        birthday: "",
+        gender: true,
+        password: "",
+        phone: "",
+        role: "USER",
+      };
+
+      const useLogin: LoginType = {
+        email: newUser.email,
+        password: "",
+      };
+
+      const checkLoginRes: ReqType<{ user: User; token: string }> =
+        await LoginAsync(useLogin);
+
+      switch (checkLoginRes.statusCode) {
+        case 200:
+          handleChangeLogin(useLogin);
+          break;
+        case 400:
+          const resRegister: ReqType<User> = await registerAsync(newUser);
+          switch (resRegister.statusCode) {
+            case 200:
+              handleChangeLogin(useLogin);
+              break;
+            default:
+              if (typeof resRegister.content === "string") {
+                openNotification("error", "Đăng nhập", resRegister.content);
+              }
+              break;
+          }
+          break;
+        default:
+          if (typeof checkLoginRes.content === "string") {
+            openNotification("error", "Đăng nhập", checkLoginRes.content);
+          }
+          break;
+      }
+    }
+  };
 
   useEffect(() => {
     const isLogin: boolean | undefined = checkIsLogin();
@@ -120,18 +177,16 @@ const LoginPage: React.FC<Props> = ({}) => {
           <h1 className="text-2xl">Đăng Nhập</h1>
           <div className="flex items-center gap-3">
             <div className="w-[35px] h-[35px] flex items-center justify-center border rounded-full transition-all duration-500 ease-in-out hover:shadow-lg cursor-pointer">
-              <FontAwesomeIcon
-                size="lg"
-                className="text-custome-gray-200"
-                icon={faFacebookF}
-              />
-            </div>
-            <div className="w-[35px] h-[35px] flex items-center justify-center border rounded-full transition-all duration-500 ease-in-out hover:shadow-lg cursor-pointer">
-              <FontAwesomeIcon
-                size="lg"
-                className="text-custome-gray-200"
-                icon={faGoogle}
-              />
+              <FacebookLogin
+                onProfileSuccess={handleLoginToFacebook}
+                appId={`${process.env.NEXT_PUBLIC_ID_FACEBOOK}`}
+              >
+                <FontAwesomeIcon
+                  size="lg"
+                  className="text-custome-gray-200"
+                  icon={faFacebookF}
+                />
+              </FacebookLogin>
             </div>
           </div>
         </div>

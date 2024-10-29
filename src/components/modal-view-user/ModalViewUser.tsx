@@ -71,9 +71,6 @@ const ModalViewUser: React.FC<Props> = ({
 
   const handleChange = async (newUser: User): Promise<void> => {
     switch (modalType) {
-      case "view":
-        setModalType("update");
-        break;
       case "create":
         const res: ReqType<User> = await createUserAsync(newUser);
         switch (res.statusCode) {
@@ -401,16 +398,27 @@ const ModalViewUser: React.FC<Props> = ({
 
             <Form.Item className="!mb-0">
               <div className="flex items-center justify-end gap-3">
-                <button
-                  type="submit"
-                  className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
-                >
-                  {modalType === "create"
-                    ? "Thêm người dùng"
-                    : modalType === "update"
-                    ? "Lưu thông tin"
-                    : "Cập nhật thông tin"}
-                </button>
+                {modalType !== "view" && (
+                  <button
+                    type="submit"
+                    className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
+                  >
+                    {modalType === "create"
+                      ? "Thêm người dùng"
+                      : "Lưu thông tin"}
+                  </button>
+                )}
+
+                {modalType === "view" && (
+                  <button
+                    onClick={() => {
+                      setModalType("update");
+                    }}
+                    className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
+                  >
+                    Cập nhật thông tin
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     setIsModalViewUserOpen(false);
