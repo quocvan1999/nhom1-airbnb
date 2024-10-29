@@ -6,9 +6,11 @@ import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
+import { CommentType } from "@/types/comment/comment.type";
 import { LocationType } from "@/types/location/locationType.type";
 import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
+import { roundToDecimal } from "@/utils/method/method";
 import {
   faHeart,
   faMedal,
@@ -33,6 +35,7 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
   const [url, setUrl] = useState<string>("");
   const [location, setLocation] = useState<LocationType | null>(null);
   const [commentCount, setCommentCount] = useState<number>(0);
+  const [countRate, setCountRate] = useState<number>(0);
   const { comments } = useSelector((state: RootState) => state.room);
   const { openNotification } = useNotification();
   const [isModalViewUserOpen, setIsModalViewUserOpen] =
@@ -124,15 +127,8 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
 
   const setRatingRoom = (): number => {
     let rating: number = 0;
-    if (commentCount) {
-      if (commentCount >= 7) {
-        rating = 5;
-      } else if (commentCount < 0) {
-        rating = 0;
-      } else {
-        const ratings = (commentCount / 7) * 5;
-        rating = Math.round(ratings);
-      }
+    if (commentCount && countRate) {
+      rating = roundToDecimal(countRate / commentCount, 1);
     }
 
     return rating;
@@ -160,6 +156,12 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
   useEffect(() => {
     if (comments) {
       setCommentCount(comments.length);
+
+      setCountRate(0);
+
+      comments.map((item: CommentType) => {
+        setCountRate((prev: number) => (prev += item.saoBinhLuan));
+      });
     }
   }, [comments]);
 

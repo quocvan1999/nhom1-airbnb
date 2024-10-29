@@ -198,3 +198,8 @@ export function convertUSDToVND(value: number | string): string {
 export function randomNumber(limit: number): number {
   return Math.floor(Math.random() * limit);
 }
+
+export function roundToDecimal(num: number, decimalPlaces: number): number {
+  const factor = Math.pow(10, decimalPlaces);
+  return Math.round(num * factor) / factor;
+}

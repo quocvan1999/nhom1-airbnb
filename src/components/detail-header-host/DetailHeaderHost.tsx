@@ -2,8 +2,9 @@
 
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
+import { CommentType } from "@/types/comment/comment.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { randomNumber } from "@/utils/method/method";
+import { randomNumber, roundToDecimal } from "@/utils/method/method";
 import { faMedal } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -41,6 +42,7 @@ const DetailHeaderHost: React.FC<Props> = ({ room }) => {
   const [hostName, setHostName] = useState<string>("");
   const [commentCount, setCommentCount] = useState<number>(0);
   const { comments } = useSelector((state: RootState) => state.room);
+  const [countRate, setCountRate] = useState<number>(0);
 
   const randomHost = (): void => {
     const num = randomNumber(20);
@@ -55,15 +57,8 @@ const DetailHeaderHost: React.FC<Props> = ({ room }) => {
 
   const setRatingRoom = (): number => {
     let rating: number = 0;
-    if (commentCount) {
-      if (commentCount >= 7) {
-        rating = 5;
-      } else if (commentCount < 0) {
-        rating = 0;
-      } else {
-        const ratings = (commentCount / 7) * 5;
-        rating = Math.round(ratings);
-      }
+    if (commentCount && countRate) {
+      rating = roundToDecimal(countRate / commentCount, 1);
     }
 
     return rating;
@@ -73,14 +68,12 @@ const DetailHeaderHost: React.FC<Props> = ({ room }) => {
     const rating: number = setRatingRoom();
     let typeHost: string = "";
 
-    if (rating) {
-      if (rating >= 0 && rating < 2) {
-        typeHost = "Chủ nhà mới";
-      } else if (rating >= 2 && rating < 4) {
-        typeHost = "Chủ nhà kinh nghiệm";
-      } else if (rating >= 4) {
-        typeHost = "Chủ nhà siêu cấp";
-      }
+    if (rating >= 0 && rating <= 2) {
+      typeHost = "Chủ nhà mới";
+    } else if (rating > 2 && rating < 4) {
+      typeHost = "Chủ nhà kinh nghiệm";
+    } else if (rating >= 4) {
+      typeHost = "Chủ nhà siêu cấp";
     }
 
     return typeHost;
@@ -96,6 +89,12 @@ const DetailHeaderHost: React.FC<Props> = ({ room }) => {
   useEffect(() => {
     if (comments) {
       setCommentCount(comments.length);
+
+      setCountRate(0);
+
+      comments.map((item: CommentType) => {
+        setCountRate((prev: number) => (prev += item.saoBinhLuan));
+      });
     }
   }, [comments]);
 
