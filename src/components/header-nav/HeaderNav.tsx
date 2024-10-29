@@ -13,13 +13,13 @@ const HeaderNav: React.FC<Props> = ({}) => {
       <LinkAdminPage />
 
       <div className="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500 ease-in-out hover:bg-custome-gray-100 me-2">
-        <Badge count={1}>
+        {/* <Badge count={1}>
           <FontAwesomeIcon
             size="xl"
             className="text-custome-gray-200"
             icon={faBell}
           />
-        </Badge>
+        </Badge> */}
       </div>
 
       <HeaderUserContainer />

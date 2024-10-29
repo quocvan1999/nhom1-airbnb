@@ -1,13 +1,33 @@
+"use client";
+
+import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
+import { LocationType } from "@/types/location/locationType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { truncateString } from "@/utils/method/method";
+import { convertUSDToVND, truncateString } from "@/utils/method/method";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   item: RoomType;
 };
 
 const SearchCard: React.FC<Props> = ({ item }) => {
+  const [location, setLocation] = useState<LocationType | null>(null);
+
+  const getLocation = async (): Promise<void> => {
+    const res: ReqType<LocationType> = await getLocationIdAsync(item.maViTri);
+
+    if (typeof res.content === "object") {
+      setLocation(res.content);
+    }
+  };
+
+  useEffect(() => {
+    if (item) {
+      getLocation();
+    }
+  }, [item]);
   return (
     <Link
       href={`/room/${item.id}`}
@@ -23,22 +43,26 @@ const SearchCard: React.FC<Props> = ({ item }) => {
       <div className="w-full h-full flex md:w-[65%] flex-col justify-between">
         <div>
           <p className="text-custome-gray-200">
-            Toàn bộ căn hộ dịch vụ tại Bình Thạnh
+            Căn hộ dịch vụ tại {location?.tenViTri}
           </p>
           <h1 className="text-[18px] font-medium text-custome-black-100">
             {truncateString(item.tenPhong, 100)}
           </h1>
           <hr className="w-[30px] my-3" />
           <p className="text-custome-gray-200">
-            2 khách - phòng studio - 1 giường - 1 phòng tắm
+            {`${item.khach} khách - ${item.phongNgu} phòng ngủ - ${item.giuong} giường - ${item.phongTam} phòng tắm`}
           </p>
           <p className="text-custome-gray-200">
-            Wifi - Bếp - Điều hoà nhiệt độ - Máy giặt
+            {item.wifi && "Wifi - "} {item.tivi && "Tivi - "}{" "}
+            {item.banLa && "Bàn là - "} {item.banUi && "Bàn ủi - "}{" "}
+            {item.bep && "Bếp - "} {item.dieuHoa && "Điều hoà - "}{" "}
+            {item.doXe && "Bãi đỗ xe - "}
           </p>
         </div>
         <div className="text-end">
           <p className="text-custome-black-100 font-bold">
-            ${item.giaTien}/<span className="font-normal">tháng</span>
+            {convertUSDToVND(item.giaTien)}/
+            <span className="font-normal">/đêm</span>
           </p>
         </div>
       </div>

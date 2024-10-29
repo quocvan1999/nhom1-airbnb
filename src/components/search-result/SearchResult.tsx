@@ -1,17 +1,23 @@
 "use client";
 
 import SearchCard from "@/components/search-card/SearchCard";
+import TitleH1 from "@/components/titleH1/TitleH1";
+import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
+import { LocationType } from "@/types/location/locationType.type";
+import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { Empty, Pagination } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   data: RoomType[];
+  keyword: string;
 };
 
-const SearchResult: React.FC<Props> = ({ data }) => {
+const SearchResult: React.FC<Props> = ({ data, keyword }) => {
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
+  const [location, setLocation] = useState<LocationType | null>(null);
 
   const paginatedData = data.slice(
     (pageIndex - 1) * pageSize,
@@ -26,8 +32,26 @@ const SearchResult: React.FC<Props> = ({ data }) => {
     setPageSize(size);
   };
 
+  const getLocation = async (): Promise<void> => {
+    const res: ReqType<LocationType> = await getLocationIdAsync(
+      Number(keyword)
+    );
+
+    if (typeof res.content === "object") {
+      setLocation(res.content);
+    }
+  };
+
+  useEffect(() => {
+    if (keyword) {
+      getLocation();
+    }
+  }, [keyword]);
+
   return (
     <>
+      <TitleH1 title={`Chỗ ở tại khu vực ${location?.tenViTri}`} />
+      <hr className="my-5" />
       {data.length > 0 ? (
         <div>
           <div className="flex flex-col gap-4">

@@ -1,13 +1,14 @@
 "use client";
 
+import { RoomType } from "@/types/room/roomType.type";
 import mapboxgl from "mapbox-gl";
 import React, { useEffect, useRef } from "react";
 
-type Props = {};
+type Props = { data: RoomType[] };
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_BOX || "";
 
-const Map: React.FC<Props> = ({}) => {
+const Map: React.FC<Props> = ({ data }) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

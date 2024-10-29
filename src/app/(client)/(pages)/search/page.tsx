@@ -1,11 +1,9 @@
 import Map from "@/components/map/Map";
 import SearchResult from "@/components/search-result/SearchResult";
-import TitleH1 from "@/components/titleH1/TitleH1";
 import { getRoomsLocation } from "@/services/rooms-location/roomsLocation.service";
 import { RoomType } from "@/types/room/roomType.type";
 import { getCurrentDate } from "@/utils/method/method";
 import { tagData } from "@/utils/tag-data/tag.data";
-import { Empty } from "antd";
 import React from "react";
 
 type Props = {
@@ -53,21 +51,12 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
         <div className="flex flex-col md:flex-row gap-3">
           <div className="w-full md:w-[60%]">
             <p>{`Hơn ${data.length} chỗ ở - ${getCurrentDate()}`}</p>
-            <TitleH1 title="Chỗ ở tại khu vực đã chọn" />
-            <div className="flex gap-1 flex-wrap">
-              {tagData.map((item: string, index: number) => (
-                <div key={index} className="border px-5 py-2 rounded-full">
-                  {item}
-                </div>
-              ))}
-            </div>
-            <hr className="my-5" />
             <div className="flex flex-col">
-              <SearchResult data={data} />
+              <SearchResult keyword={value} data={data} />
             </div>
           </div>
           <div className="w-full mt-5 md:mt-0 md:w-[40%]">
-            <Map />
+            <Map data={data} />
           </div>
         </div>
       ) : (
