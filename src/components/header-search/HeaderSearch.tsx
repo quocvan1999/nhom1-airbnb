@@ -157,6 +157,10 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                   placeholder="Thêm ngày"
                   className="!py-0"
                   onChange={onChange}
+                  format={{
+                    format: "YYYY-MM-DD",
+                    type: "mask",
+                  }}
                 />
               </div>
               {typeSearch === false && (
@@ -167,6 +171,10 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     placeholder="Thêm ngày"
                     className="!py-0"
                     onChange={onChange}
+                    format={{
+                      format: "YYYY-MM-DD",
+                      type: "mask",
+                    }}
                   />
                 </div>
               )}
@@ -178,14 +186,14 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     placement="bottom"
                     dropdownRender={() => (
                       <ModalCustomer
-                        member={0}
+                        member={totalMember}
                         handleChangeCountMember={handleChangeCountMember}
                       />
                     )}
                   >
                     <Input
                       placeholder="Tìm kiếm điểm đến"
-                      value={totalMember === 0 ? "" : `${totalMember} Khách`}
+                      value={totalMember === 0 ? "" : totalMember}
                     />
                   </Dropdown>
                 </div>
