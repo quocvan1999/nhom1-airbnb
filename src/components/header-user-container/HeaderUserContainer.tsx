@@ -7,8 +7,11 @@ import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { deleteCookie } from "@/utils/method/method";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Dropdown, Modal } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,12 +20,14 @@ const { confirm } = Modal;
 type Props = {};
 
 const HeaderUserContainer: React.FC<Props> = ({}) => {
+  const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { getProfile } = useGetProfile();
   const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
   const { profile } = useSelector((state: RootState) => state.user);
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
 
   const showPropsConfirm = (): void => {
     confirm({
@@ -63,29 +68,40 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
 
   return (
     <Dropdown
+      open={isOpenDropdown}
+      onOpenChange={() => setIsOpenDropdown(!isOpenDropdown)}
       dropdownRender={() => (
         <div className="bg-white shadow-lg rounded-lg">
           <div className="flex flex-col">
-            <Link
-              href={`${isLogin === true ? "/profile" : "/auth/login"}`}
-              className="transition-all duration-500 ease-in-out text-custome-black-100 hover:bg-custome-gray-100 hover:text-custome-black-100 px-5 py-2 rounded-t-lg"
+            <Button
+              onClick={() => {
+                setIsOpenDropdown(false);
+                router.push(`${isLogin === true ? "/profile" : "/auth/login"}`);
+              }}
+              className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
             >
               {isLogin === true ? "Xem hồ sơ" : "Đăng nhập"}
-            </Link>
+            </Button>
             {isLogin === true ? (
               <Button
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  setIsOpenDropdown(false);
+                }}
                 className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
               >
                 Đăng xuất
               </Button>
             ) : (
-              <Link
-                href="/auth/register"
-                className="transition-all duration-500 ease-in-out text-custome-black-100 hover:bg-custome-gray-100 hover:text-custome-black-100 px-5 py-2 rounded-b-lg"
+              <Button
+                onClick={() => {
+                  router.push(`/auth/register`);
+                  setIsOpenDropdown(false);
+                }}
+                className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
               >
                 Đăng ký
-              </Link>
+              </Button>
             )}
           </div>
         </div>
@@ -94,15 +110,11 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
       trigger={["click"]}
     >
       <div className="border flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer transition-all duration-500 ease-in-out hover:shadow-md">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          style={{ fill: "#222" }}
-        >
-          <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
-        </svg>
+        <FontAwesomeIcon
+          size="lg"
+          className="text-custome-gray-200"
+          icon={faBars}
+        />
         {isLogin === true ? (
           <div
             className="w-[35px] h-[35px] rounded-full border border-primary-100"
@@ -112,15 +124,13 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
             }}
           ></div>
         ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="35"
-            height="35"
-            viewBox="0 0 24 24"
-            style={{ fill: "#222" }}
-          >
-            <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path>
-          </svg>
+          <div className="w-[35px] h-[35px] rounded-full border border-primary-100 flex items-center justify-center">
+            <FontAwesomeIcon
+              size="lg"
+              className="text-custome-gray-200"
+              icon={faUser}
+            />
+          </div>
         )}
       </div>
     </Dropdown>

@@ -2,27 +2,27 @@
 
 import HeaderModalLocation from "@/components/header-modal-location/HeaderModalLocation";
 import ModalCustomer from "@/components/modal-customer/ModalCustomer";
+import useNotification from "@/custome-hook/useNotification/useNotification";
 import useStatusHeader from "@/custome-hook/useStatusHeader/useStatusHeader";
-import { LocationType } from "@/types/location/locationType.type";
-import {
-  ConfigProvider,
-  DatePicker,
-  DatePickerProps,
-  Dropdown,
-  Input,
-} from "antd";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ConfigProvider, DatePicker, Dropdown, Input } from "antd";
 import { motion } from "framer-motion";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { Dayjs } from "dayjs";
 
 type Props = {};
 
 const HeaderSearch: React.FC<Props> = ({}) => {
   const router: AppRouterInstance = useRouter();
+  const { openNotification } = useNotification();
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [searchLocation, setSearchLocation] = useState<string>("");
   const [location, setLocation] = useState<number | null>();
+  const [dateCheckin, setDateCheckin] = useState<Dayjs | null>(null);
+  const [dateCheckout, setDateCheckout] = useState<Dayjs | null>(null);
   const {
     typeSearch,
     setTypeSearch,
@@ -33,8 +33,12 @@ const HeaderSearch: React.FC<Props> = ({}) => {
   } = useStatusHeader();
   const [countMember, setCountMember] = useState<number>(0);
 
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
+  const onChangeCheckin = (date: Dayjs, dateString: string | string[]) => {
+    setDateCheckin(date);
+  };
+
+  const onChangeCheckout = (date: Dayjs, dateString: string | string[]) => {
+    setDateCheckout(date);
   };
 
   const handleChangeTypeSearch = (): void => {
@@ -42,7 +46,15 @@ const HeaderSearch: React.FC<Props> = ({}) => {
   };
 
   const handleSearch = (): void => {
-    router.push(`/search?keyword=${location}`);
+    if (searchLocation !== "" && location) {
+      router.push(`/search?keyword=${location}`);
+      setCountMember(0);
+      setSearchLocation("");
+      setDateCheckin(null);
+      setDateCheckout(null);
+    } else {
+      openNotification("warning", "Tìm kiếm", "Điểm đến không được bỏ trống");
+    }
   };
 
   const handleChangeCountMember = (value: number): void => {
@@ -158,7 +170,8 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                   suffixIcon={false}
                   placeholder="Thêm ngày"
                   className="!py-0"
-                  onChange={onChange}
+                  onChange={onChangeCheckin}
+                  value={dateCheckin}
                   format={{
                     format: "YYYY-MM-DD",
                     type: "mask",
@@ -172,7 +185,8 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     suffixIcon={false}
                     placeholder="Thêm ngày"
                     className="!py-0"
-                    onChange={onChange}
+                    onChange={onChangeCheckout}
+                    value={dateCheckout}
                     format={{
                       format: "YYYY-MM-DD",
                       type: "mask",
@@ -195,23 +209,19 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                   >
                     <Input
                       placeholder="Tìm kiếm điểm đến"
-                      value={countMember}
+                      value={countMember === 0 ? "" : countMember}
                     />
                   </Dropdown>
                 </div>
                 <div
                   onClick={handleSearch}
-                  className="rounded-full bg-primary-100 top-0 right-0 flex items-center justify-center p-2 transition-all duration-500 ease-in-out hover:bg-primary-200"
+                  className="rounded-full bg-primary-100 w-10 h-10 top-0 right-0 flex items-center justify-center p-2 transition-all duration-500 ease-in-out hover:bg-primary-200"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    style={{ fill: "white" }}
-                  >
-                    <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
-                  </svg>
+                  <FontAwesomeIcon
+                    size="lg"
+                    className="text-white"
+                    icon={faMagnifyingGlass}
+                  />
                 </div>
               </div>
             </>
@@ -224,16 +234,12 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                 </li>
                 <li className="px-2 text-custome-gray-200">Thêm bất kỳ</li>
               </ul>
-              <div className="bg-primary-100 m-1 rounded-full p-2 cursor-pointer transition-all duration-500 ease-in-out hover:bg-primary-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  style={{ fill: "white" }}
-                >
-                  <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
-                </svg>
+              <div className="bg-primary-100 m-1 w-10 h-10 rounded-full p-2 cursor-pointer flex items-center justify-center transition-all duration-500 ease-in-out hover:bg-primary-200">
+                <FontAwesomeIcon
+                  size="lg"
+                  className="text-white"
+                  icon={faMagnifyingGlass}
+                />
               </div>
             </div>
           )}

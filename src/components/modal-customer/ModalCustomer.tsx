@@ -16,31 +16,29 @@ const ModalCustomer: React.FC<Props> = ({
   const [data, setData] = useState<ModalMemberType[] | null>(null);
 
   const handleSetData = (): void => {
-    if (member > 0) {
-      const items: ModalMemberType[] = [
-        {
-          title: "Người lớn",
-          content: "Từ 13 tuổi trở lên",
-          defaultCount: member,
-        },
-        {
-          title: "Trẻ em",
-          content: "Độ tuổi 2 - 12",
-          defaultCount: 0,
-        },
-        {
-          title: "Em bé",
-          content: "Dưới 2 tuổi",
-          defaultCount: 0,
-        },
-        {
-          title: "Thú cưng",
-          content: "",
-          defaultCount: 0,
-        },
-      ];
-      setData(items);
-    }
+    const items: ModalMemberType[] = [
+      {
+        title: "Người lớn",
+        content: "Từ 13 tuổi trở lên",
+        defaultCount: member,
+      },
+      {
+        title: "Trẻ em",
+        content: "Độ tuổi 2 - 12",
+        defaultCount: 0,
+      },
+      {
+        title: "Em bé",
+        content: "Dưới 2 tuổi",
+        defaultCount: 0,
+      },
+      {
+        title: "Thú cưng",
+        content: "",
+        defaultCount: 0,
+      },
+    ];
+    setData(items);
   };
 
   useEffect(() => {
