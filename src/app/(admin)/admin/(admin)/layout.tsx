@@ -1,6 +1,6 @@
 import LayoutAdminPage from "@/components/layout-admin-page/LayoutAdminPage";
 import { ConfigProvider } from "antd";
-import React from "react";
+import React, { Suspense } from "react";
 
 export default function AdminLayout({
   children,
@@ -22,7 +22,9 @@ export default function AdminLayout({
       }}
     >
       <div className="w-full h-[100vh]">
-        <LayoutAdminPage children={children} />
+        <Suspense fallback={<div></div>}>
+          <LayoutAdminPage children={children} />
+        </Suspense>
       </div>
     </ConfigProvider>
   );

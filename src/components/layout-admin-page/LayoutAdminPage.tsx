@@ -194,6 +194,11 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                   icon: <StockOutlined />,
                   label: <Link href="/admin/bookings">Quản lý đặt phòng</Link>,
                 },
+                {
+                  key: "chart",
+                  icon: <StockOutlined />,
+                  label: <Link href="/admin/chart">Biểu đồ thống kê</Link>,
+                },
               ]}
             />
           </Sider>
