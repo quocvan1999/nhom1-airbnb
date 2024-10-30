@@ -158,7 +158,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
     <>
       {roomDetail && (
         <Card
-          className="mb-5 transition-all duration-500 ease-in-out hover:shadow-md"
+          className="mb-5 !w-full md:!w-[calc((100%-12px)/2)] lg:!w-[calc((100%-24px)/3)] transition-all duration-500 ease-in-out hover:shadow-md"
           style={{ width: "calc((100% - 24px)/3)" }}
           cover={
             <img

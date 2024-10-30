@@ -35,7 +35,7 @@ const NavMobile: React.FC<Props> = ({}) => {
     <div className="w-full py-2 flex items-center justify-center gap-10">
       {isLogin && (
         <Link
-          href="/"
+          href=""
           className="flex flex-col items-center justify-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
         >
           <HeaderNotificationClient type="mobile" />

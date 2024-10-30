@@ -7,6 +7,7 @@ import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
 import {
+  deleteCookie,
   formatDate,
   getCookie,
   getCurrentDateTime,
@@ -42,6 +43,7 @@ import FavouriteRoom from "@/components/favourite-room-profile/FavouriteRoom";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { resetProfile } from "@/app/globalRedux/features/userSlice";
 
 const { confirm } = Modal;
 
@@ -145,6 +147,29 @@ const ProfilePage: React.FC<Props> = ({}) => {
         );
       }
     },
+  };
+
+  const showPropsConfirm = (): void => {
+    confirm({
+      title: "Đăng xuất",
+      icon: <ExclamationCircleFilled />,
+      content: "Bạn có muốn đăng xuất?",
+      okText: "Đăng xuất",
+      okType: "danger",
+      cancelText: "Huỷ",
+      cancelButtonProps: {
+        className: "custom-cancel-button",
+      },
+      onOk() {
+        openNotification("success", "Đăng xuất", "Đăng xuất thành công");
+        deleteCookie("accessToken");
+        deleteCookie("i_d");
+        setIsLoading(!isLoading);
+
+        const action = resetProfile();
+        dispatch(action);
+      },
+    });
   };
 
   useEffect(() => {
@@ -297,6 +322,17 @@ const ProfilePage: React.FC<Props> = ({}) => {
                   }}
                 >
                   Cập nhật hồ sơ
+                </button>
+                <button
+                  onClick={() => {
+                    showPropsConfirm();
+                  }}
+                  className="text-custome-gray-200 font-bold w-full py-2 rounded-full transition-all duration-500 ease-in-out shadow-sm hover:shadow-lg hover:text-primary-100 mt-3 block lg:hidden"
+                  style={{
+                    boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                  }}
+                >
+                  Đăng xuất
                 </button>
               </div>
             </div>
