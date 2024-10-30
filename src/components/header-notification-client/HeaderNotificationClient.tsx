@@ -18,9 +18,11 @@ const HeaderNotificationClient: React.FC<Props> = ({}) => {
   const [notification, setNotification] = useState<NotifiType[] | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
-  const { getProfile } = useGetProfile();
   const { profile } = useSelector((state: RootState) => state.user);
   const { removeNotification, cleanNotification } = useNotifiCustome();
+  const { isLoadingNotification } = useSelector(
+    (state: RootState) => state.statusAppSlice
+  );
 
   const getNotification = (): void => {
     const notifications: NotifiType[] = JSON.parse(
@@ -45,16 +47,15 @@ const HeaderNotificationClient: React.FC<Props> = ({}) => {
     const login: boolean | undefined = checkIsLogin();
 
     if (login === true) {
-      getProfile();
       setIslogin(true);
     } else {
       setIslogin(false);
     }
-  }, []);
+  }, [profile]);
 
   useEffect(() => {
     getNotification();
-  }, [profile]);
+  }, [isLoadingNotification]);
 
   return (
     <>
