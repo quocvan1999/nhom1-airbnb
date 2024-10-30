@@ -211,8 +211,8 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
   return (
     <ConfigProvider theme={{ components: {} }}>
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mt-4 lg:mt-0 mb-5">
-        <div className="flex items-start lg:items-center lg:gap-5 text-custome-gray-200">
-          <div className="hidden lg:flex items-center gap-1">
+        <div className="flex flex-col md:flex-row items-start lg:items-center md:gap-5 text-custome-gray-200">
+          <div className="flex items-center gap-1">
             <FontAwesomeIcon className="text-primary-100" icon={faStar} />
             <p className="font-bold text-custome-black-100">
               {setRatingRoom()}
@@ -229,7 +229,7 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
               `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`}
           </Link>
         </div>
-        <div className="flex items-start gap-4 text-custome-gray-200">
+        <div className="flex mt-3 lg:mt-0 items-start lg:items-center gap-4 text-custome-gray-200">
           <div
             onClick={() => {
               setIsModalViewUserOpen(true);
