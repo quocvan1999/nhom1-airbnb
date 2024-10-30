@@ -179,6 +179,7 @@ const LoginPage: React.FC<Props> = ({}) => {
             <FacebookLogin
               onProfileSuccess={handleLoginToFacebook}
               appId={`${process.env.NEXT_PUBLIC_ID_FACEBOOK}`}
+              onFail={() => {}}
             >
               <div className="w-[35px] h-[35px] flex items-center justify-center border rounded-full transition-all duration-500 ease-in-out hover:shadow-lg cursor-pointer">
                 <FontAwesomeIcon
