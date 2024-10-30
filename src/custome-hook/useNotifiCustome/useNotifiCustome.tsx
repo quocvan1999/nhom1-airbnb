@@ -30,11 +30,15 @@ const useNotifiCustome = () => {
     );
 
     if (updateNotification) {
-      localStorage.setItem(key, JSON.stringify(notifications));
+      localStorage.setItem(key, JSON.stringify(updateNotification));
     }
   };
 
-  return { createNotification, removeNotification };
+  const cleanNotification = (key: string): void => {
+    localStorage.setItem(key, JSON.stringify([]));
+  };
+
+  return { createNotification, removeNotification, cleanNotification };
 };
 
 export default useNotifiCustome;
