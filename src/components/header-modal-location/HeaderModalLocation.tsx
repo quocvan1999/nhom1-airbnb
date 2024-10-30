@@ -4,7 +4,6 @@ import { getLocationAsync } from "@/services/location/location.service";
 import { LocationType } from "@/types/location/locationType.type";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ConfigProvider, Input } from "antd";
 import React, { useEffect, useState } from "react";
 
 type Props = {

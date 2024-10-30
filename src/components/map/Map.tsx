@@ -57,19 +57,19 @@ const Map: React.FC<Props> = ({ keyword }) => {
         });
 
         // Thêm marker vào vị trí đã tìm thấy
-        const marker = new mapboxgl.Marker() // Tạo một marker mới
-          .setLngLat(coordinates) // Đặt tọa độ cho marker
-          .setPopup(new mapboxgl.Popup().setHTML(`<h3>${address}</h3>`)) // Thêm popup cho marker
-          .addTo(map); // Thêm marker vào bản đồ
+        // const marker = new mapboxgl.Marker() // Tạo một marker mới
+        //   .setLngLat(coordinates) // Đặt tọa độ cho marker
+        //   .setPopup(new mapboxgl.Popup().setHTML(`<h3>${address}</h3>`)) // Thêm popup cho marker
+        //   .addTo(map); // Thêm marker vào bản đồ
 
-        // Điều chỉnh bản đồ để bao quanh marker
-        map.fitBounds(
-          [
-            [coordinates[0] - 0.01, coordinates[1] - 0.01], // Góc dưới bên trái
-            [coordinates[0] + 0.01, coordinates[1] + 0.01], // Góc trên bên phải
-          ],
-          { padding: 20 }
-        ); // Thêm padding để không bị chật chội
+        // // Điều chỉnh bản đồ để bao quanh marker
+        // map.fitBounds(
+        //   [
+        //     [coordinates[0] - 0.01, coordinates[1] - 0.01], // Góc dưới bên trái
+        //     [coordinates[0] + 0.01, coordinates[1] + 0.01], // Góc trên bên phải
+        //   ],
+        //   { padding: 20 }
+        // ); // Thêm padding để không bị chật chội
       } else {
         console.error("Không tìm thấy địa chỉ này.");
       }

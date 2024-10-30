@@ -48,14 +48,14 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
   return (
     <>
       {data.length > 0 ? (
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="w-full md:w-[60%]">
+        <div className="flex flex-col lg:flex-row gap-3">
+          <div className="w-full lg:w-[60%]">
             <p>{`Hơn ${data.length} chỗ ở - ${getCurrentDate()}`}</p>
             <div className="flex flex-col">
               <SearchResult keyword={value} data={data} />
             </div>
           </div>
-          <div className="w-full mt-5 md:mt-0 md:w-[40%]">
+          <div className="w-full mt-5 lg:mt-0 lg:w-[40%]">
             <Map keyword={value} />
           </div>
         </div>

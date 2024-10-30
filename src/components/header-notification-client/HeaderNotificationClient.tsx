@@ -8,12 +8,13 @@ import { NotifiType } from "@/types/notifi/notifi.type";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/globalRedux/store";
-import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
-type Props = {};
+type Props = {
+  type: "mobile" | "table" | "destop";
+};
 
-const HeaderNotificationClient: React.FC<Props> = ({}) => {
+const HeaderNotificationClient: React.FC<Props> = ({ type = "destop" }) => {
   const [isLogin, setIslogin] = useState<boolean>(false);
   const [notification, setNotification] = useState<NotifiType[] | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
@@ -127,14 +128,24 @@ const HeaderNotificationClient: React.FC<Props> = ({}) => {
               </div>
             </div>
           )}
-          placement="bottomLeft"
+          placement={type === "destop" ? "bottomLeft" : "topCenter"}
           trigger={["click"]}
         >
-          <div className="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500 ease-in-out hover:bg-custome-gray-100 me-2">
+          <div
+            className={`${
+              type === "destop"
+                ? "me-2 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500 ease-in-out hover:bg-custome-gray-100"
+                : "w-[35px] h-[35px] rounded-full flex items-center justify-center"
+            }`}
+          >
             <Badge count={notification.length}>
               <FontAwesomeIcon
                 size="xl"
-                className="text-custome-gray-200 cursor-pointer"
+                className={`${
+                  type === "destop"
+                    ? "text-custome-gray-200 cursor-pointer"
+                    : "text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
+                }`}
                 icon={faBell}
               />
             </Badge>

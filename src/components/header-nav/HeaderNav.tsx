@@ -10,7 +10,7 @@ const HeaderNav: React.FC<Props> = ({}) => {
     <div className="flex items-center">
       <LinkAdminPage />
 
-      <HeaderNotificationClient />
+      <HeaderNotificationClient type="destop" />
       <HeaderUserContainer />
     </div>
   );
