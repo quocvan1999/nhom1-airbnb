@@ -197,11 +197,19 @@ const ProfilePage: React.FC<Props> = ({}) => {
               <div className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full border !relative">
                 {isMounted && profile && (
                   <div className="overflow-hidden w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full">
-                    <Image
-                      className="!w-[100px] !h-[100px] md:!w-[200px] md:!h-[200px] rounded-full object-cover"
-                      src={profile.avatar}
-                      alt="image"
-                    />
+                    {profile.avatar === "" ? (
+                      <Image
+                        className="!w-[100px] !h-[100px] md:!w-[200px] md:!h-[200px] rounded-full object-cover"
+                        src="/images/logo.jpg"
+                        alt="image"
+                      />
+                    ) : (
+                      <Image
+                        className="!w-[100px] !h-[100px] md:!w-[200px] md:!h-[200px] rounded-full object-cover"
+                        src={profile.avatar}
+                        alt="image"
+                      />
+                    )}
                   </div>
                 )}
 

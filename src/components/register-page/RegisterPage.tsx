@@ -63,7 +63,9 @@ const RegisterPage: React.FC<Props> = ({}) => {
         .required("Email không được để trống")
         .email("Email không đúng định dạng"),
       password: Yup.string().required("Password không được để trống"),
-      phone: Yup.string().required("Phone không được để trống"),
+      phone: Yup.string()
+        .matches(/^(0[3|5|7|8|9][0-9]{8})$/, "Số điện thoại không hợp lệ.")
+        .required("Phone không được để trống"),
       birthday: Yup.string().required("Birthday không được để trống"),
     }),
     onSubmit: (values) => {
@@ -214,6 +216,10 @@ const RegisterPage: React.FC<Props> = ({}) => {
                     formRegister.setFieldValue("birthday", dateString)
                   }
                   onBlur={formRegister.handleBlur}
+                  format={{
+                    format: "YYYY-MM-DD",
+                    type: "mask",
+                  }}
                 />
               </Form.Item>
 

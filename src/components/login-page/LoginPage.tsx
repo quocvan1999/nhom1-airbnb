@@ -176,18 +176,18 @@ const LoginPage: React.FC<Props> = ({}) => {
         <div className="flex items-center justify-between mb-14">
           <h1 className="text-2xl">Đăng Nhập</h1>
           <div className="flex items-center gap-3">
-            <div className="w-[35px] h-[35px] flex items-center justify-center border rounded-full transition-all duration-500 ease-in-out hover:shadow-lg cursor-pointer">
-              <FacebookLogin
-                onProfileSuccess={handleLoginToFacebook}
-                appId={`${process.env.NEXT_PUBLIC_ID_FACEBOOK}`}
-              >
+            <FacebookLogin
+              onProfileSuccess={handleLoginToFacebook}
+              appId={`${process.env.NEXT_PUBLIC_ID_FACEBOOK}`}
+            >
+              <div className="w-[35px] h-[35px] flex items-center justify-center border rounded-full transition-all duration-500 ease-in-out hover:shadow-lg cursor-pointer">
                 <FontAwesomeIcon
                   size="lg"
                   className="text-custome-gray-200"
                   icon={faFacebookF}
                 />
-              </FacebookLogin>
-            </div>
+              </div>
+            </FacebookLogin>
           </div>
         </div>
         <Form layout="vertical" onSubmitCapture={formLogin.handleSubmit}>

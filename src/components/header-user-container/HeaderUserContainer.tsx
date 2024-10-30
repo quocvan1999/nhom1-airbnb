@@ -118,8 +118,13 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
           <div
             className="w-[35px] h-[35px] rounded-full border border-primary-100"
             style={{
-              backgroundImage: `url("${profile.avatar}")`,
+              backgroundImage: `${
+                profile.avatar === ""
+                  ? `url("/images/logo.jpg")`
+                  : `url("${profile.avatar}")`
+              }`,
               backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           ></div>
         ) : (
