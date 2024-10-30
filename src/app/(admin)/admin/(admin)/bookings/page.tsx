@@ -118,15 +118,15 @@ const Bookings: React.FC<Props> = ({}) => {
       dataIndex: "id",
       key: "id",
     },
-    {
-      title: "Mã phòng",
-      dataIndex: "maPhong",
-      key: "maPhong",
-      sorter: (a: BookingType, b: BookingType) => a.maPhong - b.maPhong,
-      filters: valuesFilterMaPhong,
-      onFilter: (value, record) => record.maPhong === value,
-      filterSearch: true,
-    },
+    // {
+    //   title: "Mã phòng",
+    //   dataIndex: "maPhong",
+    //   key: "maPhong",
+    //   sorter: (a: BookingType, b: BookingType) => a.maPhong - b.maPhong,
+    //   filters: valuesFilterMaPhong,
+    //   onFilter: (value, record) => record.maPhong === value,
+    //   filterSearch: true,
+    // },
     {
       title: "Ngày đến",
       dataIndex: "ngayDen",
@@ -152,14 +152,14 @@ const Bookings: React.FC<Props> = ({}) => {
       sorter: (a: BookingType, b: BookingType) =>
         a.soLuongKhach - b.soLuongKhach,
     },
-    {
-      title: "Mã người dùng",
-      dataIndex: "maNguoiDung",
-      key: "maNguoiDung",
-      filters: valuesFilterMaNguoiDung,
-      onFilter: (value, record) => record.maNguoiDung === value,
-      filterSearch: true,
-    },
+    // {
+    //   title: "Mã người dùng",
+    //   dataIndex: "maNguoiDung",
+    //   key: "maNguoiDung",
+    //   filters: valuesFilterMaNguoiDung,
+    //   onFilter: (value, record) => record.maNguoiDung === value,
+    //   filterSearch: true,
+    // },
     {
       title: "Chức năng",
       dataIndex: "",

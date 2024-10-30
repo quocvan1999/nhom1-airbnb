@@ -94,7 +94,12 @@ const Locations: React.FC = () => {
 
   const handleSearchUsers = async (searchValue: string): Promise<void> => {
     if (searchValue !== "") {
-      router.push(`/admin/locations/?page=1&size=10&keyword=${searchValue}`);
+      router.push(
+        `/admin/locations/?page=1&size=10&keyword=${searchValue.replace(
+          /\s+/g,
+          ""
+        )}`
+      );
     } else {
       router.push(`/admin/locations/?page=1&size=10`);
     }
@@ -296,8 +301,9 @@ const Locations: React.FC = () => {
                   pageSize={locations?.pageSize}
                   total={locations?.totalRow}
                   onChange={(page: number, pageSize: number): void => {
+                    const { keyword } = getParams();
                     router.push(
-                      `/admin/locations/?page=${page}&size=${pageSize}`
+                      `/admin/locations/?page=${page}&size=${pageSize}&keyword=${keyword}`
                     );
                   }}
                 />

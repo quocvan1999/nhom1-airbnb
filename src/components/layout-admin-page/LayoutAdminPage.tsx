@@ -21,14 +21,17 @@ import {
 } from "antd";
 import Link from "next/link";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/globalRedux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { usePathname, useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { deleteCookie } from "@/utils/method/method";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import LoadingPage from "@/components/loading-page/LoadingPage";
+import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
+import { getUsersPaginationAsync } from "@/services/users-pagination/getUsersPagination.service";
+import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 
 const { Header, Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -39,6 +42,8 @@ type Props = {
 
 const LayoutAdminPage: React.FC<Props> = ({ children }) => {
   const pathname = usePathname();
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
   const [selectedKey, setSelectedKey] = useState<string>("");
   const router: AppRouterInstance = useRouter();
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -46,10 +51,22 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
   const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
   const { getProfile } = useGetProfile();
+  const { getParams } = useGetSearchPrams();
+  const [isModalViewUserOpen, setIsModalViewUserOpen] =
+    useState<boolean>(false);
+  const [modalType, setModalType] = useState<"create" | "view" | "update">(
+    "create"
+  );
   const { profile } = useSelector((state: RootState) => state.user);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const getData = (): void => {
+    const { size, page, keyword } = getParams();
+    const action = getUsersPaginationAsync(page, size, keyword || "");
+    dispatch(action);
+  };
 
   const showPropsConfirm = (): void => {
     confirm({
@@ -59,6 +76,9 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
       okText: "Đăng xuất",
       okType: "danger",
       cancelText: "Huỷ",
+      cancelButtonProps: {
+        className: "custom-cancel-button",
+      },
       onOk() {
         router.push("/admin/login");
         openNotification("success", "Đăng xuất", "Đăng xuất thành công");
@@ -193,15 +213,23 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 }}
               />
               <Dropdown
+                open={isOpenDropdown}
+                onOpenChange={() => {
+                  setIsOpenDropdown(!isOpenDropdown);
+                }}
                 dropdownRender={() => (
                   <div className="bg-white shadow-lg rounded-lg">
                     <div className="flex flex-col">
-                      <Link
-                        href="/admin/login"
-                        className="transition-all duration-500 ease-in-out text-custome-black-100 hover:bg-custome-gray-100 hover:text-custome-black-100 px-5 py-2 rounded-t-lg"
+                      <Button
+                        onClick={() => {
+                          setModalType("view");
+                          setIsModalViewUserOpen(true);
+                          setIsOpenDropdown(false);
+                        }}
+                        className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
                       >
                         Xem hồ sơ
-                      </Link>
+                      </Button>
                       <Button
                         onClick={handleLogout}
                         className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
@@ -223,7 +251,11 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                         className="w-[45px] h-[45px] rounded-full object-cover"
                       />
                     ) : (
-                      <UserOutlined />
+                      <img
+                        src="/images/logo.jpg"
+                        alt="image"
+                        className="w-[45px] h-[45px] rounded-full object-cover"
+                      />
                     )
                   ) : (
                     <svg
@@ -252,6 +284,16 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
         </Layout>
       ) : (
         <LoadingPage />
+      )}
+      {isModalViewUserOpen && (
+        <ModalViewUser
+          getData={getData}
+          userView={profile}
+          setModalType={setModalType}
+          modalType={modalType}
+          isModalViewUserOpen={isModalViewUserOpen}
+          setIsModalViewUserOpen={setIsModalViewUserOpen}
+        />
       )}
     </ConfigProvider>
   );

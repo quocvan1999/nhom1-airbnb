@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { ExclamationCircleFilled, UserOutlined } from "@ant-design/icons";
 import { updateUserAsync } from "@/services/update-user/updateUser.service";
 import { UserUpdate } from "@/types/user-update/userUpdate.type";
+import { formatDate } from "@/utils/method/method";
 
 type Props = {
   setModalType: React.Dispatch<
@@ -96,6 +97,9 @@ const ModalViewUser: React.FC<Props> = ({
           okText: "Cập nhật",
           okType: "danger",
           cancelText: "Huỷ",
+          cancelButtonProps: {
+            className: "custom-cancel-button",
+          },
           onCancel() {},
           onOk: () => {
             handleUpdateUser(newUser);
@@ -116,10 +120,14 @@ const ModalViewUser: React.FC<Props> = ({
         .required("Email không được để trống")
         .email("Email không đúng định dạng"),
       password: Yup.string().required("Mật khẩu không được để trống"),
-      phone: Yup.string().required("Số điện thoại không được để trống"),
+      phone: Yup.string()
+        .matches(/^(0[3|5|7|8|9][0-9]{8})$/, "Số điện thoại không hợp lệ.")
+        .required("Số điện thoại không được để trống"),
       birthday: Yup.string().required("Ngày sinh không được để trống"),
     }),
     onSubmit: (values) => {
+      console.log("SUBMIT BUTTON");
+
       handleChange(values);
     },
   });
@@ -346,9 +354,13 @@ const ModalViewUser: React.FC<Props> = ({
                       }
                       size="large"
                       className="w-full"
+                      format={{
+                        format: "YYYY-MM-DD",
+                        type: "mask",
+                      }}
                     />
                   ) : (
-                    <p>{formRegister.values.birthday}</p>
+                    <p>{formatDate(formRegister.values.birthday)}</p>
                   )}
                 </Form.Item>
 
@@ -398,17 +410,26 @@ const ModalViewUser: React.FC<Props> = ({
 
             <Form.Item className="!mb-0">
               <div className="flex items-center justify-end gap-3">
-                {modalType !== "view" && (
+                {modalType === "create" && (
                   <button
                     type="submit"
                     className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
                   >
-                    {modalType === "create"
-                      ? "Thêm người dùng"
-                      : "Lưu thông tin"}
+                    Thêm người dùng
                   </button>
                 )}
-
+                {modalType === "update" && (
+                  <button
+                    type="submit"
+                    onClick={() => {
+                      console.log("click save update");
+                      console.log(modalType);
+                    }}
+                    className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
+                  >
+                    Lưu thông tin
+                  </button>
+                )}
                 {modalType === "view" && (
                   <button
                     onClick={() => {

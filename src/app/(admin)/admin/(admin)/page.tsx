@@ -70,7 +70,9 @@ const AdminPage: React.FC = () => {
 
   const handleSearchUsers = async (searchValue: string): Promise<void> => {
     if (searchValue !== "") {
-      router.push(`/admin/?page=1&size=10&keyword=${searchValue}`);
+      router.push(
+        `/admin/?page=1&size=10&keyword=${searchValue.replace(/\s+/g, "")}`
+      );
     } else {
       router.push(`/admin/?page=1&size=10`);
     }
@@ -310,7 +312,10 @@ const AdminPage: React.FC = () => {
                   pageSize={users?.pageSize}
                   total={users?.totalRow}
                   onChange={(page: number, pageSize: number): void => {
-                    router.push(`/admin/?page=${page}&size=${pageSize}`);
+                    const { keyword } = getParams();
+                    router.push(
+                      `/admin/?page=${page}&size=${pageSize}&keyword=${keyword}`
+                    );
                   }}
                 />
               )}
