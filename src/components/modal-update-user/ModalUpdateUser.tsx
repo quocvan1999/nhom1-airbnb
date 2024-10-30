@@ -28,6 +28,7 @@ import {
   getCurrentDateTime,
   getFormattedDateTime,
 } from "@/utils/method/method";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 
 const { confirm } = Modal;
 
@@ -82,7 +83,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
         }
 
         const newNotification: NotifiType = {
-          id: `Rt${getFormattedDateTime()}`,
+          id: `Pro${getFormattedDateTime()}`,
           title: "Hồ sơ",
           content: "Cập nhật thông tin thành công",
           date: `${getCurrentDateTime()}`,
@@ -92,6 +93,9 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
           `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
           newNotification
         );
+
+        const action = setIsLoadingNotification();
+        dispatch(action);
         break;
       default:
         openNotification(

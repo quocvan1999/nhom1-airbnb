@@ -13,7 +13,12 @@ import {
   Modal,
 } from "antd";
 import dayjs from "dayjs";
-import { formatDate, getCookie } from "@/utils/method/method";
+import {
+  formatDate,
+  getCookie,
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 import ModalCustomer from "@/components/modal-customer/ModalCustomer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
@@ -23,6 +28,9 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { ReqType } from "@/types/req/reqType.type";
 import { updateBookingAsync } from "@/services/update-booking/updateBooking.service";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 const { confirm } = Modal;
 
@@ -48,6 +56,8 @@ const ModalUpdateBooking: React.FC<Props> = ({
   const [dateCheckout, setDateCheckout] = useState<string>("");
   const [listDate, setListDate] = useState<dayjs.Dayjs[]>([]);
   const { bookings } = useSelector((state: RootState) => state.room);
+  const { profile } = useSelector((state: RootState) => state.user);
+  const { createNotification } = useNotifiCustome();
 
   const handleCancel = (): void => {
     setIsModalUpdateBookingOpen(false);
@@ -90,6 +100,21 @@ const ModalUpdateBooking: React.FC<Props> = ({
               "Cập nhật thông tin đặt phòng thành công"
             );
             setIsModalUpdateBookingOpen(false);
+
+            const newNotification: NotifiType = {
+              id: `Fav${getFormattedDateTime()}`,
+              title: "Yêu thích",
+              content: "Xoá phòng khỏi mục yêu thích thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+              newNotification
+            );
+
+            const actionN = setIsLoadingNotification();
+            dispatch(actionN);
             break;
           default:
             break;

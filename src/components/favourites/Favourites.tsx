@@ -1,6 +1,7 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";
@@ -16,7 +17,7 @@ import Meta from "antd/es/card/Meta";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 type Props = {
   rooms: RoomType[];
@@ -25,6 +26,7 @@ type Props = {
 };
 
 const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
+  const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -70,6 +72,9 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
         `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
         newNotification
       );
+
+      const action = setIsLoadingNotification();
+      dispatch(action);
     }
   };
 

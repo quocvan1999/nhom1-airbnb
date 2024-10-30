@@ -6,7 +6,12 @@ import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
-import { formatDate, getCookie } from "@/utils/method/method";
+import {
+  formatDate,
+  getCookie,
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 import {
   Button,
   ConfigProvider,
@@ -34,6 +39,9 @@ import {
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
 import FavouriteRoom from "@/components/favourite-room-profile/FavouriteRoom";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 
 const { confirm } = Modal;
 
@@ -50,6 +58,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
   const { getProfile } = useGetProfile();
   const [open, setOpen] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const { createNotification } = useNotifiCustome();
 
   const props: UploadProps = {
     name: "formFile",
@@ -111,8 +120,23 @@ const ProfilePage: React.FC<Props> = ({}) => {
     },
     onChange(info) {
       if (info.file.status === "done") {
-        openNotification("success", "Profile", "Cập nhật avatar thành công");
+        openNotification("success", "Hồ sơ", "Cập nhật avatar thành công");
         setIsLoading(!isLoading);
+
+        const newNotification: NotifiType = {
+          id: `Pro${getFormattedDateTime()}`,
+          title: "Hồ sơ",
+          content: "Cập nhật avatar thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+          newNotification
+        );
+
+        const action = setIsLoadingNotification();
+        dispatch(action);
       } else if (info.file.status === "error") {
         openNotification(
           "error",

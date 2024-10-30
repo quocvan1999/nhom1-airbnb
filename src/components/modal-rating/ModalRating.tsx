@@ -1,10 +1,10 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { Button, Form, Modal, Rate } from "antd";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ReqType } from "@/types/req/reqType.type";
@@ -17,6 +17,7 @@ import {
 import { BookingType } from "@/types/booking/bookingType.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 
 type Props = {
   isModalViewRatingOpen: boolean;
@@ -34,6 +35,7 @@ const ModalRating: React.FC<Props> = ({
   setIsRating,
 }) => {
   const { profile } = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
   const { createNotification } = useNotifiCustome();
 
@@ -89,6 +91,9 @@ const ModalRating: React.FC<Props> = ({
             `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
             newNotification
           );
+
+          const action = setIsLoadingNotification();
+          dispatch(action);
           break;
         default:
           openNotification(

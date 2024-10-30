@@ -1,5 +1,6 @@
 "use client";
 
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ModalShareRoom from "@/components/modal-share-room/ModalShareRoom";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
@@ -101,6 +102,8 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
           newNotification
         );
+        const action = setIsLoadingNotification();
+        dispatch(action);
       }
     } else {
       openNotification(
@@ -146,6 +149,8 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
           newNotification
         );
+        const action = setIsLoadingNotification();
+        dispatch(action);
       }
     }
   };

@@ -33,6 +33,7 @@ import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.se
 import { CommentType } from "@/types/comment/comment.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 
 const { confirm } = Modal;
 
@@ -108,6 +109,8 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
               `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
               newNotification
             );
+            const action = setIsLoadingNotification();
+            dispatch(action);
             break;
           default:
             break;

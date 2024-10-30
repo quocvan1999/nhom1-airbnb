@@ -55,7 +55,7 @@ const HeaderNotificationClient: React.FC<Props> = ({}) => {
 
   useEffect(() => {
     getNotification();
-  }, [isLoadingNotification]);
+  }, [isLoadingNotification, profile]);
 
   return (
     <>

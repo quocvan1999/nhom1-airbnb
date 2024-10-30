@@ -8,6 +8,8 @@ import {
   convertUSDToVND,
   formatDate,
   getCookie,
+  getCurrentDateTime,
+  getFormattedDateTime,
   isDateInPast,
   truncateString,
 } from "@/utils/method/method";
@@ -28,9 +30,12 @@ import useNotification from "@/custome-hook/useNotification/useNotification";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import ModalUpdateBooking from "@/components/modal-update-booking/ModalUpdateBooking";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/app/globalRedux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ModalRating from "@/components/modal-rating/ModalRating";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -49,6 +54,8 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
     useState<boolean>(false);
   const [isModalViewRatingOpen, setIsModalViewRatingOpen] =
     useState<boolean>(false);
+  const { profile } = useSelector((state: RootState) => state.user);
+  const { createNotification } = useNotifiCustome();
 
   const getRoomDetail = async (): Promise<void> => {
     const data: RoomType = await getRoomDetailAsync(Number(booking.maPhong));
@@ -74,9 +81,39 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
             const action = getBookingUserAsync(Number(id));
             dispatch(action);
             openNotification("success", "Huỷ lịch đặt phòng", `${res.message}`);
+
+            const newNotification: NotifiType = {
+              id: `Bk${getFormattedDateTime()}`,
+              title: "Đặt phòng",
+              content: "Huỷ lịch đặt phòng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+              newNotification
+            );
+
+            const actions = setIsLoadingNotification();
+            dispatch(actions);
             break;
           default:
             openNotification("error", "Huỷ lịch đặt phòng", `${res.content}`);
+
+            const newNotificationEr: NotifiType = {
+              id: `Bk${getFormattedDateTime()}`,
+              title: "Đặt phòng",
+              content: "Huỷ lịch đặt phòng không thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+              newNotificationEr
+            );
+
+            const actionEr = setIsLoadingNotification();
+            dispatch(actionEr);
             break;
         }
       },
