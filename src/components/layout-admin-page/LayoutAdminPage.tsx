@@ -32,6 +32,14 @@ import LoadingPage from "@/components/loading-page/LoadingPage";
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 import { getUsersPaginationAsync } from "@/services/users-pagination/getUsersPagination.service";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChartSimple,
+  faHouse,
+  faListCheck,
+  faLocationDot,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const { Header, Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -129,7 +137,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
           },
           Menu: {
             darkItemBg: "#fff",
-            darkItemColor: "#222",
+            darkItemColor: "#6a6a6a",
             darkItemSelectedBg: "#FF385C",
             darkItemHoverColor: "#FF385C",
           },
@@ -176,27 +184,27 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
               items={[
                 {
                   key: "admin",
-                  icon: <UserOutlined />,
+                  icon: <FontAwesomeIcon size="lg" icon={faUser} />,
                   label: <Link href="/admin">Quản lý người dùng</Link>,
                 },
                 {
                   key: "locations",
-                  icon: <EnvironmentOutlined />,
+                  icon: <FontAwesomeIcon size="lg" icon={faLocationDot} />,
                   label: <Link href="/admin/locations">Quản lý vị trí</Link>,
                 },
                 {
                   key: "rooms",
-                  icon: <HomeOutlined />,
+                  icon: <FontAwesomeIcon size="lg" icon={faHouse} />,
                   label: <Link href="/admin/rooms">Quản lý phòng</Link>,
                 },
                 {
                   key: "bookings",
-                  icon: <StockOutlined />,
+                  icon: <FontAwesomeIcon size="lg" icon={faListCheck} />,
                   label: <Link href="/admin/bookings">Quản lý đặt phòng</Link>,
                 },
                 {
                   key: "chart",
-                  icon: <StockOutlined />,
+                  icon: <FontAwesomeIcon size="lg" icon={faChartSimple} />,
                   label: <Link href="/admin/chart">Biểu đồ thống kê</Link>,
                 },
               ]}
