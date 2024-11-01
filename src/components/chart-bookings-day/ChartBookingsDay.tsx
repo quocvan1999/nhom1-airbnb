@@ -18,6 +18,7 @@ import { DatePicker } from "antd";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
+import { getDateRange } from "@/utils/method/method";
 
 // Đăng ký các thành phần của Chart.js
 ChartJS.register(
@@ -34,9 +35,9 @@ type Props = {};
 
 const ChartBookingsDay: React.FC<Props> = ({}) => {
   const [date, setDate] = useState<dayjs.Dayjs | null>(null);
-  const [isDate, setIsDate] = useState<string[]>([]);
-  const [labels, setLabels] = useState<string[]>([]);
-  const [countMember, setCountMember] = useState<number[]>([]);
+  const [dayOfMonth, setDayOfMonth] = useState<string[]>([]);
+  const [labelsDay, setLabelDay] = useState<string[]>([]);
+  const [countMemberOfDay, setCountMemberOfDay] = useState<number[]>([]);
   const dispatch: AppDispatch = useDispatch();
   const { bookings } = useSelector((state: RootState) => state.room);
 
@@ -47,11 +48,11 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
 
   // Dữ liệu cho biểu đồ
   const data: ChartData<"line"> = {
-    labels: labels,
+    labels: labelsDay,
     datasets: [
       {
         label: "Số lượng khách trong ngày",
-        data: countMember,
+        data: countMemberOfDay,
         backgroundColor: "#FF385C",
         borderColor: "#FF385C",
         borderWidth: 1,
@@ -87,32 +88,41 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
       const month = date.month();
       const year = date.year();
 
-      const day1Array = Array.from({ length: daysInMonth }, (_, i) =>
-        dayjs(new Date(date.year(), month, i + 1)).format("DD-MM")
+      const labelsDay: string[] = [...Array(daysInMonth)].map((_, i) =>
+        dayjs()
+          .year(date.year())
+          .month(month)
+          .date(i + 1)
+          .format("DD-MM")
       );
 
-      const day2Array = Array.from({ length: daysInMonth }, (_, i) =>
-        dayjs(new Date(year, month, i + 1)).format("YYYY-MM-DD")
+      const day2Array: string[] = [...Array(daysInMonth)].map((_, i) =>
+        dayjs()
+          .year(year)
+          .month(month)
+          .date(i + 1)
+          .format("YYYY-MM-DD")
       );
-      setLabels(day1Array);
-      setIsDate(day2Array);
+
+      setLabelDay(labelsDay);
+      setDayOfMonth(day2Array);
     } else {
-      setLabels([]);
-      setIsDate([]);
+      setLabelDay([]);
+      setDayOfMonth([]);
     }
   };
 
-  function countBookingsPerDay(
+  const countBookingsPerDay = (
     bookings: BookingType[],
     daysOfMonth: string[]
-  ): number[] {
-    const bookingCounts = new Array(daysOfMonth.length).fill(0);
+  ): number[] => {
+    const bookingCounts = daysOfMonth.map(() => 0);
 
-    bookings.forEach((booking) => {
+    bookings.forEach((booking: BookingType) => {
       const startDate = new Date(booking.ngayDen);
       const endDate = new Date(booking.ngayDi);
 
-      daysOfMonth.forEach((day, index) => {
+      daysOfMonth.map((day: string, index: number) => {
         const currentDate = new Date(day);
 
         if (currentDate >= startDate && currentDate <= endDate) {
@@ -122,16 +132,16 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
     });
 
     return bookingCounts;
-  }
+  };
 
   useEffect(() => {
-    if (bookings.length > 0 && isDate) {
-      const count: number[] = countBookingsPerDay(bookings, isDate);
-      setCountMember(count);
+    if (bookings.length > 0 && dayOfMonth) {
+      const count: number[] = countBookingsPerDay(bookings, dayOfMonth);
+      setCountMemberOfDay(count);
     } else {
-      setCountMember([]);
+      setCountMemberOfDay([]);
     }
-  }, [isDate, bookings]);
+  }, [dayOfMonth, bookings]);
 
   useEffect(() => {
     getData();
@@ -165,7 +175,7 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
           picker="month"
         />
       </div>
-      {labels.length > 0 && countMember.length > 0 && (
+      {labelsDay.length > 0 && countMemberOfDay.length > 0 && (
         <Line data={data} options={options} />
       )}
     </div>

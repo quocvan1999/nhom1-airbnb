@@ -1,13 +1,11 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import ChartBookingMonth from "@/components/chart-booking-month/ChartBookingMonth";
 import ChartBookingsDay from "@/components/chart-bookings-day/ChartBookingsDay";
-import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { faChartLine, faChartPie } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ConfigProvider, Tabs } from "antd";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 
 type Props = {};
 
@@ -20,15 +18,15 @@ const LineChartComponent: React.FC<Props> = ({}) => {
         items={[
           {
             key: "1",
-            label: "Thống kê theo ngày",
+            label: "Thống kê theo tháng",
             icon: <FontAwesomeIcon size="lg" icon={faChartLine} />,
             children: <ChartBookingsDay />,
           },
           {
             key: "2",
-            label: "Thống kê theo tháng",
+            label: "Thống kê theo năm",
             icon: <FontAwesomeIcon size="lg" icon={faChartPie} />,
-            children: <div></div>,
+            children: <ChartBookingMonth />,
           },
         ]}
       />

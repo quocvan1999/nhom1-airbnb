@@ -217,3 +217,26 @@ export function getFormattedDateTime(): string {
 
   return `${day}${month}${year}${hours}${minutes}${seconds}`;
 }
+
+export const getDateRange = (
+  startDateStr: string,
+  endDateStr: string
+): string[] => {
+  const startDate = new Date(startDateStr);
+  const endDate = new Date(endDateStr);
+  const dateArray: string[] = [];
+
+  let currentDate = new Date(
+    Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+  );
+  const finalDate = new Date(
+    Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate())
+  );
+
+  while (currentDate <= finalDate) {
+    dateArray.push(currentDate.toISOString().split("T")[0]);
+    currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+  }
+
+  return dateArray;
+};
