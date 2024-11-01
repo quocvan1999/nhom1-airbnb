@@ -12,9 +12,13 @@ import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 type Props = {
   type: "mobile" | "table" | "destop";
+  userType: "client" | "admin";
 };
 
-const HeaderNotificationClient: React.FC<Props> = ({ type = "destop" }) => {
+const HeaderNotificationClient: React.FC<Props> = ({
+  type = "destop",
+  userType,
+}) => {
   const [isLogin, setIslogin] = useState<boolean>(false);
   const [notification, setNotification] = useState<NotifiType[] | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
@@ -28,7 +32,11 @@ const HeaderNotificationClient: React.FC<Props> = ({ type = "destop" }) => {
   const getNotification = (): void => {
     const notifications: NotifiType[] = JSON.parse(
       localStorage.getItem(
-        `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`
+        `${
+          userType === "client"
+            ? process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT
+            : process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN
+        }-${profile.id}`
       ) || "[]"
     );
 
@@ -37,7 +45,11 @@ const HeaderNotificationClient: React.FC<Props> = ({ type = "destop" }) => {
 
   const deleteNotification = (id: string): void => {
     removeNotification(
-      `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`,
+      `${
+        userType === "client"
+          ? process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT
+          : process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN
+      }-${profile.id}`,
       id
     );
     getNotification();
@@ -116,7 +128,11 @@ const HeaderNotificationClient: React.FC<Props> = ({ type = "destop" }) => {
                   <div
                     onClick={() => {
                       cleanNotification(
-                        `${process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT}-${profile.id}`
+                        `${
+                          userType === "client"
+                            ? process.env.NEXT_PUBLIC_NOTIFICATION_CLIENT
+                            : process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN
+                        }-${profile.id}`
                       );
                       getNotification();
                     }}

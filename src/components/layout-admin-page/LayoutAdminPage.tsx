@@ -40,6 +40,7 @@ import {
   faLocationDot,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import HeaderNotificationClient from "@/components/header-notification-client/HeaderNotificationClient";
 
 const { Header, Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -225,64 +226,67 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                   height: 64,
                 }}
               />
-              <Dropdown
-                open={isOpenDropdown}
-                onOpenChange={() => {
-                  setIsOpenDropdown(!isOpenDropdown);
-                }}
-                dropdownRender={() => (
-                  <div className="bg-white shadow-lg rounded-lg">
-                    <div className="flex flex-col">
-                      <Button
-                        onClick={() => {
-                          setModalType("view");
-                          setIsModalViewUserOpen(true);
-                          setIsOpenDropdown(false);
-                        }}
-                        className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
-                      >
-                        Xem hồ sơ
-                      </Button>
-                      <Button
-                        onClick={handleLogout}
-                        className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
-                      >
-                        Đăng xuất
-                      </Button>
+              <div className="flex items-center">
+                <HeaderNotificationClient userType="admin" type="destop" />
+                <Dropdown
+                  open={isOpenDropdown}
+                  onOpenChange={() => {
+                    setIsOpenDropdown(!isOpenDropdown);
+                  }}
+                  dropdownRender={() => (
+                    <div className="bg-white shadow-lg rounded-lg">
+                      <div className="flex flex-col">
+                        <Button
+                          onClick={() => {
+                            setModalType("view");
+                            setIsModalViewUserOpen(true);
+                            setIsOpenDropdown(false);
+                          }}
+                          className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
+                        >
+                          Xem hồ sơ
+                        </Button>
+                        <Button
+                          onClick={handleLogout}
+                          className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
+                        >
+                          Đăng xuất
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                )}
-                placement="bottomLeft"
-                trigger={["click"]}
-              >
-                <div className="w-[45px] h-[45px] border me-3 rounded-full border-primary-100 flex items-center justify-center cursor-pointer">
-                  {isLogin === true ? (
-                    profile.avatar !== "" ? (
-                      <img
-                        src={profile && profile.avatar}
-                        alt="image"
-                        className="w-[45px] h-[45px] rounded-full object-cover"
-                      />
-                    ) : (
-                      <img
-                        src="/images/logo.jpg"
-                        alt="image"
-                        className="w-[45px] h-[45px] rounded-full object-cover"
-                      />
-                    )
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="35"
-                      height="35"
-                      viewBox="0 0 24 24"
-                      style={{ fill: "#222" }}
-                    >
-                      <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path>
-                    </svg>
                   )}
-                </div>
-              </Dropdown>
+                  placement="bottomLeft"
+                  trigger={["click"]}
+                >
+                  <div className="w-[45px] h-[45px] border me-3 rounded-full border-primary-100 flex items-center justify-center cursor-pointer">
+                    {isLogin === true ? (
+                      profile.avatar !== "" ? (
+                        <img
+                          src={profile && profile.avatar}
+                          alt="image"
+                          className="w-[45px] h-[45px] rounded-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          src="/images/logo.jpg"
+                          alt="image"
+                          className="w-[45px] h-[45px] rounded-full object-cover"
+                        />
+                      )
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="35"
+                        height="35"
+                        viewBox="0 0 24 24"
+                        style={{ fill: "#222" }}
+                      >
+                        <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path>
+                      </svg>
+                    )}
+                  </div>
+                </Dropdown>
+              </div>
             </Header>
             <Content
               style={{

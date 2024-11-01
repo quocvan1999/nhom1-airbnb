@@ -38,7 +38,7 @@ const NavMobile: React.FC<Props> = ({}) => {
           href=""
           className="flex flex-col items-center justify-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
         >
-          <HeaderNotificationClient type="mobile" />
+          <HeaderNotificationClient userType="client" type="mobile" />
           <p>Thông báo</p>
         </Link>
       )}
