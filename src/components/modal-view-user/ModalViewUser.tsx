@@ -21,7 +21,16 @@ import dayjs from "dayjs";
 import { ExclamationCircleFilled, UserOutlined } from "@ant-design/icons";
 import { updateUserAsync } from "@/services/update-user/updateUser.service";
 import { UserUpdate } from "@/types/user-update/userUpdate.type";
-import { formatDate } from "@/utils/method/method";
+import {
+  formatDate,
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 
 type Props = {
   setModalType: React.Dispatch<
@@ -46,6 +55,9 @@ const ModalViewUser: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const { openNotification } = useNotification();
+  const dispatch: AppDispatch = useDispatch();
+  const { createNotification } = useNotifiCustome();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const initialValues: User = {
     id: 0,
@@ -71,6 +83,21 @@ const ModalViewUser: React.FC<Props> = ({
         );
         setModalType("view");
         getData();
+
+        const newNotification: NotifiType = {
+          id: `UpdUs${getFormattedDateTime()}`,
+          title: "Quản lý người dùng",
+          content: "Cập nhật thông tin thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+          newNotification
+        );
+        const action = setIsLoadingNotification();
+        dispatch(action);
         break;
       default:
         openNotification("error", "Cập nhật thông tin", `${res.content}`);
@@ -91,6 +118,21 @@ const ModalViewUser: React.FC<Props> = ({
             );
             router.push("/admin");
             setIsModalViewUserOpen(false);
+
+            const newNotification: NotifiType = {
+              id: `CreUs${getFormattedDateTime()}`,
+              title: "Quản lý người dùng",
+              content: "Thêm người dùng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+              newNotification
+            );
+            const action = setIsLoadingNotification();
+            dispatch(action);
             break;
           default:
             openNotification("error", "Thêm người dùng", `${res.content}`);

@@ -34,6 +34,13 @@ import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPram
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 
 type DataIndex = keyof User;
 
@@ -65,6 +72,8 @@ const AdminPage: React.FC = () => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
   const [userView, setUserView] = useState<User | null>(null);
+  const { createNotification } = useNotifiCustome();
+  const { profile } = useSelector((state: RootState) => state.user);
   const [modalType, setModalType] = useState<"create" | "view" | "update">(
     "create"
   );
@@ -98,6 +107,21 @@ const AdminPage: React.FC = () => {
           case 200:
             openNotification("success", "Xoá người dùng", `${res.message}`);
             setIsLoading(!isLoading);
+
+            const newNotification: NotifiType = {
+              id: `DelUs${getFormattedDateTime()}`,
+              title: "Quản lý người dùng",
+              content: "Xoá người dùng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+              newNotification
+            );
+            const action = setIsLoadingNotification();
+            dispatch(action);
             break;
           default:
             openNotification("error", "Xoá người dùng", `${res.content}`);
