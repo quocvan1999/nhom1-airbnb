@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import {
   Button,
+  Image,
   Input,
   InputRef,
   Modal,
@@ -203,6 +204,16 @@ const Locations: React.FC = () => {
       dataIndex: "id",
       key: "id",
       ...getColumnSearchProps("id"),
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "hinhAnh",
+      key: "hinhAnh",
+      render: (hinhAnh) => (
+        <div className="w-7 h-7 rounded-full border border-primary-100 flex items-center justify-center overflow-hidden">
+          <Image src={hinhAnh} alt="hinh anh" className="w-full h-full" />
+        </div>
+      ),
     },
     {
       title: "Tên vị trí",

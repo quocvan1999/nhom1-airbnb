@@ -1,7 +1,7 @@
 "use client";
 
 import { RoomType } from "@/types/room/roomType.type";
-import { Checkbox, ConfigProvider, Form, Input, Modal } from "antd";
+import { Checkbox, ConfigProvider, Form, Image, Input, Modal } from "antd";
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -447,7 +447,7 @@ const ModalViewRoom: React.FC<Props> = ({
                     />
                   ) : (
                     <div className="w-full h-[100px]">
-                      <img
+                      <Image
                         src={formRoom.values.hinhAnh}
                         alt="hinh anh"
                         className="rounded-lg w-full h-full bg-cover object-cover"

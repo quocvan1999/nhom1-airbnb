@@ -5,6 +5,7 @@ import { getUsersPaginationAsync } from "@/services/users-pagination/getUsersPag
 import type { InputRef, TableColumnType, TableColumnsType } from "antd";
 import {
   Button,
+  Image,
   Input,
   Modal,
   Pagination,
@@ -31,6 +32,8 @@ import { deleteUserAsync } from "@/services/delete-user/deleteUser.service";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 type DataIndex = keyof User;
 
@@ -197,6 +200,20 @@ const AdminPage: React.FC = () => {
   };
 
   const columns: TableColumnsType<User> = [
+    {
+      title: "Ảnh đại diện",
+      dataIndex: "avatar",
+      key: "avatar",
+      render: (avatar: string) => (
+        <div className="w-7 h-7 rounded-full border border-primary-100 flex items-center justify-center overflow-hidden">
+          <Image
+            src={avatar === "" ? "/images/logo.jpg" : avatar}
+            alt="hinh anh"
+            className="w-full h-full"
+          />
+        </div>
+      ),
+    },
     {
       title: "Tên",
       dataIndex: "name",

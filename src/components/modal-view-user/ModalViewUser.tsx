@@ -4,7 +4,15 @@ import { User } from "@/types/user/userType.type";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useEffect } from "react";
-import { ConfigProvider, DatePicker, Form, Input, Modal, Select } from "antd";
+import {
+  ConfigProvider,
+  DatePicker,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Select,
+} from "antd";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { createUserAsync } from "@/services/create-user/createUser.service";
 import { ReqType } from "@/types/req/reqType.type";
@@ -206,12 +214,16 @@ const ModalViewUser: React.FC<Props> = ({
 
           {modalType === "view" && (
             <div className="w-full flex items-center justify-center py-7">
-              <div className="w-[70px] h-[70px] rounded-full border border-primary-100 flex items-center justify-center">
+              <div className="w-[70px] h-[70px] rounded-full border border-primary-100 flex items-center justify-center overflow-hidden">
                 {formRegister.values.avatar === "" ? (
                   <UserOutlined className="text-[30px] !text-primary-100" />
                 ) : (
-                  <img
-                    src={formRegister.values.avatar}
+                  <Image
+                    src={
+                      formRegister.values.avatar === "/images/logo.jpg"
+                        ? ""
+                        : formRegister.values.avatar
+                    }
                     alt="image"
                     className="w-full h-full bg-cover rounded-full"
                   />
