@@ -1,7 +1,7 @@
 import { BookingType } from "@/types/booking/bookingType.type";
 import dayjs, { Dayjs } from "dayjs";
 import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +13,7 @@ import {
   Legend,
   ChartOptions,
   ChartData,
+  BarElement,
 } from "chart.js";
 import { DatePicker } from "antd";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
@@ -26,6 +27,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -52,36 +54,32 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
   };
 
   // Dữ liệu cho biểu đồ
-  const data: ChartData<"line"> = {
+  const data: ChartData<"line" | "bar"> = {
     labels: labelsDay,
     datasets: [
       {
-        label: `Số lượng khách đã đặt: ${totalCountMember(
-          countMemberOfDayPlan
-        )}`,
-        data: countMemberOfDayPlan,
-        backgroundColor: "#9AD0F5",
-        borderColor: "#9AD0F5",
-        borderWidth: 1,
-        fill: true,
-        tension: 0,
-      },
-      {
-        label: `Số lượng khách đã đến: ${totalCountMember(
-          countMemberOfDaySuccess
-        )}`,
+        label: `Số lượng khách đã đến`,
         data: countMemberOfDaySuccess,
         backgroundColor: "#FF385C",
         borderColor: "#FF385C",
         borderWidth: 1,
         fill: true,
         tension: 0,
+        type: "line",
+      },
+      {
+        label: `Số lượng khách đã đặt`,
+        data: countMemberOfDayPlan,
+        backgroundColor: "#9AD0F5",
+        borderColor: "#9AD0F5",
+        borderWidth: 1,
+        type: "bar",
       },
     ],
   };
 
   // Tùy chọn cho biểu đồ
-  const options: ChartOptions<"line"> = {
+  const options: ChartOptions<"line" | "bar"> = {
     responsive: true,
     scales: {
       y: {
@@ -92,12 +90,6 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
     plugins: {
       legend: {
         position: "top",
-      },
-      title: {
-        display: true,
-        text: `Thống kê khách hàng trong tháng ${getMonthString(
-          date && date.format("YYYY-MM-DD")
-        )}`,
       },
     },
   };
@@ -206,8 +198,32 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
           picker="month"
         />
       </div>
+      <div className="text-center mb-3">
+        <h1 className="font-bold text-lg">
+          Tổng lượt khách trong tháng:{" "}
+          {getMonthString(date && date.format("YYYY-MM-DD"))}
+        </h1>
+        <div className="flex items-center gap-2 justify-center">
+          <div className="w-3 h-3 bg-primary-100"></div>
+          <p>
+            Tổng khách hàng đặt phòng:{" "}
+            <span className="font-bold">
+              {totalCountMember(countMemberOfDayPlan)}
+            </span>
+          </p>
+        </div>
+        <div className="flex items-center gap-2 justify-center">
+          <div className="w-3 h-3 bg-[#9AD0F5]"></div>
+          <p>
+            Tổng khách hàng đã đến:{" "}
+            <span className="font-bold">
+              {totalCountMember(countMemberOfDaySuccess)}
+            </span>
+          </p>
+        </div>
+      </div>
       {labelsDay.length > 0 && countMemberOfDaySuccess.length > 0 && (
-        <Line data={data} options={options} />
+        <Chart type="bar" data={data} options={options} />
       )}
     </div>
   );
