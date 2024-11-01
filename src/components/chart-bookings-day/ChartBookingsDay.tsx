@@ -67,7 +67,7 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
         borderWidth: 1,
         fill: true,
         tension: 0,
-        type: "line",
+        // type: "line",
       },
       {
         label: `Số lượng khách đã đặt`,
