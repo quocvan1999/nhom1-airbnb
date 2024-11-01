@@ -1,12 +1,19 @@
 "use client";
 
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ModalViewLocation from "@/components/modal-view-location/ModalViewLocation";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { deleteLocationAsync } from "@/services/delete-location/deleteLocation.service";
 import { getLocationsPaginationAsync } from "@/services/locations-pagination/locationsPagination.service";
 import { LocationType } from "@/types/location/locationType.type";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -66,6 +73,8 @@ const Locations: React.FC = () => {
   const [isModalCreateLocationOpen, setIsModalCreateLocationOpen] =
     useState<boolean>(false);
   const [locationId, setLocationId] = useState<number | null>(null);
+  const { createNotification } = useNotifiCustome();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const handleDeleteLocation = (id: number): void => {
     confirm({
@@ -84,6 +93,21 @@ const Locations: React.FC = () => {
           case 200:
             openNotification("success", "Xoá vị trí", `${res.message}`);
             setIsLoading(!isLoading);
+
+            const newNotification: NotifiType = {
+              id: `DelLo${getFormattedDateTime()}`,
+              title: "Quản lý vị trí",
+              content: "Xoá vị trí thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+              newNotification
+            );
+            const action = setIsLoadingNotification();
+            dispatch(action);
             break;
           default:
             openNotification("error", "Xoá vị trí", `${res.content}`);

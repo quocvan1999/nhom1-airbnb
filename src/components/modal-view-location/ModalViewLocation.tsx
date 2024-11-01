@@ -13,6 +13,15 @@ import { OptionLocationtype } from "@/types/option-location/optionLocationType.t
 import { OptionSelectType } from "@/types/option-select/optionSelectType.type";
 import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
 import { updateLocationAsync } from "@/services/update-location/updateLocation.service";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { useDispatch, useSelector } from "react-redux";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 type Props = {
   locationId: number | null;
@@ -31,6 +40,9 @@ const ModalViewLocation: React.FC<Props> = ({
   const [province, setProvince] = useState<OptionSelectType[]>([]);
   const [district, setDistrict] = useState<OptionSelectType[]>([]);
   const { openNotification } = useNotification();
+  const dispatch: AppDispatch = useDispatch();
+  const { createNotification } = useNotifiCustome();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const initialValues: LocationType = {
     id: 0,
@@ -79,6 +91,21 @@ const ModalViewLocation: React.FC<Props> = ({
         openNotification("success", "Thêm vị trí", "Thêm vị trí thành công");
         router.push("/admin/locations");
         setIsModalCreateLocationOpen(false);
+
+        const newNotification: NotifiType = {
+          id: `CreLo${getFormattedDateTime()}`,
+          title: "Quản lý ví trí",
+          content: "Thêm vị trí thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+          newNotification
+        );
+        const action = setIsLoadingNotification();
+        dispatch(action);
         break;
       default:
         openNotification("error", "Thêm vị trí", `${res.content}`);
@@ -103,6 +130,21 @@ const ModalViewLocation: React.FC<Props> = ({
         );
         router.push("/admin/locations");
         setIsModalCreateLocationOpen(false);
+
+        const newNotification: NotifiType = {
+          id: `UpdLo${getFormattedDateTime()}`,
+          title: "Quản lý ví trí",
+          content: "Cập nhật vị trí thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+          newNotification
+        );
+        const action = setIsLoadingNotification();
+        dispatch(action);
         break;
       default:
         openNotification("error", "Cập nhật vị trí", `${res.content}`);
