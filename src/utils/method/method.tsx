@@ -240,3 +240,10 @@ export const getDateRange = (
 
   return dateArray;
 };
+
+export const totalCountMember = (countMember: number[]): number => {
+  return countMember.reduce(
+    (accumulator: number, currentValue: number) => accumulator + currentValue,
+    0
+  );
+};

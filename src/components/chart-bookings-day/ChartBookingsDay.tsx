@@ -18,7 +18,7 @@ import { DatePicker } from "antd";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
-import { getDateRange } from "@/utils/method/method";
+import { getDateRange, totalCountMember } from "@/utils/method/method";
 
 // Đăng ký các thành phần của Chart.js
 ChartJS.register(
@@ -77,7 +77,9 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
       },
       title: {
         display: true,
-        text: `Thống kê lượt khách trong tháng `,
+        text: `Tổng lượt khách trong tháng: ${totalCountMember(
+          countMemberOfDay
+        )} Khách`,
       },
     },
   };
