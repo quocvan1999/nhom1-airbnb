@@ -170,6 +170,7 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
       countBookingsPerDay(bookings, dayOfMonth);
     } else {
       setCountMemberOfDaySuccess([]);
+      setCountMemberOfDayPlan([]);
     }
   }, [dayOfMonth, bookings]);
 

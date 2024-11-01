@@ -258,3 +258,13 @@ export const getMonthString = (date: string | null) => {
     return `${month} năm ${year}`;
   }
 };
+
+export const getYearString = (date: string | null) => {
+  if (date !== null) {
+    const dateFormat = new Date(date);
+
+    const year = dateFormat.getFullYear();
+
+    return year;
+  }
+};

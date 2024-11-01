@@ -18,7 +18,11 @@ import { DatePicker } from "antd";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
-import { getDateRange, totalCountMember } from "@/utils/method/method";
+import {
+  getDateRange,
+  getYearString,
+  totalCountMember,
+} from "@/utils/method/method";
 
 // Đăng ký các thành phần của Chart.js
 ChartJS.register(
@@ -39,7 +43,12 @@ const ChartBookingMonth: React.FC<Props> = ({}) => {
   const [date, setDate] = useState<dayjs.Dayjs | null>(null);
   const [monthOfYear, setMonthOfYear] = useState<string[]>([]);
   const [labelMonth, setLabelMonth] = useState<string[]>([]);
-  const [countMemberOfMonth, setCountMemberOfMonth] = useState<number[]>([]);
+  const [countMemberOfMonthSucess, setCountMemberOfMonthSucess] = useState<
+    number[]
+  >([]);
+  const [countMemberOfMonthPlan, setCountMemberOfMonthPlan] = useState<
+    number[]
+  >([]);
 
   const getData = (): void => {
     const action = getBookingsAsync;
@@ -50,8 +59,21 @@ const ChartBookingMonth: React.FC<Props> = ({}) => {
     labels: labelMonth,
     datasets: [
       {
-        label: "Số lượng khách trong tháng",
-        data: countMemberOfMonth,
+        label: `Số lượng khách đã đặt: ${totalCountMember(
+          countMemberOfMonthPlan
+        )}`,
+        data: countMemberOfMonthPlan,
+        backgroundColor: "#9AD0F5",
+        borderColor: "#9AD0F5",
+        borderWidth: 1,
+        fill: true,
+        tension: 0,
+      },
+      {
+        label: `Số lượng khách đã đến: ${totalCountMember(
+          countMemberOfMonthSucess
+        )}`,
+        data: countMemberOfMonthSucess,
         backgroundColor: "#FF385C",
         borderColor: "#FF385C",
         borderWidth: 1,
@@ -75,9 +97,9 @@ const ChartBookingMonth: React.FC<Props> = ({}) => {
       },
       title: {
         display: true,
-        text: `Tổng lượt khách trong năm: ${totalCountMember(
-          countMemberOfMonth
-        )} Khách`,
+        text: `Tổng lượt khách trong năm ${getYearString(
+          date && date.format("YYYY-MM-DD")
+        )}`,
       },
     },
   };
@@ -105,8 +127,9 @@ const ChartBookingMonth: React.FC<Props> = ({}) => {
   const hadleChangeCountBookingOfMonth = (
     bookings: BookingType[],
     monthOfYear: string[]
-  ): number[] => {
-    const countBookingOfYear: number[] = monthOfYear.map(() => 0);
+  ): void => {
+    const countBookingOfYearPlan: number[] = monthOfYear.map(() => 0);
+    const countBookingOfYearSucess: number[] = monthOfYear.map(() => 0);
 
     bookings.map((booking: BookingType) => {
       // Chuỗi ngày trong booking
@@ -135,27 +158,34 @@ const ChartBookingMonth: React.FC<Props> = ({}) => {
 
           dayBooking.map((dayBk: string) => {
             const newDay = new Date(dayBk);
+            const isDay = new Date(Date.now());
 
             if (newDay >= firstDayOfMonth && newDay <= lastDayOfMonth) {
-              countBookingOfYear[index]++;
+              countBookingOfYearPlan[index]++;
+            }
+
+            if (
+              newDay >= firstDayOfMonth &&
+              newDay <= lastDayOfMonth &&
+              newDay <= isDay
+            ) {
+              countBookingOfYearSucess[index]++;
             }
           });
         });
       }
     });
 
-    return countBookingOfYear;
+    setCountMemberOfMonthPlan(countBookingOfYearPlan);
+    setCountMemberOfMonthSucess(countBookingOfYearSucess);
   };
 
   useEffect(() => {
     if (bookings.length > 0 && monthOfYear.length > 0) {
-      const count: number[] = hadleChangeCountBookingOfMonth(
-        bookings,
-        monthOfYear
-      );
-      setCountMemberOfMonth(count);
+      hadleChangeCountBookingOfMonth(bookings, monthOfYear);
     } else {
-      setCountMemberOfMonth([]);
+      setCountMemberOfMonthPlan([]);
+      setCountMemberOfMonthSucess([]);
     }
   }, [monthOfYear, bookings]);
 
@@ -193,7 +223,7 @@ const ChartBookingMonth: React.FC<Props> = ({}) => {
           picker="year"
         />
       </div>
-      {labelMonth.length > 0 && countMemberOfMonth.length > 0 && (
+      {labelMonth.length > 0 && countMemberOfMonthPlan.length > 0 && (
         <Line data={data} options={options} />
       )}
     </div>
