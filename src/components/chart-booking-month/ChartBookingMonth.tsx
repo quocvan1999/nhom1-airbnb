@@ -17,6 +17,7 @@ import {
   ChartData,
   BarElement,
   BarController,
+  LineController
 } from "chart.js";
 import { DatePicker } from "antd";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
@@ -36,6 +37,7 @@ ChartJS.register(
   LineElement,
   BarElement,
   BarController,
+  LineController,
   Title,
   Tooltip,
   Legend
