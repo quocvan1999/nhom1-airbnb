@@ -247,3 +247,14 @@ export const totalCountMember = (countMember: number[]): number => {
     0
   );
 };
+
+export const getMonthString = (date: string | null) => {
+  if (date !== null) {
+    const dateFormat = new Date(date);
+
+    const month = dateFormat.getMonth() + 1;
+    const year = dateFormat.getFullYear();
+
+    return `${month} năm ${year}`;
+  }
+};

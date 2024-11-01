@@ -18,7 +18,7 @@ import { DatePicker } from "antd";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
-import { getDateRange, totalCountMember } from "@/utils/method/method";
+import { getMonthString, totalCountMember } from "@/utils/method/method";
 
 // Đăng ký các thành phần của Chart.js
 ChartJS.register(
@@ -37,7 +37,12 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
   const [date, setDate] = useState<dayjs.Dayjs | null>(null);
   const [dayOfMonth, setDayOfMonth] = useState<string[]>([]);
   const [labelsDay, setLabelDay] = useState<string[]>([]);
-  const [countMemberOfDay, setCountMemberOfDay] = useState<number[]>([]);
+  const [countMemberOfDaySuccess, setCountMemberOfDaySuccess] = useState<
+    number[]
+  >([]);
+  const [countMemberOfDayPlan, setCountMemberOfDayPlan] = useState<number[]>(
+    []
+  );
   const dispatch: AppDispatch = useDispatch();
   const { bookings } = useSelector((state: RootState) => state.room);
 
@@ -51,8 +56,21 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
     labels: labelsDay,
     datasets: [
       {
-        label: "Số lượng khách trong ngày",
-        data: countMemberOfDay,
+        label: `Số lượng khách đã đặt: ${totalCountMember(
+          countMemberOfDayPlan
+        )}`,
+        data: countMemberOfDayPlan,
+        backgroundColor: "#9AD0F5",
+        borderColor: "#9AD0F5",
+        borderWidth: 1,
+        fill: true,
+        tension: 0,
+      },
+      {
+        label: `Số lượng khách đã đến: ${totalCountMember(
+          countMemberOfDaySuccess
+        )}`,
+        data: countMemberOfDaySuccess,
         backgroundColor: "#FF385C",
         borderColor: "#FF385C",
         borderWidth: 1,
@@ -77,9 +95,9 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
       },
       title: {
         display: true,
-        text: `Tổng lượt khách trong tháng: ${totalCountMember(
-          countMemberOfDay
-        )} Khách`,
+        text: `Thống kê khách hàng trong tháng ${getMonthString(
+          date && date.format("YYYY-MM-DD")
+        )}`,
       },
     },
   };
@@ -117,8 +135,9 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
   const countBookingsPerDay = (
     bookings: BookingType[],
     daysOfMonth: string[]
-  ): number[] => {
+  ): void => {
     const bookingCounts = daysOfMonth.map(() => 0);
+    const bookingPlan = daysOfMonth.map(() => 0);
 
     bookings.forEach((booking: BookingType) => {
       const startDate = new Date(booking.ngayDen);
@@ -126,22 +145,31 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
 
       daysOfMonth.map((day: string, index: number) => {
         const currentDate = new Date(day);
+        const isDay = new Date(Date.now());
 
         if (currentDate >= startDate && currentDate <= endDate) {
           bookingCounts[index]++;
         }
+
+        if (
+          currentDate >= startDate &&
+          currentDate <= endDate &&
+          currentDate <= isDay
+        ) {
+          bookingPlan[index]++;
+        }
       });
     });
 
-    return bookingCounts;
+    setCountMemberOfDaySuccess(bookingPlan);
+    setCountMemberOfDayPlan(bookingCounts);
   };
 
   useEffect(() => {
     if (bookings.length > 0 && dayOfMonth) {
-      const count: number[] = countBookingsPerDay(bookings, dayOfMonth);
-      setCountMemberOfDay(count);
+      countBookingsPerDay(bookings, dayOfMonth);
     } else {
-      setCountMemberOfDay([]);
+      setCountMemberOfDaySuccess([]);
     }
   }, [dayOfMonth, bookings]);
 
@@ -177,7 +205,7 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
           picker="month"
         />
       </div>
-      {labelsDay.length > 0 && countMemberOfDay.length > 0 && (
+      {labelsDay.length > 0 && countMemberOfDaySuccess.length > 0 && (
         <Line data={data} options={options} />
       )}
     </div>
