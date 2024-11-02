@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
       description: `Phòng ${roomDetail.tenPhong} tại ${roomDetail.moTa}, thích hợp cho ${roomDetail.khach} khách. Xem chi tiết và đặt phòng ngay.`,
-      url: `https://nhom1-airbnb.vercel.app/room/${id}`,
+      url: `https://nhom1-airbnb.vercel.app/room/${params.slug}`,
       images: [
         {
           url: roomDetail.hinhAnh,
