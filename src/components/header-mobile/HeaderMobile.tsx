@@ -2,6 +2,7 @@
 
 import HeaderModalLocation from "@/components/header-modal-location/HeaderModalLocation";
 import { LocationType } from "@/types/location/locationType.type";
+import { toSlugWithId } from "@/utils/method/method";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ConfigProvider, Dropdown, Input } from "antd";
@@ -18,7 +19,14 @@ const HeaderMobile: React.FC<Props> = ({}) => {
   const [searchLocation, setSearchLocation] = useState<string>("");
 
   const handleSearch = (): void => {
-    router.push(`/search?keyword=${location}`);
+    if (searchLocation !== "" && location) {
+      router.push(
+        `/search?vitri=${toSlugWithId(
+          `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`,
+          location.id
+        )}`
+      );
+    }
   };
 
   return (
