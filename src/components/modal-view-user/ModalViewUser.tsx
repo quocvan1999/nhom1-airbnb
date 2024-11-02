@@ -257,19 +257,15 @@ const ModalViewUser: React.FC<Props> = ({
           {modalType === "view" && (
             <div className="w-full flex items-center justify-center py-7">
               <div className="w-[70px] h-[70px] rounded-full border border-primary-100 flex items-center justify-center overflow-hidden">
-                {formRegister.values.avatar === "" ? (
-                  <UserOutlined className="text-[30px] !text-primary-100" />
-                ) : (
-                  <Image
-                    src={
-                      formRegister.values.avatar === "/images/logo.jpg"
-                        ? ""
-                        : formRegister.values.avatar
-                    }
-                    alt="image"
-                    className="w-full h-full bg-cover rounded-full"
-                  />
-                )}
+                <Image
+                  src={
+                    formRegister.values.avatar === ""
+                      ? "/images/logo.jpg"
+                      : formRegister.values.avatar
+                  }
+                  alt="image"
+                  className="w-full h-full bg-cover rounded-full"
+                />
               </div>
             </div>
           )}

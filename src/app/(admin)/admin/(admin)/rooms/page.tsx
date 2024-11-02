@@ -1,12 +1,19 @@
 "use client";
 
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import ModalViewRoom from "@/components/modal-view-room/ModalViewRoom";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { deleteRoomAsync } from "@/services/delete-room/deleteRoom.service";
 import { getRoomsPaginationAsync } from "@/services/rooms-pagination/roomsPagination.service";
+import { NotifiType } from "@/types/notifi/notifi.type";
 import { RoomType } from "@/types/room/roomType.type";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -16,6 +23,7 @@ import {
 } from "@ant-design/icons";
 import {
   Button,
+  Image,
   Input,
   InputRef,
   Modal,
@@ -68,6 +76,8 @@ const Rooms: React.FC = () => {
   );
   const [isModalViewRoomsOpen, setIsModalViewRoomsOpen] =
     useState<boolean>(false);
+  const { createNotification } = useNotifiCustome();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const handleDeleteRoom = (id: number): void => {
     confirm({
@@ -87,6 +97,21 @@ const Rooms: React.FC = () => {
           case 200:
             openNotification("success", "Xoá phòng", `${res.message}`);
             setIsLoading(!isLoading);
+
+            const newNotification: NotifiType = {
+              id: `DelRo${getFormattedDateTime()}`,
+              title: "Quản lý phòng",
+              content: "Xoá phòng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+              newNotification
+            );
+            const action = setIsLoadingNotification();
+            dispatch(action);
             break;
           default:
             openNotification("error", "Xoá phòng", `${res.content}`);
@@ -207,6 +232,22 @@ const Rooms: React.FC = () => {
       dataIndex: "id",
       key: "id",
       ...getColumnSearchProps("id"),
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "hinhAnh",
+      key: "hinhAnh",
+      render: (hinhAnh: string) => (
+        <div className="w-12 h-9 rounded-lg border border-primary-100 flex items-center justify-center overflow-hidden">
+          <Image
+            src={hinhAnh === "" ? "/images/logo.jpg" : hinhAnh}
+            alt="hinh anh"
+            height="100%"
+            width="100%"
+            className="!object-cover"
+          />
+        </div>
+      ),
     },
     {
       title: "Tên phòng",

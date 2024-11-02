@@ -11,6 +11,15 @@ import { useRouter } from "next/navigation";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { updateRoomAsync } from "@/services/update-room/updateRoom.service";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import {
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 const { TextArea } = Input;
 
@@ -37,6 +46,9 @@ const ModalViewRoom: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const { openNotification } = useNotification();
+  const dispatch: AppDispatch = useDispatch();
+  const { createNotification } = useNotifiCustome();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const initialValues: RoomType = {
     id: 0,
@@ -72,6 +84,21 @@ const ModalViewRoom: React.FC<Props> = ({
         );
         setModalType("view");
         getData();
+
+        const newNotification: NotifiType = {
+          id: `UpdRo${getFormattedDateTime()}`,
+          title: "Quản lý phòng",
+          content: "Cập nhật phòng thành công",
+          date: `${getCurrentDateTime()}`,
+          type: "success",
+        };
+
+        createNotification(
+          `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+          newNotification
+        );
+        const action = setIsLoadingNotification();
+        dispatch(action);
         break;
       default:
         openNotification("error", "Cập nhật thông tin", `${res.content}`);
@@ -93,6 +120,21 @@ const ModalViewRoom: React.FC<Props> = ({
             openNotification("success", "Thêm phòng", "Thêm phòng thành công");
             router.push("/admin/rooms");
             setIsModalViewRoomsOpen(false);
+
+            const newNotification: NotifiType = {
+              id: `CreRo${getFormattedDateTime()}`,
+              title: "Quản lý phòng",
+              content: "Thêm phòng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+              newNotification
+            );
+            const action = setIsLoadingNotification();
+            dispatch(action);
             break;
           default:
             openNotification("error", "Thêm phòng", `${res.content}`);
