@@ -82,7 +82,9 @@ const ModalViewUser: React.FC<Props> = ({
           "Cập nhật thông tin thành công"
         );
         setModalType("view");
-        getData();
+        if (getData) {
+          getData();
+        }
 
         const newNotification: NotifiType = {
           id: `UpdUs${getFormattedDateTime()}`,
@@ -175,10 +177,8 @@ const ModalViewUser: React.FC<Props> = ({
         .required("Số điện thoại không được để trống"),
       birthday: Yup.string().required("Ngày sinh không được để trống"),
     }),
-    onSubmit: (values) => {
-      console.log("SUBMIT BUTTON");
-
-      handleChange(values);
+    onSubmit: async (values) => {
+      await handleChange(values);
     },
   });
 
@@ -264,7 +264,7 @@ const ModalViewUser: React.FC<Props> = ({
                       : formRegister.values.avatar
                   }
                   alt="image"
-                  className="w-full h-full bg-cover rounded-full"
+                  className="!w-full !h-full bg-cover rounded-full"
                 />
               </div>
             </div>
@@ -460,28 +460,19 @@ const ModalViewUser: React.FC<Props> = ({
 
             <Form.Item className="!mb-0">
               <div className="flex items-center justify-end gap-3">
-                {modalType === "create" && (
+                {modalType !== "view" && (
                   <button
                     type="submit"
                     className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
                   >
-                    Thêm người dùng
-                  </button>
-                )}
-                {modalType === "update" && (
-                  <button
-                    type="submit"
-                    onClick={() => {
-                      console.log("click save update");
-                      console.log(modalType);
-                    }}
-                    className=" bg-primary-100 text-white py-2 px-7 rounded-md font-custom"
-                  >
-                    Lưu thông tin
+                    {modalType === "create"
+                      ? "Thêm người dùng"
+                      : "Lưu thông tin"}
                   </button>
                 )}
                 {modalType === "view" && (
                   <button
+                    type="button"
                     onClick={() => {
                       setModalType("update");
                     }}
@@ -491,6 +482,7 @@ const ModalViewUser: React.FC<Props> = ({
                   </button>
                 )}
                 <button
+                  type="button"
                   onClick={() => {
                     setIsModalViewUserOpen(false);
                   }}

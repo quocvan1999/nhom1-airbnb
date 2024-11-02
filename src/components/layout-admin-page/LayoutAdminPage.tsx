@@ -2,13 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  EnvironmentOutlined,
   ExclamationCircleFilled,
-  HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  StockOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -29,8 +25,6 @@ import { deleteCookie } from "@/utils/method/method";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import LoadingPage from "@/components/loading-page/LoadingPage";
-import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
-import { getUsersPaginationAsync } from "@/services/users-pagination/getUsersPagination.service";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -41,6 +35,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import HeaderNotificationClient from "@/components/header-notification-client/HeaderNotificationClient";
+import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 
 const { Header, Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -72,8 +67,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
   } = theme.useToken();
 
   const getData = (): void => {
-    const { size, page, keyword } = getParams();
-    const action = getUsersPaginationAsync(page, size, keyword || "");
+    const action = getProfile;
     dispatch(action);
   };
 
