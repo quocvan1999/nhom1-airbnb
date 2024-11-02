@@ -142,7 +142,7 @@ const ModalUpdateBooking: React.FC<Props> = ({
 
     if (roomDetail !== undefined) {
       bookings.forEach((booking: BookingType) => {
-        if (booking.maPhong === roomDetail.id) {
+        if (booking.maPhong === roomDetail?.id) {
           bookingId.push(booking);
         }
       });

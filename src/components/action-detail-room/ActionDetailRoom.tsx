@@ -17,6 +17,7 @@ import {
   getCurrentDateTime,
   getFormattedDateTime,
   roundToDecimal,
+  toSlugWithId,
 } from "@/utils/method/method";
 import {
   faHeart,
@@ -224,7 +225,17 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           <p className="text-custome-gray-200">
             {`${room.khach} khách - ${room.phongNgu} phòng ngủ - ${room.giuong} giường - ${room.phongTam} phòng tắm`}
           </p>
-          <Link href={`/search?keyword=${location?.id}`} className="underline">
+          <Link
+            href={
+              location !== null
+                ? `/search?vitri=${toSlugWithId(
+                    `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`,
+                    location.id
+                  )}`
+                : ""
+            }
+            className="underline"
+          >
             {location &&
               `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`}
           </Link>

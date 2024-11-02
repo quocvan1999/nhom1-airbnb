@@ -11,6 +11,7 @@ import {
   getCurrentDateTime,
   getFormattedDateTime,
   isDateInPast,
+  toSlugWithId,
   truncateString,
 } from "@/utils/method/method";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -238,7 +239,9 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
               <Button
                 className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                 onClick={() => {
-                  router.push(`/room/${roomDetail.id}`);
+                  router.push(
+                    `/room/${toSlugWithId(roomDetail.tenPhong, roomDetail.id)}`
+                  );
                 }}
               >
                 <FontAwesomeIcon

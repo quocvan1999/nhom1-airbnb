@@ -4,7 +4,11 @@ import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.serv
 import { LocationType } from "@/types/location/locationType.type";
 import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
-import { convertUSDToVND, truncateString } from "@/utils/method/method";
+import {
+  convertUSDToVND,
+  toSlugWithId,
+  truncateString,
+} from "@/utils/method/method";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -30,7 +34,7 @@ const SearchCard: React.FC<Props> = ({ item }) => {
   }, [item]);
   return (
     <Link
-      href={`/room/${item.id}`}
+      href={`/room/${toSlugWithId(item.tenPhong, item.id)}`}
       className="flex flex-col md:flex-row md:h-[200px] md:gap-3 items-center py-5 border-b cursor-pointer"
     >
       <div className="w-full h-[200px] md:w-[35%] md:h-full">

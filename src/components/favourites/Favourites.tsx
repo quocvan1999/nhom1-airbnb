@@ -9,6 +9,7 @@ import { RoomType } from "@/types/room/roomType.type";
 import {
   getCurrentDateTime,
   getFormattedDateTime,
+  toSlugWithId,
 } from "@/utils/method/method";
 import { faHeart, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -121,7 +122,9 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
                   <Button
                     className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                     onClick={() => {
-                      router.push(`/room/${item.id}`);
+                      router.push(
+                        `/room/${toSlugWithId(item.tenPhong, item.id)}`
+                      );
                     }}
                   >
                     <FontAwesomeIcon
