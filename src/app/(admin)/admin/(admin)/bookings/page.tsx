@@ -1,12 +1,19 @@
 "use client";
 
+import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";
+import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { deleteBookingAsync } from "@/services/delete-booking/deleteBooking.service";
 import { BookingType } from "@/types/booking/bookingType.type";
-import { formatDateTime } from "@/utils/method/method";
+import { NotifiType } from "@/types/notifi/notifi.type";
+import {
+  formatDateTime,
+  getCurrentDateTime,
+  getFormattedDateTime,
+} from "@/utils/method/method";
 import { DeleteOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { Modal, Pagination, Spin, Table, TableColumnsType } from "antd";
 import { createStyles } from "antd-style";
@@ -54,6 +61,8 @@ const Bookings: React.FC<Props> = ({}) => {
   const [paginatedData, setPaginatedData] = useState<BookingType[] | null>(
     null
   );
+  const { createNotification } = useNotifiCustome();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const { size, page } = getParams();
 
@@ -91,6 +100,21 @@ const Bookings: React.FC<Props> = ({}) => {
           case 200:
             openNotification("success", "Xoá đặt phòng", `${res.message}`);
             setIsLoading(!isLoading);
+
+            const newNotification: NotifiType = {
+              id: `DelRoo${getFormattedDateTime()}`,
+              title: "Quản lý đặt phòng",
+              content: "Xoá đặt phòng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
+
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+              newNotification
+            );
+            const action = setIsLoadingNotification();
+            dispatch(action);
             break;
           default:
             openNotification("error", "Xoá đặt phòng", `${res.content}`);
