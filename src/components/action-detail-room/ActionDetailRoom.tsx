@@ -243,7 +243,10 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
         <div className="flex mt-3 lg:mt-0 items-start lg:items-center gap-4 text-custome-gray-200">
           <div
             onClick={() => {
-              setIsModalViewUserOpen(true);
+              getUrl();
+              if (url !== "") {
+                setIsModalViewUserOpen(true);
+              }
             }}
             className="flex items-center gap-1 group cursor-pointer"
           >
@@ -280,7 +283,7 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           </div>
         </div>
       </div>
-      {isModalViewUserOpen && (
+      {isModalViewUserOpen && room && (
         <ModalShareRoom
           url={url}
           isModalViewUserOpen={isModalViewUserOpen}
