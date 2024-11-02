@@ -171,7 +171,10 @@ const ModalViewUser: React.FC<Props> = ({
       email: Yup.string()
         .required("Email không được để trống")
         .email("Email không đúng định dạng"),
-      password: Yup.string().required("Mật khẩu không được để trống"),
+      password:
+        modalType === "create"
+          ? Yup.string().required("Mật khẩu không được để trống")
+          : Yup.string(),
       phone: Yup.string()
         .matches(/^(0[3|5|7|8|9][0-9]{8})$/, "Số điện thoại không hợp lệ.")
         .required("Số điện thoại không được để trống"),
