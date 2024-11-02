@@ -39,9 +39,34 @@ const NavMobile: React.FC<Props> = ({}) => {
           className="flex flex-col items-center justify-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
         >
           <HeaderNotificationClient userType="client" type="mobile" />
-          <p>Thông báo</p>
+          <p className="text-xs">Thông báo</p>
         </Link>
       )}
+      <Link
+        href={`${isLogin === true ? "/profile" : "/auth/login"}`}
+        className="flex flex-col items-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
+      >
+        <div
+          className={`rounded-full flex items-center justify-center transition-all duration-500 ease-in-out  group-hover:border-primary-100 ${
+            isLogin === true
+              ? "w-[50px] h-[50px] border border-custome-gray-200"
+              : "w-[35px] h-[35px]"
+          }`}
+          style={{
+            backgroundImage: `url("${profile.avatar}")`,
+            backgroundSize: "cover",
+          }}
+        >
+          {isLogin === false && (
+            <FontAwesomeIcon
+              size="xl"
+              className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
+              icon={faUser}
+            />
+          )}
+        </div>
+        <p className="text-xs">{isLogin === true ? "Hồ sơ" : "Đăng nhập"}</p>
+      </Link>
       <Link
         href="/"
         className="flex flex-col items-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
@@ -53,28 +78,7 @@ const NavMobile: React.FC<Props> = ({}) => {
             icon={faHouse}
           />
         </div>
-        <p>Trang chủ</p>
-      </Link>
-      <Link
-        href={`${isLogin === true ? "/profile" : "/auth/login"}`}
-        className="flex flex-col items-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
-      >
-        <div
-          className="w-[35px] h-[35px] rounded-full border flex items-center justify-center transition-all duration-500 ease-in-out border-custome-gray-200 group-hover:border-primary-100"
-          style={{
-            backgroundImage: `url("${profile.avatar}")`,
-            backgroundSize: "cover",
-          }}
-        >
-          {isLogin === false && (
-            <FontAwesomeIcon
-              size="lg"
-              className="text-custome-gray-200 transition-all duration-500 ease-in-out group-hover:text-primary-100"
-              icon={faUser}
-            />
-          )}
-        </div>
-        <p>{isLogin === true ? "Hồ sơ" : "Đăng nhập"}</p>
+        <p className="text-xs">Trang chủ</p>
       </Link>
     </div>
   );
