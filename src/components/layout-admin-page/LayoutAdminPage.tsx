@@ -55,7 +55,6 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
   const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
   const { getProfile } = useGetProfile();
-  const { getParams } = useGetSearchPrams();
   const [isModalViewUserOpen, setIsModalViewUserOpen] =
     useState<boolean>(false);
   const [modalType, setModalType] = useState<"create" | "view" | "update">(
