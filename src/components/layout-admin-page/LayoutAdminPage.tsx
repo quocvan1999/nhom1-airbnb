@@ -139,8 +139,13 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
       }}
     >
       {isLogin === true ? (
-        <Layout className="w-full h-full">
-          <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Layout className="w-full h-full relative">
+          <Sider
+            trigger={null}
+            collapsible
+            collapsed={collapsed}
+            className="hidden md:block"
+          >
             <Link
               href="/admin"
               className="w-full flex items-center justify-center py-3"
@@ -210,6 +215,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
               style={{ padding: 0, background: colorBgContainer }}
             >
               <Button
+                className="!hidden md:block"
                 type="text"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 onClick={() => setCollapsed(!collapsed)}
@@ -219,7 +225,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                   height: 64,
                 }}
               />
-              <div className="flex items-center">
+              <div className="flex items-center justify-end w-full">
                 <HeaderNotificationClient userType="admin" type="destop" />
                 <Dropdown
                   open={isOpenDropdown}
@@ -286,11 +292,90 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 margin: "24px 16px",
                 minHeight: 280,
               }}
-              className="overflow-scroll scrollbar-hide"
+              className="overflow-scroll scrollbar-hide !mb-20 md:!mb-0"
             >
               {children}
             </Content>
           </Layout>
+          <div className="absolute bottom-0 left-0 right-2 bg-transparent w-full p-2 md:hidden">
+            <div
+              className="bg-white flex items-center justify-center gap-2 py-2 rounded-lg"
+              style={{
+                boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+              }}
+            >
+              <Link
+                href="/admin/locations"
+                className="w-10 h-10 flex items-center justify-center"
+              >
+                <FontAwesomeIcon
+                  className={`${
+                    selectedKey === "locations"
+                      ? "!text-primary-100"
+                      : "!text-custome-gray-200"
+                  }`}
+                  size="lg"
+                  icon={faLocationDot}
+                />
+              </Link>
+              <Link
+                href="/admin/rooms"
+                className="w-10 h-10 flex items-center justify-center"
+              >
+                <FontAwesomeIcon
+                  className={`${
+                    selectedKey === "rooms"
+                      ? "!text-primary-100"
+                      : "!text-custome-gray-200"
+                  }`}
+                  size="lg"
+                  icon={faHouse}
+                />
+              </Link>
+              <Link
+                href="/admin"
+                className="w-14 h-14 rounded-full border flex items-center justify-center"
+              >
+                <FontAwesomeIcon
+                  className={`${
+                    selectedKey === "admin"
+                      ? "!text-primary-100"
+                      : "!text-custome-gray-200"
+                  }`}
+                  size="xl"
+                  icon={faUser}
+                />
+              </Link>
+              <Link
+                href="/admin/bookings"
+                className="w-10 h-10 flex items-center justify-center"
+              >
+                <FontAwesomeIcon
+                  className={`${
+                    selectedKey === "bookings"
+                      ? "!text-primary-100"
+                      : "!text-custome-gray-200"
+                  }`}
+                  size="lg"
+                  icon={faListCheck}
+                />
+              </Link>
+              <Link
+                href="/admin/chart"
+                className="w-10 h-10 flex items-center justify-center"
+              >
+                <FontAwesomeIcon
+                  className={`${
+                    selectedKey === "chart"
+                      ? "!text-primary-100"
+                      : "!text-custome-gray-200"
+                  }`}
+                  size="lg"
+                  icon={faChartSimple}
+                />
+              </Link>
+            </div>
+          </div>
         </Layout>
       ) : (
         <LoadingPage />

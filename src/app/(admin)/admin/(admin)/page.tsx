@@ -33,7 +33,7 @@ import useNotification from "@/custome-hook/useNotification/useNotification";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
 import { NotifiType } from "@/types/notifi/notifi.type";
@@ -311,8 +311,8 @@ const AdminPage: React.FC = () => {
 
   return (
     <>
-      <div className="w-full h-full !relative">
-        <div className="w-full h-[50px] flex items-center justify-between">
+      <div className="w-full h-full">
+        <div className="w-full h-[50px] flex items-center gap-2 md:gap-0 justify-between">
           <Input
             allowClear
             size="large"
@@ -329,12 +329,13 @@ const AdminPage: React.FC = () => {
               setIsModalViewUserOpen(true);
             }}
             size="large"
-            className="!bg-primary-100  !text-white !border-none"
+            className="!bg-primary-100 !text-white !border-none"
           >
-            + Thêm người dùng
+            <FontAwesomeIcon icon={faPlus} />
+            <span className="!hidden md:!inline-block">Thêm người dùng</span>
           </Button>
         </div>
-        <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg mt-2">
+        <div className="hidden md:block w-full h-[calc(100%-50px)] bg-white rounded-lg mt-2">
           {users && users.data ? (
             <Table
               className={styles.customTable}
@@ -365,6 +366,79 @@ const AdminPage: React.FC = () => {
             <div className="w-full h-[500px] flex items-center justify-center">
               <Spin />
             </div>
+          )}
+        </div>
+        <div className="flex flex-col flex-wrap gap-2 md:hidden mt-3">
+          {users && users.data.length > 0 ? (
+            <>
+              {users.data.map((item: User, index: number) => (
+                <div
+                  className="w-full flex gap-3 p-3 rounded-lg bg-white shadow-md"
+                  key={index}
+                >
+                  <div className="w-16 h-16 rounded-full border border-primary-100 flex items-center justify-center overflow-hidden">
+                    <Image
+                      src={
+                        item.avatar !== "" ? item.avatar : "/images/logo.jpg"
+                      }
+                      alt="hinh anh"
+                      height="100%"
+                      width="100%"
+                      className="!object-cover"
+                    />
+                  </div>
+                  <div className="w-[calc(100% - 64px)] flex flex-col justify-between">
+                    <div>
+                      <h1 className="font-bold">{item.name}</h1>
+                      <p>{item.email}</p>
+                      <p>
+                        {item.role === "ADMIN" ? (
+                          <Tag color="red">{item.role}</Tag>
+                        ) : (
+                          <Tag color="green">{item.role}</Tag>
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <p
+                        onClick={() => {
+                          setUserView(item);
+                          setModalType("view");
+                          setIsModalViewUserOpen(true);
+                        }}
+                        className="text-primary-100 hover:underline pt-3"
+                      >
+                        Xem chi tiết
+                      </p>
+                      <p
+                        onClick={() => {
+                          handleDeleteUser(item.id);
+                        }}
+                        className="text-primary-100 hover:underline pt-3"
+                      >
+                        Xoá
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <Pagination
+                align="end"
+                defaultCurrent={1}
+                current={users?.pageIndex}
+                defaultPageSize={10}
+                pageSize={users?.pageSize}
+                total={users?.totalRow}
+                onChange={(page: number, pageSize: number): void => {
+                  const { keyword } = getParams();
+                  router.push(
+                    `/admin/?page=${page}&size=${pageSize}&keyword=${keyword}`
+                  );
+                }}
+              />
+            </>
+          ) : (
+            <Spin />
           )}
         </div>
       </div>

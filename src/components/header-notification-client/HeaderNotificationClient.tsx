@@ -77,7 +77,9 @@ const HeaderNotificationClient: React.FC<Props> = ({
           open={isOpenDropdown}
           onOpenChange={() => setIsOpenDropdown(!isOpenDropdown)}
           dropdownRender={() => (
-            <div className="bg-white shadow-xl rounded-xl w-[350px] py-5 px-2">
+            <div
+              className={`bg-white shadow-xl rounded-xl w-[300px] md:w-[350px] py-5 px-2`}
+            >
               <h1 className="font-bold uppercase">Thông báo</h1>
 
               <div className="flex flex-col h-full">

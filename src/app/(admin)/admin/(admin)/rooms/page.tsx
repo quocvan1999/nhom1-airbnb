@@ -11,8 +11,10 @@ import { getRoomsPaginationAsync } from "@/services/rooms-pagination/roomsPagina
 import { NotifiType } from "@/types/notifi/notifi.type";
 import { RoomType } from "@/types/room/roomType.type";
 import {
+  convertUSDToVND,
   getCurrentDateTime,
   getFormattedDateTime,
+  truncateString,
 } from "@/utils/method/method";
 import {
   DeleteOutlined,
@@ -21,6 +23,8 @@ import {
   EyeFilled,
   SearchOutlined,
 } from "@ant-design/icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Image,
@@ -33,6 +37,7 @@ import {
   Table,
   TableColumnsType,
   TableColumnType,
+  Tooltip,
 } from "antd";
 import { createStyles } from "antd-style";
 import { FilterDropdownProps } from "antd/es/table/interface";
@@ -295,8 +300,8 @@ const Rooms: React.FC = () => {
   }, [searchParams, isLoading]);
   return (
     <>
-      <div className="w-full h-full !relative">
-        <div className="w-full h-[50px] flex items-center justify-between">
+      <div className="w-full h-full">
+        <div className="w-full h-[50px] flex items-center gap-2 md:gap-0 justify-between">
           <Input
             allowClear
             size="large"
@@ -313,12 +318,13 @@ const Rooms: React.FC = () => {
               setIsModalViewRoomsOpen(true);
             }}
             size="large"
-            className="!bg-primary-100  !text-white !border-none"
+            className="!bg-primary-100 !text-white !border-none"
           >
-            + Thêm phòng
+            <FontAwesomeIcon icon={faPlus} />
+            <span className="!hidden md:!inline-block">Thêm phòng</span>
           </Button>
         </div>
-        <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg mt-2">
+        <div className="hidden md:block w-full h-[calc(100%-50px)] bg-white rounded-lg mt-2">
           {rooms && rooms.data ? (
             <Table
               className={styles.customTable}
@@ -349,6 +355,77 @@ const Rooms: React.FC = () => {
             <div className="w-full h-[500px] flex items-center justify-center">
               <Spin />
             </div>
+          )}
+        </div>
+        <div className="flex flex-col flex-wrap gap-2 md:hidden mt-3">
+          {rooms && rooms.data.length > 0 ? (
+            <>
+              {rooms.data.map((item: RoomType, index: number) => (
+                <div
+                  className="w-full flex gap-3 p-3 rounded-lg bg-white shadow-md"
+                  key={index}
+                >
+                  <div className="w-16 h-16 rounded-full border border-primary-100 flex items-center justify-center overflow-hidden">
+                    <Image
+                      src={
+                        item.hinhAnh !== "" ? item.hinhAnh : "/images/logo.jpg"
+                      }
+                      alt="hinh anh"
+                      height="100%"
+                      width="100%"
+                      className="!object-cover"
+                    />
+                  </div>
+                  <div className="w-[calc(100% - 64px)] flex flex-col justify-between">
+                    <div>
+                      <h1 className="font-bold">
+                        <Tooltip title={item.tenPhong}>
+                          {truncateString(item.tenPhong, 30)}
+                        </Tooltip>
+                      </h1>
+                      <p>{convertUSDToVND(item.giaTien)}</p>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <p
+                        onClick={() => {
+                          setModalType("view");
+                          setIsModalViewRoomsOpen(true);
+                          setRoomView(item);
+                        }}
+                        className="text-primary-100 hover:underline pt-3"
+                      >
+                        Xem chi tiết
+                      </p>
+                      <p
+                        onClick={() => {
+                          handleDeleteRoom(item.id);
+                        }}
+                        className="text-primary-100 hover:underline pt-3"
+                      >
+                        Xoá
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <Pagination
+                align="end"
+                defaultCurrent={1}
+                current={rooms?.pageIndex}
+                defaultPageSize={10}
+                pageSize={rooms?.pageSize}
+                total={rooms?.totalRow}
+                onChange={(page: number, pageSize: number): void => {
+                  const { keyword } = getParams();
+                  router.push(
+                    `/admin/rooms/?page=${page}&size=${pageSize}&keyword=${keyword}`
+                  );
+                }}
+              />
+            </>
+          ) : (
+            <Spin />
           )}
         </div>
       </div>

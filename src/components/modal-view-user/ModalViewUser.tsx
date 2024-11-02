@@ -263,8 +263,10 @@ const ModalViewUser: React.FC<Props> = ({
                       ? "/images/logo.jpg"
                       : formRegister.values.avatar
                   }
-                  alt="image"
-                  className="!w-full !h-full bg-cover rounded-full"
+                  alt="hinh anh"
+                  height="100%"
+                  width="100%"
+                  className="!object-cover"
                 />
               </div>
             </div>

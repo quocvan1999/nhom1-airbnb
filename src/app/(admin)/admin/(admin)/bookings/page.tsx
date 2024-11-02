@@ -10,12 +10,13 @@ import { deleteBookingAsync } from "@/services/delete-booking/deleteBooking.serv
 import { BookingType } from "@/types/booking/bookingType.type";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import {
+  formatDate,
   formatDateTime,
   getCurrentDateTime,
   getFormattedDateTime,
 } from "@/utils/method/method";
 import { DeleteOutlined, ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal, Pagination, Spin, Table, TableColumnsType } from "antd";
+import { Image, Modal, Pagination, Spin, Table, TableColumnsType } from "antd";
 import { createStyles } from "antd-style";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -195,8 +196,8 @@ const Bookings: React.FC<Props> = ({}) => {
 
   return (
     <>
-      <div className="w-full h-full !relative">
-        <div className="w-full h-[calc(100%-50px)] bg-white rounded-lg mt-2">
+      <div className="w-full h-full">
+        <div className="hidden md:block w-full h-[calc(100%-50px)] bg-white rounded-lg mt-2">
           {bookings && paginatedData && paginatedData.length > 0 && bookings ? (
             <Table
               className={styles.customTable}
@@ -225,6 +226,52 @@ const Bookings: React.FC<Props> = ({}) => {
             <div className="w-full h-[500px] flex items-center justify-center">
               <Spin />
             </div>
+          )}
+        </div>
+        <div className="flex flex-col flex-wrap gap-2 md:hidden mt-3">
+          {bookings && paginatedData && paginatedData.length > 0 && bookings ? (
+            <>
+              {paginatedData.map((item: BookingType, index: number) => (
+                <div
+                  className="w-full p-3 rounded-lg bg-white shadow-md"
+                  key={index}
+                >
+                  <div>
+                    <h1 className="font-bold">{item.id}</h1>
+                    <p>
+                      <span className="font-semibold">Ngày đến: </span>
+                      {formatDate(item.ngayDen)}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Ngày đến: </span>
+                      {formatDate(item.ngayDi)}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <p
+                      onClick={() => {
+                        handleDeleteBooking(item.id);
+                      }}
+                      className="text-primary-100 hover:underline pt-3"
+                    >
+                      Xoá
+                    </p>
+                  </div>
+                </div>
+              ))}
+              <Pagination
+                align="end"
+                current={Number(page)}
+                defaultPageSize={Number(size)}
+                total={bookings.length}
+                onChange={(page: number, pageSize: number): void => {
+                  router.push(`/admin/bookings/?page=${page}&size=${pageSize}`);
+                }}
+                showSizeChanger
+              />
+            </>
+          ) : (
+            <Spin />
           )}
         </div>
       </div>
