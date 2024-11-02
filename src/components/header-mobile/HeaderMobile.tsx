@@ -14,7 +14,7 @@ type Props = {};
 const HeaderMobile: React.FC<Props> = ({}) => {
   const router: AppRouterInstance = useRouter();
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
-  const [location, setLocation] = useState<number | null>();
+  const [location, setLocation] = useState<LocationType | null>();
   const [searchLocation, setSearchLocation] = useState<string>("");
 
   const handleSearch = (): void => {
