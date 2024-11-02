@@ -13,16 +13,17 @@ import {
   faHouse,
   faMedal,
 } from "@fortawesome/free-solid-svg-icons";
+import { extractId } from "@/utils/method/method";
 
 type Props = {
   params: {
-    id: string | number;
+    slug: string;
   };
 };
 
 export async function generateMetadata({ params }: Props) {
-  const { id } = params;
-  const roomDetail: RoomType = await getRoomDetailAsync(id);
+  const id = extractId(params.slug);
+  const roomDetail: RoomType = await getRoomDetailAsync(Number(id));
 
   return {
     title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
@@ -50,9 +51,8 @@ export async function generateMetadata({ params }: Props) {
 }
 
 const RoomDetail: React.FC<Props> = async ({ params }) => {
-  const { id } = params;
-
-  const data: RoomType = await getRoomDetailAsync(id);
+  const id = extractId(params.slug);
+  const data: RoomType = await getRoomDetailAsync(Number(id));
 
   return (
     <div className="w-full">

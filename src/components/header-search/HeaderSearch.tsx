@@ -16,6 +16,8 @@ import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/globalRedux/store";
+import { toSlugWithId } from "@/utils/method/method";
+import { LocationType } from "@/types/location/locationType.type";
 
 type Props = {};
 
@@ -24,7 +26,7 @@ const HeaderSearch: React.FC<Props> = ({}) => {
   const { openNotification } = useNotification();
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [searchLocation, setSearchLocation] = useState<string>("");
-  const [location, setLocation] = useState<number | null>();
+  const [location, setLocation] = useState<LocationType | null>();
   const [dateCheckin, setDateCheckin] = useState<Dayjs | null>(null);
   const [dateCheckout, setDateCheckout] = useState<Dayjs | null>(null);
   const {
@@ -55,7 +57,12 @@ const HeaderSearch: React.FC<Props> = ({}) => {
 
   const handleSearch = (): void => {
     if (searchLocation !== "" && location) {
-      router.push(`/search?keyword=${location}`);
+      router.push(
+        `/search?vitri=${toSlugWithId(
+          `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`,
+          location.id
+        )}`
+      );
       setCountMember(0);
       setSearchLocation("");
       setDateCheckin(null);

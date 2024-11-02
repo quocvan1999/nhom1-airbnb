@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 
 type Props = {
   data: RoomType[];
-  keyword: string;
+  keyword: string | number;
 };
 
 const SearchResult: React.FC<Props> = ({ data, keyword }) => {

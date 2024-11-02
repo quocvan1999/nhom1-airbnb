@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 
 type Props = {
-  setLocation: React.Dispatch<React.SetStateAction<number | null | undefined>>;
+  setLocation: React.Dispatch<
+    React.SetStateAction<LocationType | null | undefined>
+  >;
   setIsOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   searchLocation: string;
   setSearchLocation: React.Dispatch<React.SetStateAction<string>>;
@@ -37,7 +39,7 @@ const HeaderModalLocation: React.FC<Props> = ({
           <div
             key={index}
             onClick={() => {
-              setLocation(location.id);
+              setLocation(location);
               setSearchLocation(location.tenViTri);
               setIsOpenDropdown(false);
             }}

@@ -268,3 +268,33 @@ export const getYearString = (date: string | null) => {
     return year;
   }
 };
+
+export const toSlugWithId = (name: string, id: number): string => {
+  return `${name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9 ]/g, "")
+    .replace(/\s+/g, "-")}-${id}`;
+};
+
+export const extractId = (slug: string): number | null => {
+  const lastIndex = slug.lastIndexOf("-");
+  if (lastIndex === -1) return null;
+  const id = slug.slice(lastIndex + 1);
+  return parseInt(id, 10);
+};
+
+export const fromSlugToText = (slugWithId: string): string => {
+  // Loại bỏ phần `id` ở cuối bằng cách cắt bỏ chuỗi sau dấu `-` cuối cùng
+  const lastIndex = slugWithId.lastIndexOf("-");
+  if (lastIndex === -1) return slugWithId; // Trường hợp không có `-` trong slug
+
+  const slug = slugWithId.slice(0, lastIndex);
+
+  // Thay `-` bằng khoảng trắng và viết hoa chữ cái đầu mỗi từ
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

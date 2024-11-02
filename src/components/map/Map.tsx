@@ -7,7 +7,7 @@ import { ReqType } from "@/types/req/reqType.type";
 import { LocationType } from "@/types/location/locationType.type";
 import { getLocationIdAsync } from "@/services/get-locationId/getLocationId.service";
 
-type Props = { keyword: string };
+type Props = { keyword: string | number };
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_BOX || "";
 

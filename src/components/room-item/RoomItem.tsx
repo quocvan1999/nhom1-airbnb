@@ -1,5 +1,9 @@
 import { RoomType } from "@/types/room/roomType.type";
-import { convertUSDToVND, truncateString } from "@/utils/method/method";
+import {
+  convertUSDToVND,
+  toSlugWithId,
+  truncateString,
+} from "@/utils/method/method";
 import Link from "next/link";
 import React from "react";
 
@@ -10,7 +14,7 @@ type Props = {
 const RoomItem: React.FC<Props> = ({ data }) => {
   return (
     <Link
-      href={`/room/${data.id}`}
+      href={`/room/${toSlugWithId(data.tenPhong, data.id)}`}
       className="w-full cursor-pointer md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] xl:w-[calc((100%-36px)/4)]"
     >
       <img

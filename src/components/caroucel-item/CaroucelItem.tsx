@@ -1,5 +1,6 @@
 import { CarouselItem } from "@/components/ui/carousel";
 import { LocationType } from "@/types/location/locationType.type";
+import { toSlugWithId } from "@/utils/method/method";
 import Link from "next/link";
 import React from "react";
 
@@ -12,7 +13,10 @@ const CaroucelItem: React.FC<Props> = ({ location }) => {
     <CarouselItem className="md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
       <Link
         className="flex gap-4 cursor-pointer items-center"
-        href={`/search?keyword=${location.id}`}
+        href={`/search?vitri=${toSlugWithId(
+          `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`,
+          location.id
+        )}`}
       >
         <img
           src={location.hinhAnh}

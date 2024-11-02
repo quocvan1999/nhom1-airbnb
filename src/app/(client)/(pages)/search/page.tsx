@@ -2,28 +2,30 @@ import Map from "@/components/map/Map";
 import SearchResult from "@/components/search-result/SearchResult";
 import { getRoomsLocation } from "@/services/rooms-location/roomsLocation.service";
 import { RoomType } from "@/types/room/roomType.type";
-import { getCurrentDate } from "@/utils/method/method";
+import { extractId, getCurrentDate } from "@/utils/method/method";
 import { tagData } from "@/utils/tag-data/tag.data";
 import React from "react";
 
 type Props = {
   searchParams: {
-    keyword: string;
+    vitri: string;
   };
 };
 
 export const generateMetadata = async ({ searchParams }: Props) => {
-  const value: string = searchParams.keyword || "";
-  const data: RoomType[] = await getRoomsLocation(value);
+  const id: number | null = extractId(searchParams.vitri);
+  const data: RoomType[] = await getRoomsLocation(Number(id));
 
   return {
-    title: `Tìm kiếm chỗ ở cho từ khóa: ${value}`,
-    description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${value}".`,
-    keywords: `${value}, chỗ ở, tìm kiếm chỗ ở, ${tagData.join(", ")}`,
+    title: `Tìm kiếm chỗ ở cho từ khóa: ${searchParams.vitri}`,
+    description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${searchParams.vitri}".`,
+    keywords: `${searchParams.vitri}, chỗ ở, tìm kiếm chỗ ở, ${tagData.join(
+      ", "
+    )}`,
     openGraph: {
-      title: `Tìm kiếm chỗ ở cho từ khóa: ${value}`,
-      description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${value}".`,
-      url: `https://nhom1-airbnb.vercel.app/search?keyword=${value}`,
+      title: `Tìm kiếm chỗ ở cho từ khóa: ${searchParams.vitri}`,
+      description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${searchParams.vitri}".`,
+      url: `https://nhom1-airbnb.vercel.app/search?keyword=${searchParams.vitri}`,
       images: [
         {
           url: "https://a0.muscache.com/im/pictures/miso/Hosting-694055224756906854/original/76f85a0c-b3e2-4f1d-9aa9-d7838f2393c6.jpeg?im_w=960&im_q=highq",
@@ -42,8 +44,8 @@ export const generateMetadata = async ({ searchParams }: Props) => {
 };
 
 const Search: React.FC<Props> = async ({ searchParams }) => {
-  const value: string = searchParams.keyword || "";
-  const data: RoomType[] = await getRoomsLocation(value);
+  const id: number | null = extractId(searchParams.vitri);
+  const data: RoomType[] = await getRoomsLocation(Number(id));
 
   return (
     <>
@@ -52,11 +54,11 @@ const Search: React.FC<Props> = async ({ searchParams }) => {
           <div className="w-full lg:w-[60%]">
             <p>{`Hơn ${data.length} chỗ ở - ${getCurrentDate()}`}</p>
             <div className="flex flex-col">
-              <SearchResult keyword={value} data={data} />
+              <SearchResult keyword={Number(id)} data={data} />
             </div>
           </div>
           <div className="w-full mt-5 lg:mt-0 lg:w-[40%]">
-            <Map keyword={value} />
+            <Map keyword={Number(id)} />
           </div>
         </div>
       ) : (
