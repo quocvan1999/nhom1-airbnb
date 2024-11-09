@@ -3,6 +3,7 @@ import Rooms from "@/components/rooms/Rooms";
 import TitleH1 from "@/components/titleH1/TitleH1";
 import { ItemHomeType } from "@/types/item-home/itemHomeType.type";
 import { itemData } from "@/utils/home-data/itemHome.data";
+import Script from "next/script";
 import React from "react";
 
 type Props = {
@@ -49,6 +50,23 @@ export const generateMetadata = async () => {
 const Home: React.FC<Props> = ({ searchParams }) => {
   return (
     <div>
+      <Script
+        id="tawk-to"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/672f5f1e2480f5b4f59b22aa/1ic8i95aa';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+          `,
+        }}
+      />
       <CaroucelContainer />
       <div className="mt-10">
         <TitleH1 title="Trải nghiệm đã qua" />
