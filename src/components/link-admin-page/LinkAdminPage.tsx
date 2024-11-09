@@ -3,6 +3,7 @@
 import { RootState } from "@/app/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
+import { setCookie } from "@/utils/method/method";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -37,6 +38,13 @@ const LinkAdminPage: React.FC<Props> = ({}) => {
     <>
       {isShow && (
         <Link
+          onClick={() => {
+            setCookie(
+              "auth_a",
+              btoa(`${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`),
+              0
+            );
+          }}
           href="/admin"
           className="font-medium text-custome-black-100 px-5 py-2 rounded-full cursor-pointer transition-all duration-500 ease-in-out hover:bg-custome-gray-100"
         >

@@ -21,7 +21,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import FacebookLogin, {
   ProfileSuccessResponse,
-  SuccessResponse,
 } from "@greatsumini/react-facebook-login";
 import { registerAsync } from "@/services/register/register.service";
 

@@ -27,6 +27,7 @@
     "antd": "^5.20.6",
     "antd-style": "^3.7.0",
     "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
     "chart.js": "^4.4.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -49,6 +50,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/mapbox__mapbox-sdk": "^0.16.0",
     "@types/node": "^20",
     "@types/react": "^18",
