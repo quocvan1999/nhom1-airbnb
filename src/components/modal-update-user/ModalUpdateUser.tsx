@@ -158,7 +158,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
         okButtonProps={{ style: { display: "none" } }}
       >
         <Form layout="vertical" onSubmitCapture={formUpdate.handleSubmit}>
-          <Form.Item label="ID">
+          {/* <Form.Item label="ID">
             <Input
               disabled
               size="large"
@@ -166,7 +166,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
               placeholder="Enter id"
               value={formUpdate.values.id}
             />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             label="Name"
