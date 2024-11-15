@@ -71,6 +71,7 @@ const ModalViewRoom: React.FC<Props> = ({
   const [locationData, setLocationData] = useState<LocationType[]>([]);
   const { profile } = useSelector((state: RootState) => state.user);
   const [file, setFile] = useState<any>(null);
+  const [isReadingUpload, setIsReadUpload] = useState<boolean>(false);
 
   const initialValues: RoomType = {
     id: 0,
@@ -95,6 +96,7 @@ const ModalViewRoom: React.FC<Props> = ({
   };
 
   const handleChangeUploadFile: UploadProps["onChange"] = ({ file }) => {
+    setIsReadUpload(false);
     let isPass: boolean = true;
     if (file) {
       const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
@@ -121,6 +123,7 @@ const ModalViewRoom: React.FC<Props> = ({
       }
 
       if (isPass) {
+        setIsReadUpload(true);
         setFile(file);
       }
     }
@@ -128,10 +131,12 @@ const ModalViewRoom: React.FC<Props> = ({
 
   const handleUpload = async (id: number): Promise<boolean> => {
     if (!file) {
+      setIsReadUpload(false);
       openNotification("warning", "Thêm phòng", "Vui lòng chọn ảnh phòng");
       return false;
     }
 
+    setIsReadUpload(true);
     const formData = new FormData();
     formData.append("formFile", file);
 
@@ -183,36 +188,38 @@ const ModalViewRoom: React.FC<Props> = ({
 
     switch (res.statusCode) {
       case 200:
-        const uploadImage: boolean = await handleUpload(roomUpdate.id);
-        if (uploadImage) {
-          openNotification(
-            "success",
-            "Cập nhật thông tin",
-            "Cập nhật thông tin thành công"
-          );
-          setModalType("view");
-          getData();
+        if (isReadingUpload) {
+          const uploadImage: boolean = await handleUpload(roomUpdate.id);
+          if (uploadImage) {
+            openNotification(
+              "success",
+              "Cập nhật thông tin",
+              "Cập nhật thông tin thành công"
+            );
+            setModalType("view");
+            getData();
 
-          const newNotification: NotifiType = {
-            id: `UpdRo${getFormattedDateTime()}`,
-            title: "Quản lý phòng",
-            content: "Cập nhật phòng thành công",
-            date: `${getCurrentDateTime()}`,
-            type: "success",
-          };
+            const newNotification: NotifiType = {
+              id: `UpdRo${getFormattedDateTime()}`,
+              title: "Quản lý phòng",
+              content: "Cập nhật phòng thành công",
+              date: `${getCurrentDateTime()}`,
+              type: "success",
+            };
 
-          createNotification(
-            `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
-            newNotification
-          );
-          const action = setIsLoadingNotification();
-          dispatch(action);
-        } else {
-          openNotification(
-            "error",
-            "Thêm phòng",
-            "Thêm ảnh phòng không thành công"
-          );
+            createNotification(
+              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+              newNotification
+            );
+            const action = setIsLoadingNotification();
+            dispatch(action);
+          } else {
+            openNotification(
+              "error",
+              "Thêm phòng",
+              "Thêm ảnh phòng không thành công"
+            );
+          }
         }
         break;
       default:
@@ -227,48 +234,50 @@ const ModalViewRoom: React.FC<Props> = ({
         setModalType("update");
         break;
       case "create":
-        const res: ReqType<RoomType> = await createRoomAsync(newRoom);
+        if (isReadingUpload) {
+          const res: ReqType<RoomType> = await createRoomAsync(newRoom);
 
-        switch (res.statusCode) {
-          case 201:
-            if (typeof res.content === "object") {
-              const uploadImage: boolean = await handleUpload(res.content.id);
+          switch (res.statusCode) {
+            case 201:
+              if (typeof res.content === "object") {
+                const uploadImage: boolean = await handleUpload(res.content.id);
 
-              if (uploadImage) {
+                if (uploadImage) {
+                  openNotification(
+                    "success",
+                    "Thêm phòng",
+                    "Thêm phòng thành công"
+                  );
+                  router.push("/admin/rooms");
+                  setIsModalViewRoomsOpen(false);
+
+                  const newNotification: NotifiType = {
+                    id: `CreRo${getFormattedDateTime()}`,
+                    title: "Quản lý phòng",
+                    content: "Thêm phòng thành công",
+                    date: `${getCurrentDateTime()}`,
+                    type: "success",
+                  };
+
+                  createNotification(
+                    `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+                    newNotification
+                  );
+                  const action = setIsLoadingNotification();
+                  dispatch(action);
+                }
+              } else {
                 openNotification(
-                  "success",
+                  "error",
                   "Thêm phòng",
-                  "Thêm phòng thành công"
+                  "Thêm ảnh phòng không thành công"
                 );
-                router.push("/admin/rooms");
-                setIsModalViewRoomsOpen(false);
-
-                const newNotification: NotifiType = {
-                  id: `CreRo${getFormattedDateTime()}`,
-                  title: "Quản lý phòng",
-                  content: "Thêm phòng thành công",
-                  date: `${getCurrentDateTime()}`,
-                  type: "success",
-                };
-
-                createNotification(
-                  `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
-                  newNotification
-                );
-                const action = setIsLoadingNotification();
-                dispatch(action);
               }
-            } else {
-              openNotification(
-                "error",
-                "Thêm phòng",
-                "Thêm ảnh phòng không thành công"
-              );
-            }
-            break;
-          default:
-            openNotification("error", "Thêm phòng", `${res.content}`);
-            break;
+              break;
+            default:
+              openNotification("error", "Thêm phòng", `${res.content}`);
+              break;
+          }
         }
         break;
       case "update":
