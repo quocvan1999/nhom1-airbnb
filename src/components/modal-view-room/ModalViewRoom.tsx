@@ -1,8 +1,16 @@
 "use client";
 
 import { RoomType } from "@/types/room/roomType.type";
-import { Checkbox, ConfigProvider, Form, Image, Input, Modal } from "antd";
-import React, { useEffect } from "react";
+import {
+  Checkbox,
+  ConfigProvider,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Select,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ReqType } from "@/types/req/reqType.type";
@@ -20,6 +28,10 @@ import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSl
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/globalRedux/store";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { LocationType } from "@/types/location/locationType.type";
+import { httpClient } from "@/utils/setting/setting";
+import { AxiosResponse } from "axios";
+import { OptionSelectType } from "@/types/option-select/optionSelectType.type";
 
 const { TextArea } = Input;
 
@@ -48,6 +60,8 @@ const ModalViewRoom: React.FC<Props> = ({
   const { openNotification } = useNotification();
   const dispatch: AppDispatch = useDispatch();
   const { createNotification } = useNotifiCustome();
+  const [location, setLocation] = useState<OptionSelectType[]>([]);
+  const [locationData, setLocationData] = useState<LocationType[]>([]);
   const { profile } = useSelector((state: RootState) => state.user);
 
   const initialValues: RoomType = {
@@ -70,6 +84,24 @@ const ModalViewRoom: React.FC<Props> = ({
     banUi: false,
     maViTri: 0,
     hinhAnh: "",
+  };
+
+  const getLocation = async (): Promise<void> => {
+    const res: AxiosResponse = await httpClient.get("/api/vi-tri");
+
+    setLocationData(res.data.content);
+
+    if (res.data.content.length > 0) {
+      res.data.content.map((district: LocationType) =>
+        setLocation((prevItems) => [
+          ...prevItems,
+          {
+            value: district.id.toString(),
+            label: `${district.tenViTri}, ${district.tinhThanh}, ${district.quocGia}`,
+          },
+        ])
+      );
+    }
   };
 
   const handleUpdateRoom = async (roomUpdate: RoomType): Promise<void> => {
@@ -189,7 +221,24 @@ const ModalViewRoom: React.FC<Props> = ({
     },
   });
 
+  const setLocationName = (id: number): string => {
+    let name: string = "";
+
+    const checkName: LocationType | undefined = locationData.find(
+      (item: LocationType) => item.id === id
+    );
+
+    if (checkName) {
+      name = `${checkName.tenViTri}, ${checkName.tinhThanh}, ${checkName.quocGia}`;
+    } else {
+      name = "";
+    }
+
+    return name;
+  };
+
   useEffect(() => {
+    getLocation();
     if (modalType === "update" || modalType === "view") {
       if (roomView !== null) {
         formRoom.setValues({
@@ -426,20 +475,29 @@ const ModalViewRoom: React.FC<Props> = ({
                   }
                   help={formRoom.touched.maViTri && formRoom.errors.maViTri}
                 >
-                  <p className="font-bold uppercase text-xs mb-3">Mã vị trí</p>
+                  <p className="font-bold uppercase text-xs mb-3">Vị trí</p>
                   {modalType !== "view" ? (
-                    <Input
-                      type="number"
-                      allowClear
+                    <Select
                       size="large"
-                      name="maViTri"
-                      placeholder="Nhập mã vị trí"
-                      value={formRoom.values.maViTri}
-                      onChange={formRoom.handleChange}
-                      onBlur={formRoom.handleBlur}
+                      showSearch
+                      placeholder="Chọn tỉnh thành"
+                      optionFilterProp="label"
+                      value={setLocationName(formRoom.values.maViTri)}
+                      onChange={(
+                        data: string,
+                        option: OptionSelectType | OptionSelectType[]
+                      ): void => {
+                        if (option && !Array.isArray(option)) {
+                          formRoom.setFieldValue(
+                            "maViTri",
+                            Number(option.value)
+                          );
+                        }
+                      }}
+                      options={location}
                     />
                   ) : (
-                    <p>{formRoom.values.maViTri}</p>
+                    <p>{setLocationName(formRoom.values.maViTri)}</p>
                   )}
                 </Form.Item>
 
