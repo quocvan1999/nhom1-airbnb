@@ -2,6 +2,7 @@
 
 import { RoomType } from "@/types/room/roomType.type";
 import {
+  Button,
   Checkbox,
   ConfigProvider,
   Form,
@@ -9,6 +10,8 @@ import {
   Input,
   Modal,
   Select,
+  Upload,
+  UploadProps,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
@@ -17,10 +20,11 @@ import { ReqType } from "@/types/req/reqType.type";
 import { createRoomAsync } from "@/services/create-room/createRoom.service";
 import { useRouter } from "next/navigation";
 import useNotification from "@/custome-hook/useNotification/useNotification";
-import { ExclamationCircleFilled } from "@ant-design/icons";
+import { ExclamationCircleFilled, UploadOutlined } from "@ant-design/icons";
 import { updateRoomAsync } from "@/services/update-room/updateRoom.service";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import {
+  getCookie,
   getCurrentDateTime,
   getFormattedDateTime,
 } from "@/utils/method/method";
@@ -32,6 +36,7 @@ import { LocationType } from "@/types/location/locationType.type";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 import { OptionSelectType } from "@/types/option-select/optionSelectType.type";
+import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 
 const { TextArea } = Input;
 
@@ -57,12 +62,15 @@ const ModalViewRoom: React.FC<Props> = ({
   setIsModalViewRoomsOpen,
 }) => {
   const router = useRouter();
+  const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
   const dispatch: AppDispatch = useDispatch();
+  const [token, setToken] = useState<string>("");
   const { createNotification } = useNotifiCustome();
   const [location, setLocation] = useState<OptionSelectType[]>([]);
   const [locationData, setLocationData] = useState<LocationType[]>([]);
   const { profile } = useSelector((state: RootState) => state.user);
+  const [file, setFile] = useState<any>(null);
 
   const initialValues: RoomType = {
     id: 0,
@@ -84,6 +92,72 @@ const ModalViewRoom: React.FC<Props> = ({
     banUi: false,
     maViTri: 0,
     hinhAnh: "",
+  };
+
+  const handleChangeUploadFile: UploadProps["onChange"] = ({ file }) => {
+    let isPass: boolean = true;
+    if (file) {
+      const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+      if (!allowedExtensions.exec(file.name)) {
+        isPass = false;
+        openNotification(
+          "warning",
+          "Thêm phòng",
+          "Vui lòng chọn file có định dạng (jpg, jpeg, png, gif)"
+        );
+        return;
+      }
+
+      const maxSizeInBytes = 1 * 1024 * 1024;
+      const fileSize = file.size ?? 0;
+      if (fileSize > maxSizeInBytes) {
+        isPass = false;
+        openNotification(
+          "warning",
+          "Thêm phòng",
+          "Dung lượng hình phải dưới 1M"
+        );
+        return;
+      }
+
+      if (isPass) {
+        setFile(file);
+      }
+    }
+  };
+
+  const handleUpload = async (id: number): Promise<boolean> => {
+    if (!file) {
+      openNotification("warning", "Thêm phòng", "Vui lòng chọn ảnh phòng");
+      return false;
+    }
+
+    const formData = new FormData();
+    formData.append("formFile", file);
+
+    try {
+      const response = await fetch(
+        `https://airbnbnew.cybersoft.edu.vn/api/phong-thue/upload-hinh-phong?maPhong=${id}`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            tokenCybersoft: process.env.NEXT_PUBLIC_CYBERSOFT_TOKEN || "",
+            token: token,
+          },
+        }
+      );
+      if (response.ok) {
+        setFile(null);
+        return true;
+      } else {
+        setFile(null);
+        return false;
+      }
+    } catch (error) {
+      setFile(null);
+      return false;
+    }
   };
 
   const getLocation = async (): Promise<void> => {
@@ -145,28 +219,43 @@ const ModalViewRoom: React.FC<Props> = ({
         break;
       case "create":
         const res: ReqType<RoomType> = await createRoomAsync(newRoom);
-        console.log("CHECK RES: ", res);
 
         switch (res.statusCode) {
           case 201:
-            openNotification("success", "Thêm phòng", "Thêm phòng thành công");
-            router.push("/admin/rooms");
-            setIsModalViewRoomsOpen(false);
+            if (typeof res.content === "object") {
+              const uploadImage: boolean = await handleUpload(res.content.id);
 
-            const newNotification: NotifiType = {
-              id: `CreRo${getFormattedDateTime()}`,
-              title: "Quản lý phòng",
-              content: "Thêm phòng thành công",
-              date: `${getCurrentDateTime()}`,
-              type: "success",
-            };
+              if (uploadImage) {
+                openNotification(
+                  "success",
+                  "Thêm phòng",
+                  "Thêm phòng thành công"
+                );
+                router.push("/admin/rooms");
+                setIsModalViewRoomsOpen(false);
 
-            createNotification(
-              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
-              newNotification
-            );
-            const action = setIsLoadingNotification();
-            dispatch(action);
+                const newNotification: NotifiType = {
+                  id: `CreRo${getFormattedDateTime()}`,
+                  title: "Quản lý phòng",
+                  content: "Thêm phòng thành công",
+                  date: `${getCurrentDateTime()}`,
+                  type: "success",
+                };
+
+                createNotification(
+                  `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+                  newNotification
+                );
+                const action = setIsLoadingNotification();
+                dispatch(action);
+              }
+            } else {
+              openNotification(
+                "error",
+                "Thêm phòng",
+                "Thêm ảnh phòng không thành công"
+              );
+            }
             break;
           default:
             openNotification("error", "Thêm phòng", `${res.content}`);
@@ -214,7 +303,6 @@ const ModalViewRoom: React.FC<Props> = ({
         .min(1, "Giá tiền phải lớn hơn 0")
         .required("Giá tiền không được để trống"),
       maViTri: Yup.number().required("Mã vị trí không được để trống"),
-      hinhAnh: Yup.string().required("Hình ảnh không được để trống"),
     }),
     onSubmit: (values) => {
       handleChange(values);
@@ -262,6 +350,16 @@ const ModalViewRoom: React.FC<Props> = ({
           maViTri: roomView.maViTri,
           hinhAnh: roomView.hinhAnh,
         });
+      }
+    }
+
+    const isLogin: boolean | undefined = checkIsLogin();
+
+    if (isLogin === true) {
+      const getTokent: string | null = getCookie("accessToken");
+
+      if (getTokent) {
+        setToken(getTokent);
       }
     }
   }, []);
@@ -536,15 +634,17 @@ const ModalViewRoom: React.FC<Props> = ({
                 >
                   <p className="font-bold uppercase text-xs mb-3">Hình ảnh</p>
                   {modalType !== "view" ? (
-                    <Input
-                      allowClear
-                      size="large"
-                      name="hinhAnh"
-                      placeholder="Nhập đường dẫn hình ảnh"
-                      value={formRoom.values.hinhAnh}
-                      onChange={formRoom.handleChange}
-                      onBlur={formRoom.handleBlur}
-                    />
+                    <Upload
+                      listType="picture"
+                      maxCount={1} // Giới hạn chỉ chọn 1 file
+                      beforeUpload={() => false} // Ngăn tự động tải lên
+                      onChange={handleChangeUploadFile}
+                      fileList={file ? [file] : []}
+                    >
+                      <Button type="primary" icon={<UploadOutlined />}>
+                        Upload
+                      </Button>
+                    </Upload>
                   ) : (
                     <div className="w-full h-[100px]">
                       <Image
