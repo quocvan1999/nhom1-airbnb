@@ -9,15 +9,28 @@ import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { deleteBookingAsync } from "@/services/delete-booking/deleteBooking.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { NotifiType } from "@/types/notifi/notifi.type";
+import { ReqType } from "@/types/req/reqType.type";
+import { RoomType } from "@/types/room/roomType.type";
+import { User } from "@/types/user/userType.type";
 import {
   formatDate,
   formatDateTime,
   getCurrentDateTime,
   getFormattedDateTime,
+  truncateString,
 } from "@/utils/method/method";
+import { httpClient } from "@/utils/setting/setting";
 import { DeleteOutlined, ExclamationCircleFilled } from "@ant-design/icons";
-import { Image, Modal, Pagination, Spin, Table, TableColumnsType } from "antd";
+import {
+  Modal,
+  Pagination,
+  Spin,
+  Table,
+  TableColumnsType,
+  Tooltip,
+} from "antd";
 import { createStyles } from "antd-style";
+import { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +40,11 @@ type Props = {};
 type ValueFilter = {
   text: string | number;
   value: string | number;
+};
+
+type NewBookingType = Omit<BookingType, "maNguoiDung" | "maPhong"> & {
+  nguoiDung: string;
+  tenPhong: string;
 };
 
 const useStyle = createStyles(({ css }) => {
@@ -52,6 +70,8 @@ const Bookings: React.FC<Props> = ({}) => {
   const { openNotification } = useNotification();
   const { getParams, searchParams } = useGetSearchPrams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [users, setUsers] = useState<User[]>([]);
+  const [rooms, setRooms] = useState<RoomType[]>([]);
   const [valuesFilterNgayDen, setValuesFilterNgayDen] = useState<ValueFilter[]>(
     []
   );
@@ -59,15 +79,14 @@ const Bookings: React.FC<Props> = ({}) => {
     []
   );
   const { bookings } = useSelector((state: RootState) => state.room);
-  const [paginatedData, setPaginatedData] = useState<BookingType[] | null>(
+  const [paginatedData, setPaginatedData] = useState<NewBookingType[] | null>(
     null
   );
   const { createNotification } = useNotifiCustome();
   const { profile } = useSelector((state: RootState) => state.user);
-
   const { size, page } = getParams();
 
-  function transformData(array: BookingType[], field: keyof BookingType) {
+  function transformData(array: NewBookingType[], field: keyof NewBookingType) {
     const uniqueValues = new Set();
 
     return array.reduce((result, item) => {
@@ -130,11 +149,34 @@ const Bookings: React.FC<Props> = ({}) => {
     dispatch(action);
   };
 
-  const columns: TableColumnsType<BookingType> = [
+  const getUser = async (): Promise<void> => {
+    const res: AxiosResponse = await httpClient.get("/api/users");
+    setUsers(res.data.content);
+  };
+
+  const getRoom = async (): Promise<void> => {
+    const res: AxiosResponse = await httpClient.get("/api/phong-thue");
+    setRooms(res.data.content);
+  };
+
+  const columns: TableColumnsType<NewBookingType> = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
+    },
+    {
+      title: "Khách hàng",
+      dataIndex: "nguoiDung",
+      key: "nguoiDung",
+    },
+    {
+      title: "Phòng",
+      dataIndex: "tenPhong",
+      key: "tenPhong",
+      render: (tenPhong) => (
+        <Tooltip title={tenPhong}>{truncateString(tenPhong, 30)}</Tooltip>
+      ),
     },
     {
       title: "Ngày đến",
@@ -158,14 +200,14 @@ const Bookings: React.FC<Props> = ({}) => {
       title: "Số lượng khách",
       dataIndex: "soLuongKhach",
       key: "soLuongKhach",
-      sorter: (a: BookingType, b: BookingType) =>
+      sorter: (a: NewBookingType, b: NewBookingType) =>
         a.soLuongKhach - b.soLuongKhach,
     },
     {
       title: "Chức năng",
       dataIndex: "",
       key: "actions",
-      render: (record: BookingType) => (
+      render: (record: NewBookingType) => (
         <div className="flex items-center justify-center">
           <DeleteOutlined
             onClick={() => {
@@ -178,8 +220,44 @@ const Bookings: React.FC<Props> = ({}) => {
     },
   ];
 
+  const setUserName = (id: number): string => {
+    let name: string = "";
+
+    if (users.length > 0) {
+      const userData: User | undefined = users.find(
+        (item: User) => item.id === id
+      );
+
+      if (userData !== undefined) {
+        name = userData.name;
+      } else {
+        name = "Khách hàng";
+      }
+    }
+    return name;
+  };
+
+  const setRoomName = (id: number): string => {
+    let name: string = "";
+
+    if (rooms.length > 0) {
+      const roomData: RoomType | undefined = rooms.find(
+        (item: RoomType) => item.id === id
+      );
+
+      if (roomData !== undefined) {
+        name = roomData.tenPhong;
+      } else {
+        name = "";
+      }
+    }
+    return name;
+  };
+
   useEffect(() => {
     getData();
+    getUser();
+    getRoom();
   }, [isLoading]);
 
   useEffect(() => {
@@ -188,9 +266,30 @@ const Bookings: React.FC<Props> = ({}) => {
         (Number(page) - 1) * Number(size),
         Number(page) * Number(size)
       );
-      setPaginatedData(data);
-      setValuesFilterNgayDen(transformData(data, "ngayDen"));
-      setValuesFilterNgayDi(transformData(data, "ngayDi"));
+
+      if (data) {
+        const newData: NewBookingType[] = [];
+
+        data.map((booking: BookingType) => {
+          let userName: string = setUserName(Number(booking.maNguoiDung));
+          let roomname: string = setRoomName(Number(booking.maPhong));
+
+          newData.push({
+            id: booking.id,
+            ngayDen: booking.ngayDen,
+            ngayDi: booking.ngayDi,
+            nguoiDung: userName,
+            soLuongKhach: booking.soLuongKhach,
+            tenPhong: roomname,
+          });
+        });
+
+        console.log("CHECK NEW DATA", newData);
+
+        setPaginatedData(newData);
+        setValuesFilterNgayDen(transformData(newData, "ngayDen"));
+        setValuesFilterNgayDi(transformData(newData, "ngayDi"));
+      }
     }
   }, [bookings, searchParams]);
 
@@ -231,7 +330,7 @@ const Bookings: React.FC<Props> = ({}) => {
         <div className="flex flex-col flex-wrap gap-2 md:hidden mt-3">
           {bookings && paginatedData && paginatedData.length > 0 && bookings ? (
             <>
-              {paginatedData.map((item: BookingType, index: number) => (
+              {paginatedData.map((item: NewBookingType, index: number) => (
                 <div
                   className="w-full p-3 rounded-lg bg-white shadow-md"
                   key={index}
