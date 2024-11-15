@@ -183,28 +183,37 @@ const ModalViewRoom: React.FC<Props> = ({
 
     switch (res.statusCode) {
       case 200:
-        openNotification(
-          "success",
-          "Cập nhật thông tin",
-          "Cập nhật thông tin thành công"
-        );
-        setModalType("view");
-        getData();
+        const uploadImage: boolean = await handleUpload(roomUpdate.id);
+        if (uploadImage) {
+          openNotification(
+            "success",
+            "Cập nhật thông tin",
+            "Cập nhật thông tin thành công"
+          );
+          setModalType("view");
+          getData();
 
-        const newNotification: NotifiType = {
-          id: `UpdRo${getFormattedDateTime()}`,
-          title: "Quản lý phòng",
-          content: "Cập nhật phòng thành công",
-          date: `${getCurrentDateTime()}`,
-          type: "success",
-        };
+          const newNotification: NotifiType = {
+            id: `UpdRo${getFormattedDateTime()}`,
+            title: "Quản lý phòng",
+            content: "Cập nhật phòng thành công",
+            date: `${getCurrentDateTime()}`,
+            type: "success",
+          };
 
-        createNotification(
-          `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
-          newNotification
-        );
-        const action = setIsLoadingNotification();
-        dispatch(action);
+          createNotification(
+            `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+            newNotification
+          );
+          const action = setIsLoadingNotification();
+          dispatch(action);
+        } else {
+          openNotification(
+            "error",
+            "Thêm phòng",
+            "Thêm ảnh phòng không thành công"
+          );
+        }
         break;
       default:
         openNotification("error", "Cập nhật thông tin", `${res.content}`);
