@@ -1,5 +1,4 @@
 import CaroucelContainer from "@/components/caroucel-container/CaroucelContainer";
-import LiveChat from "@/components/live-chat/LiveChat";
 import Rooms from "@/components/rooms/Rooms";
 import TitleH1 from "@/components/titleH1/TitleH1";
 import { ItemHomeType } from "@/types/item-home/itemHomeType.type";
@@ -50,7 +49,6 @@ export const generateMetadata = async () => {
 const Home: React.FC<Props> = ({ searchParams }) => {
   return (
     <div>
-      <LiveChat />
       <CaroucelContainer />
       <div className="mt-10">
         <TitleH1 title="Trải nghiệm đã qua" />

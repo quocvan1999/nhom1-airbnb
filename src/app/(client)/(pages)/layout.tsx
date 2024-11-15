@@ -1,6 +1,7 @@
 import Footer from "@/components/footer/Footer";
 import HeaderMobile from "@/components/header-mobile/HeaderMobile";
 import Header from "@/components/header/Header";
+import LiveChat from "@/components/live-chat/LiveChat";
 import NavMobile from "@/components/nav-mobile/NavMobile";
 import { ConfigProvider } from "antd";
 
@@ -27,6 +28,7 @@ export default function ClientLayout({
       }}
     >
       <div className="w-full">
+        <LiveChat />
         <div className="w-full fixed top-0 left-0 right-0 bg-white z-[200]">
           <Header />
           <HeaderMobile />
