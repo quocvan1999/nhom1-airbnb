@@ -188,38 +188,47 @@ const ModalViewRoom: React.FC<Props> = ({
 
     switch (res.statusCode) {
       case 200:
-        if (isReadingUpload) {
+        let isPast = true;
+        if (file !== null) {
           const uploadImage: boolean = await handleUpload(roomUpdate.id);
+
           if (uploadImage) {
-            openNotification(
-              "success",
-              "Cập nhật thông tin",
-              "Cập nhật thông tin thành công"
-            );
-            setModalType("view");
-            getData();
-
-            const newNotification: NotifiType = {
-              id: `UpdRo${getFormattedDateTime()}`,
-              title: "Quản lý phòng",
-              content: "Cập nhật phòng thành công",
-              date: `${getCurrentDateTime()}`,
-              type: "success",
-            };
-
-            createNotification(
-              `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
-              newNotification
-            );
-            const action = setIsLoadingNotification();
-            dispatch(action);
+            isPast = true;
           } else {
-            openNotification(
-              "error",
-              "Thêm phòng",
-              "Thêm ảnh phòng không thành công"
-            );
+            isPast = false;
           }
+        }
+
+        if (isPast) {
+          openNotification(
+            "success",
+            "Cập nhật thông tin",
+            "Cập nhật thông tin thành công"
+          );
+
+          setIsModalViewRoomsOpen(false);
+          getData();
+
+          const newNotification: NotifiType = {
+            id: `UpdRo${getFormattedDateTime()}`,
+            title: "Quản lý phòng",
+            content: "Cập nhật phòng thành công",
+            date: `${getCurrentDateTime()}`,
+            type: "success",
+          };
+
+          createNotification(
+            `${process.env.NEXT_PUBLIC_NOTIFICATION_ADMIN}-${profile.id}`,
+            newNotification
+          );
+          const action = setIsLoadingNotification();
+          dispatch(action);
+        } else {
+          openNotification(
+            "error",
+            "Cập nhật thông tin",
+            "Cập nhật thông không tin thành công"
+          );
         }
         break;
       default:
@@ -278,6 +287,9 @@ const ModalViewRoom: React.FC<Props> = ({
               openNotification("error", "Thêm phòng", `${res.content}`);
               break;
           }
+        } else {
+          setIsReadUpload(false);
+          openNotification("warning", "Thêm phòng", "Vui lòng chọn ảnh phòng");
         }
         break;
       case "update":
@@ -320,7 +332,7 @@ const ModalViewRoom: React.FC<Props> = ({
       giaTien: Yup.number()
         .min(1, "Giá tiền phải lớn hơn 0")
         .required("Giá tiền không được để trống"),
-      maViTri: Yup.number().required("Mã vị trí không được để trống"),
+      maViTri: Yup.number().required("Vị trí không được để trống"),
     }),
     onSubmit: (values) => {
       handleChange(values);
@@ -337,7 +349,12 @@ const ModalViewRoom: React.FC<Props> = ({
     if (checkName) {
       name = `${checkName.tenViTri}, ${checkName.tinhThanh}, ${checkName.quocGia}`;
     } else {
-      name = "";
+      locationData.map((item: LocationType, index: number) => {
+        name = `${item.tenViTri}, ${item.tinhThanh}, ${item.quocGia}`;
+        if (index < 1) {
+          return;
+        }
+      });
     }
 
     return name;
