@@ -23,7 +23,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { getMonthString, totalCountMember } from "@/utils/method/method";
 
-// Đăng ký các thành phần của Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -59,16 +58,16 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
   const data: ChartData<"line" | "bar"> = {
     labels: labelsDay,
     datasets: [
-      {
-        label: `Số lượng khách đã đến`,
-        data: countMemberOfDaySuccess,
-        backgroundColor: "#FF385C",
-        borderColor: "#FF385C",
-        borderWidth: 1,
-        fill: true,
-        tension: 0,
-        type: "line",
-      },
+      // {
+      //   label: `Số lượng khách đã đến`,
+      //   data: countMemberOfDaySuccess,
+      //   backgroundColor: "#FF385C",
+      //   borderColor: "#FF385C",
+      //   borderWidth: 1,
+      //   fill: true,
+      //   tension: 0,
+      //   type: "line",
+      // },
       {
         label: `Số lượng khách đã đặt`,
         data: countMemberOfDayPlan,
@@ -131,7 +130,7 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
     daysOfMonth: string[]
   ): void => {
     const bookingCounts = daysOfMonth.map(() => 0);
-    const bookingPlan = daysOfMonth.map(() => 0);
+    // const bookingPlan = daysOfMonth.map(() => 0);
 
     bookings.forEach((booking: BookingType) => {
       const startDate = new Date(booking.ngayDen);
@@ -139,23 +138,23 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
 
       daysOfMonth.map((day: string, index: number) => {
         const currentDate = new Date(day);
-        const isDay = new Date(Date.now());
+        // const isDay = new Date(Date.now());
 
         if (currentDate >= startDate && currentDate <= endDate) {
           bookingCounts[index]++;
         }
 
-        if (
-          currentDate >= startDate &&
-          currentDate <= endDate &&
-          currentDate <= isDay
-        ) {
-          bookingPlan[index]++;
-        }
+        // if (
+        //   currentDate >= startDate &&
+        //   currentDate <= endDate &&
+        //   currentDate <= isDay
+        // ) {
+        //   bookingPlan[index]++;
+        // }
       });
     });
 
-    setCountMemberOfDaySuccess(bookingPlan);
+    // setCountMemberOfDaySuccess(bookingPlan);
     setCountMemberOfDayPlan(bookingCounts);
   };
 
@@ -163,7 +162,7 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
     if (bookings.length > 0 && dayOfMonth) {
       countBookingsPerDay(bookings, dayOfMonth);
     } else {
-      setCountMemberOfDaySuccess([]);
+      // setCountMemberOfDaySuccess([]);
       setCountMemberOfDayPlan([]);
     }
   }, [dayOfMonth, bookings]);
@@ -223,8 +222,9 @@ const ChartBookingsDay: React.FC<Props> = ({}) => {
             </span>
           </p>
         </div>
+        {/* countMemberOfDaySuccess.length > 0 && */}
       </div>
-      {labelsDay.length > 0 && countMemberOfDaySuccess.length > 0 && (
+      {labelsDay.length > 0 && (
         <Chart type="bar" data={data} options={options} />
       )}
     </div>
