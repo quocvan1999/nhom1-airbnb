@@ -1,26 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
+import createMiddleware from "next-intl/middleware";
+
+const intlMiddleware = createMiddleware({
+  locales: ["vi", "en"],
+  defaultLocale: "vi",
+});
 
 export async function middleware(request: NextRequest) {
   const { nextUrl, cookies } = request;
   const url = nextUrl.clone();
 
-  if (url.pathname.startsWith("/admin")) {
-    const token: string | undefined = cookies.get("auth_a")?.value;
+  // Áp dụng middleware của `next-intl`
+  const response = intlMiddleware(request);
 
-    if (token) {
-      if (token !== btoa(`${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`)) {
-        url.pathname = "/";
-        return NextResponse.redirect(url);
-      }
-    } else {
+  // Kiểm tra nếu đường dẫn bắt đầu bằng `/admin`
+  if (url.pathname.startsWith("/admin")) {
+    const token = cookies.get("auth_a")?.value;
+
+    // Kiểm tra token
+    if (!token || token !== btoa(`${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`)) {
       url.pathname = "/";
       return NextResponse.redirect(url);
     }
   }
 
-  return NextResponse.next();
+  return response;
 }
 
+// Cấu hình matcher cho middleware
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/", "/(vi|en)/:path*"],
 };
