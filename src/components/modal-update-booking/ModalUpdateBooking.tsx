@@ -21,7 +21,7 @@ import {
 } from "@/utils/method/method";
 import ModalCustomer from "@/components/modal-customer/ModalCustomer";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { RoomType } from "@/types/room/roomType.type";
 import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -29,7 +29,7 @@ import { ReqType } from "@/types/req/reqType.type";
 import { updateBookingAsync } from "@/services/update-booking/updateBooking.service";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
 import { NotifiType } from "@/types/notifi/notifi.type";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 const { confirm } = Modal;

@@ -1,11 +1,10 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
+import { RootState } from "@/app/[locale]/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import { setCookie } from "@/utils/method/method";
 import { Button } from "antd";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

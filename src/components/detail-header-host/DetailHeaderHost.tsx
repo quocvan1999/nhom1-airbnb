@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.service";
 import { CommentType } from "@/types/comment/comment.type";
 import { RoomType } from "@/types/room/roomType.type";

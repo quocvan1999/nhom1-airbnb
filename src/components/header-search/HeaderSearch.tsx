@@ -15,7 +15,7 @@ import { Dayjs } from "dayjs";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/globalRedux/store";
+import { RootState } from "@/app/[locale]/globalRedux/store";
 import { toSlugWithId } from "@/utils/method/method";
 import { LocationType } from "@/types/location/locationType.type";
 

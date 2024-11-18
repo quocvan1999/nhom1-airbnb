@@ -18,8 +18,8 @@ import {
   getCurrentDateTime,
   getFormattedDateTime,
 } from "@/utils/method/method";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 

@@ -1,14 +1,9 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
+import { RootState } from "@/app/[locale]/globalRedux/store";
 import HeaderNotificationClient from "@/components/header-notification-client/HeaderNotificationClient";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
-import {
-  faBed,
-  faBell,
-  faHouse,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";

@@ -1,7 +1,7 @@
 "use client";
 
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
@@ -9,7 +9,6 @@ import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import { deleteBookingAsync } from "@/services/delete-booking/deleteBooking.service";
 import { BookingType } from "@/types/booking/bookingType.type";
 import { NotifiType } from "@/types/notifi/notifi.type";
-import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { User } from "@/types/user/userType.type";
 import {

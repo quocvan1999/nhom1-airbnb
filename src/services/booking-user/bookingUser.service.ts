@@ -1,5 +1,5 @@
-import { setBooking } from "@/app/globalRedux/features/userSlice";
-import { AppDispatch } from "@/app/globalRedux/store";
+import { setBooking } from "@/app/[locale]/globalRedux/features/userSlice";
+import { AppDispatch } from "@/app/[locale]/globalRedux/store";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 

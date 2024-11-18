@@ -1,7 +1,7 @@
 "use client";
 
-import { resetProfile } from "@/app/globalRedux/features/userSlice";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { resetProfile } from "@/app/[locale]/globalRedux/features/userSlice";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import useNotification from "@/custome-hook/useNotification/useNotification";

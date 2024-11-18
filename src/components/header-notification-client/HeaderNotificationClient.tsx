@@ -7,7 +7,7 @@ import { Badge, Dropdown } from "antd";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/globalRedux/store";
+import { RootState } from "@/app/[locale]/globalRedux/store";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 type Props = {

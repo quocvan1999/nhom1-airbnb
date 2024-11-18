@@ -20,7 +20,7 @@ import {
   LineController
 } from "chart.js";
 import { DatePicker } from "antd";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookingsAsync } from "@/services/bookings/bookings.service";
 import {

@@ -13,7 +13,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import dayjs from "dayjs";
 import { updateUserAsync } from "@/services/update-user/updateUser.service";
 import { UserUpdate } from "@/types/user-update/userUpdate.type";
@@ -28,7 +28,7 @@ import {
   getCurrentDateTime,
   getFormattedDateTime,
 } from "@/utils/method/method";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 
 const { confirm } = Modal;
 

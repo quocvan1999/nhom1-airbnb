@@ -1,5 +1,5 @@
-import { setLocations, setRooms } from "@/app/globalRedux/features/roomSlice";
-import { AppDispatch } from "@/app/globalRedux/store";
+import { setLocations, setRooms } from "@/app/[locale]/globalRedux/features/roomSlice";
+import { AppDispatch } from "@/app/[locale]/globalRedux/store";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 

@@ -18,14 +18,13 @@ import {
 import Link from "next/link";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { usePathname, useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { deleteCookie } from "@/utils/method/method";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
 import LoadingPage from "@/components/loading-page/LoadingPage";
-import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartSimple,

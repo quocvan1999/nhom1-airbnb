@@ -1,7 +1,7 @@
 "use client";
 
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";

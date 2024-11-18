@@ -12,7 +12,7 @@ import useNotification from "@/custome-hook/useNotification/useNotification";
 import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "@/utils/method/method";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/app/globalRedux/store";
+import { AppDispatch } from "@/app/[locale]/globalRedux/store";
 import { getProfileAsync } from "@/services/profile/profile.service";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { User } from "@/types/user/userType.type";

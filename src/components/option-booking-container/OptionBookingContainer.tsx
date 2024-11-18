@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import ModalCustomer from "@/components/modal-customer/ModalCustomer";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useNotification from "@/custome-hook/useNotification/useNotification";
@@ -33,7 +33,7 @@ import { getCommentToRoomAsync } from "@/services/comments-room/commentToRoom.se
 import { CommentType } from "@/types/comment/comment.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 
 const { confirm } = Modal;
 

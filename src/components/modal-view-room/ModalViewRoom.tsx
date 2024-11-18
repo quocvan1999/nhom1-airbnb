@@ -28,9 +28,9 @@ import {
   getCurrentDateTime,
   getFormattedDateTime,
 } from "@/utils/method/method";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { LocationType } from "@/types/location/locationType.type";
 import { httpClient } from "@/utils/setting/setting";

@@ -1,7 +1,7 @@
 "use client";
 
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import ModalViewRoom from "@/components/modal-view-room/ModalViewRoom";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import useNotification from "@/custome-hook/useNotification/useNotification";

@@ -1,7 +1,7 @@
 "use client";
 
-import { setProfile } from "@/app/globalRedux/features/userSlice";
-import { AppDispatch } from "@/app/globalRedux/store";
+import { setProfile } from "@/app/[locale]/globalRedux/features/userSlice";
+import { AppDispatch } from "@/app/[locale]/globalRedux/store";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { getProfileAsync } from "@/services/profile/profile.service";
 import { User } from "@/types/user/userType.type";

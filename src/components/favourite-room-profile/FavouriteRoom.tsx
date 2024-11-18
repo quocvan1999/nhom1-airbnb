@@ -1,6 +1,6 @@
 "use client";
 
-import { RootState } from "@/app/globalRedux/store";
+import { RootState } from "@/app/[locale]/globalRedux/store";
 import Favourites from "@/components/favourites/Favourites";
 import { getRoomDetailAsync } from "@/services/room-detail/roomDetail.service";
 import { RoomType } from "@/types/room/roomType.type";

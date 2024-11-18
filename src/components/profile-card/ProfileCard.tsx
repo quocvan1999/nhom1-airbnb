@@ -12,7 +12,6 @@ import {
   getFormattedDateTime,
   isDateInPast,
   toSlugWithId,
-  truncateString,
 } from "@/utils/method/method";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,10 +31,10 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import ModalUpdateBooking from "@/components/modal-update-booking/ModalUpdateBooking";
 import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import ModalRating from "@/components/modal-rating/ModalRating";
 import { NotifiType } from "@/types/notifi/notifi.type";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 
 const { Meta } = Card;

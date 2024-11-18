@@ -10,8 +10,6 @@ import { registerAsync } from "@/services/register/register.service";
 import React from "react";
 import Link from "next/link";
 import * as Yup from "yup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 type Props = {};
 

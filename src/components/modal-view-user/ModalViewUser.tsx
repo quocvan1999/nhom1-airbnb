@@ -18,7 +18,7 @@ import { createUserAsync } from "@/services/create-user/createUser.service";
 import { ReqType } from "@/types/req/reqType.type";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
-import { ExclamationCircleFilled, UserOutlined } from "@ant-design/icons";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import { updateUserAsync } from "@/services/update-user/updateUser.service";
 import { UserUpdate } from "@/types/user-update/userUpdate.type";
 import {
@@ -28,9 +28,9 @@ import {
 } from "@/utils/method/method";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { NotifiType } from "@/types/notifi/notifi.type";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 
 type Props = {
   setModalType: React.Dispatch<

@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import ModalUpdateUser from "@/components/modal-update-user/ModalUpdateUser";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
@@ -42,8 +42,8 @@ import {
 import FavouriteRoom from "@/components/favourite-room-profile/FavouriteRoom";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
-import { resetProfile } from "@/app/globalRedux/features/userSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { resetProfile } from "@/app/[locale]/globalRedux/features/userSlice";
 
 const { confirm } = Modal;
 

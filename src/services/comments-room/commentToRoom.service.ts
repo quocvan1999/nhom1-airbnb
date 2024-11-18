@@ -1,5 +1,5 @@
-import { setComments } from "@/app/globalRedux/features/roomSlice";
-import { AppDispatch } from "@/app/globalRedux/store";
+import { setComments } from "@/app/[locale]/globalRedux/features/roomSlice";
+import { AppDispatch } from "@/app/[locale]/globalRedux/store";
 import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 

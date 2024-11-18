@@ -1,7 +1,7 @@
 "use client";
 
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import ModalShareRoom from "@/components/modal-share-room/ModalShareRoom";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useNotification from "@/custome-hook/useNotification/useNotification";
@@ -19,12 +19,7 @@ import {
   roundToDecimal,
   toSlugWithId,
 } from "@/utils/method/method";
-import {
-  faHeart,
-  faMedal,
-  faShare,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faShare, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ConfigProvider } from "antd";
 import Link from "next/link";

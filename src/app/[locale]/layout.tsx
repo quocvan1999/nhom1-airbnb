@@ -1,7 +1,7 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { Providers } from "@/app/globalRedux/provider";
+import { Providers } from "@/app/[locale]/globalRedux/provider";
 import "./globals.css";
 
 config.autoAddCss = false;

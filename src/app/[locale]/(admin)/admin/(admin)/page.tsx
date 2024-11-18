@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { getUsersPaginationAsync } from "@/services/users-pagination/getUsersPagination.service";
 import type { InputRef, TableColumnType, TableColumnsType } from "antd";
 import {
@@ -33,9 +33,9 @@ import useNotification from "@/custome-hook/useNotification/useNotification";
 import useGetSearchPrams from "@/custome-hook/useGetSearchPrams/useGetSearchPrams";
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import {
   getCurrentDateTime,

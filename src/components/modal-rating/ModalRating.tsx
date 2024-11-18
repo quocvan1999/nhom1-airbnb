@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/app/globalRedux/store";
+import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import useNotification from "@/custome-hook/useNotification/useNotification";
 import { Button, Form, Modal, Rate } from "antd";
 import React from "react";
@@ -17,7 +17,7 @@ import {
 import { BookingType } from "@/types/booking/bookingType.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";
-import { setIsLoadingNotification } from "@/app/globalRedux/features/statusAppSlice";
+import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 
 type Props = {
   isModalViewRatingOpen: boolean;
