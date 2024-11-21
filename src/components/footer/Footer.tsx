@@ -1,17 +1,20 @@
 import FooterTabs from "@/components/footer-tabs/FooterTabs";
 import { FooterContactType } from "@/types/footer/footerContact.type";
-import { contacts } from "@/utils/footer-data/footer.data";
+import { contacts, contactsEn } from "@/utils/footer-data/footer.data";
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 
 type Props = {};
 
 const Footer: React.FC<Props> = ({}) => {
+  const locale = useLocale();
+  const tFooter = useTranslations("Footer");
   return (
     <div className="w-full pb-20 mdc:pb-10 lg:pb-5">
       <div className="max-w-[1280px] mx-auto px-2 py-10 hidden lg:block">
         {/* Title footer */}
         <h1 className="font-bold text-black text-xl mb-1">
-          Nguồn cảm hứng cho những kỳ nghỉ sau này
+          {tFooter("titleH1")}
         </h1>
         {/* Tabs */}
         <div className="hidden lg:block">
@@ -23,23 +26,41 @@ const Footer: React.FC<Props> = ({}) => {
       {/* Contacts */}
       <div className="max-w-[1280px] mx-auto px-2">
         <div className="flex flex-col gap-10 md:flex-row md:gap-3 py-10">
-          {contacts.map((item: FooterContactType, index: number) => (
-            <div
-              className="w-full md:w-[calc((100%-24px)/3)] text-center md:text-start"
-              key={index}
-            >
-              <h1 className="font-bold text-black">{item.title}</h1>
-              {item.contacts.map((content: string, index: number) => (
-                <a
-                  href="#"
+          {locale === "vi"
+            ? contacts.map((item: FooterContactType, index: number) => (
+                <div
+                  className="w-full md:w-[calc((100%-24px)/3)] text-center md:text-start"
                   key={index}
-                  className="text-custome-gray-200 block mt-2 hover:underline"
                 >
-                  {content}
-                </a>
+                  <h1 className="font-bold text-black">{item.title}</h1>
+                  {item.contacts.map((content: string, index: number) => (
+                    <a
+                      href="#"
+                      key={index}
+                      className="text-custome-gray-200 block mt-2 hover:underline"
+                    >
+                      {content}
+                    </a>
+                  ))}
+                </div>
+              ))
+            : contactsEn.map((item: FooterContactType, index: number) => (
+                <div
+                  className="w-full md:w-[calc((100%-24px)/3)] text-center md:text-start"
+                  key={index}
+                >
+                  <h1 className="font-bold text-black">{item.title}</h1>
+                  {item.contacts.map((content: string, index: number) => (
+                    <a
+                      href="#"
+                      key={index}
+                      className="text-custome-gray-200 block mt-2 hover:underline"
+                    >
+                      {content}
+                    </a>
+                  ))}
+                </div>
               ))}
-            </div>
-          ))}
         </div>
         {/* Line */}
         <hr className="border-[#DDD]" />
@@ -49,16 +70,18 @@ const Footer: React.FC<Props> = ({}) => {
             <h1>© 2024 Airbnb, Inc.</h1>
             <ul className="flex items-center gap-3">
               <li className="hover:underline cursor-pointer">
-                - Quyền riêng tư
+                - {tFooter("titleH2")}
               </li>
-              <li className="hover:underline cursor-pointer">- Điều khoản</li>
               <li className="hover:underline cursor-pointer">
-                - Sơ đồ trang web
+                - {tFooter("titleH3")}
+              </li>
+              <li className="hover:underline cursor-pointer">
+                - {tFooter("titleH4")}
               </li>
             </ul>
           </div>
           <div className="flex items-center gap-5">
-            <div className="flex items-center gap-2 hover:underline cursor-pointer">
+            {/* <div className="flex items-center gap-2 hover:underline cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -68,13 +91,7 @@ const Footer: React.FC<Props> = ({}) => {
               >
                 <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm7.931 9h-2.764a14.67 14.67 0 0 0-1.792-6.243A8.013 8.013 0 0 1 19.931 11zM12.53 4.027c1.035 1.364 2.427 3.78 2.627 6.973H9.03c.139-2.596.994-5.028 2.451-6.974.172-.01.344-.026.519-.026.179 0 .354.016.53.027zm-3.842.7C7.704 6.618 7.136 8.762 7.03 11H4.069a8.013 8.013 0 0 1 4.619-6.273zM4.069 13h2.974c.136 2.379.665 4.478 1.556 6.23A8.01 8.01 0 0 1 4.069 13zm7.381 6.973C10.049 18.275 9.222 15.896 9.041 13h6.113c-.208 2.773-1.117 5.196-2.603 6.972-.182.012-.364.028-.551.028-.186 0-.367-.016-.55-.027zm4.011-.772c.955-1.794 1.538-3.901 1.691-6.201h2.778a8.005 8.005 0 0 1-4.469 6.201z"></path>
               </svg>
-              <a href="#" className="text-black font-medium">
-                Tiếng Việt (VN)
-              </a>
-            </div>
-            <p className="text-black font-medium hover:underline cursor-pointer">
-              đ VND
-            </p>
+            </div> */}
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

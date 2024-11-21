@@ -34,6 +34,7 @@ import { CommentType } from "@/types/comment/comment.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { useLocale, useTranslations } from "next-intl";
 
 const { confirm } = Modal;
 
@@ -42,6 +43,11 @@ type Props = {
 };
 
 const OptionBookingContainer: React.FC<Props> = ({ data }) => {
+  const locale = useLocale();
+  const tSearchPage = useTranslations("SearchPage");
+  const tOptionBooking = useTranslations("OptionBooking");
+  const tNotification = useTranslations("Notification");
+  const tLocalNotifi = useTranslations("LocalNotifi");
   const dispatch: AppDispatch = useDispatch();
   const [countMember, setCountMember] = useState<number>(1);
   const [countDate, setCountDate] = useState<number>(0);
@@ -73,12 +79,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
 
   const showPropsConfirm = (): void => {
     confirm({
-      title: "Đặt phòng",
+      title: `${tOptionBooking("ConfirmLogout.title")}`,
       icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn đặt phòng này",
-      okText: "Đặt phòng",
+      content: `${tOptionBooking("ConfirmLogout.content")}`,
+      okText: `${tOptionBooking("ConfirmLogout.okText")}`,
       okType: "danger",
-      cancelText: "Huỷ",
+      cancelText: `${tOptionBooking("ConfirmLogout.cancelText")}`,
       onCancel() {},
       onOk: async () => {
         const value: BookingType = {
@@ -94,14 +100,20 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
 
         switch (res.statusCode) {
           case 201:
-            openNotification("success", "Đặt phòng", "Đặt phòng thành công");
+            openNotification(
+              "success",
+              `${tNotification("OptionBooking.BookingSuccess.title")}`,
+              `${tNotification("OptionBooking.BookingSuccess.content")}`
+            );
             setDateCheckin("");
             setDateCheckout("");
 
             const newNotification: NotifiType = {
               id: `Dp${getFormattedDateTime()}`,
-              title: "Đặt phòng",
-              content: "Đặt phòng thành công",
+              title: `${tLocalNotifi("OptionBooking.BookingSuccess.title")}`,
+              content: `${tLocalNotifi(
+                "OptionBooking.BookingSuccess.content"
+              )}`,
               date: `${getCurrentDateTime()}`,
               type: "success",
             };
@@ -139,15 +151,15 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
       } else {
         openNotification(
           "warning",
-          "Đặt phòng",
-          "Bạn phải điền đầy đủ các thông tin"
+          `${tNotification("OptionBooking.BookingWarning1.title")}`,
+          `${tNotification("OptionBooking.BookingWarning1.content")}`
         );
       }
     } else {
       openNotification(
         "warning",
-        "Đặt phòng",
-        "Bạn phải đăng nhập để đặt phòng"
+        `${tNotification("OptionBooking.BookingWarning2.title")}`,
+        `${tNotification("OptionBooking.BookingWarning2.content")}`
       );
     }
   };
@@ -250,15 +262,20 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
       <div className="w-full my-5 border shadow-sm p-5 rounded-xl">
         <div className="flex items-center justify-between">
           <p className="font-bold text-lg">
-            {convertUSDToVND(data.giaTien)}
-            <span className="text-sm font-normal">/đêm</span>
+            {locale === "vi"
+              ? convertUSDToVND(data.giaTien)
+              : `${data.giaTien}$`}
+
+            <span className="text-sm font-normal">
+              /{tSearchPage("SearchCart.night")}
+            </span>
           </p>
           <div className="flex items-center gap-1">
             <FontAwesomeIcon className="text-primary-100" icon={faStar} />
             <p className="font-bold text-custome-black-100">
               {setRatingRoom()}
               <span className="font-normal text-custome-gray-200">
-                {` (${commentCount} đánh giá)`}
+                {` (${commentCount} ${tOptionBooking("evaluate")})`}
               </span>
             </p>
           </div>
@@ -266,10 +283,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
         <div className="border rounded-lg mt-5">
           <div className="flex">
             <div className="w-[50%] border-e p-2">
-              <p className="text-[12px] font-medium">Nhận phòng</p>
+              <p className="text-[12px] font-medium">
+                {tOptionBooking("checkin")}
+              </p>
               <DatePicker
                 suffixIcon={false}
-                placeholder="Thêm ngày"
+                placeholder={tOptionBooking("addDate")}
                 className="!py-0"
                 onChange={onChangeCheckin}
                 disabledDate={disabledDate}
@@ -280,10 +299,12 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
               />
             </div>
             <div className="w-[50%] p-2">
-              <p className="text-[12px] font-medium">Trả phòng</p>
+              <p className="text-[12px] font-medium">
+                {tOptionBooking("checkout")}
+              </p>
               <DatePicker
                 suffixIcon={false}
-                placeholder="Thêm ngày"
+                placeholder={tOptionBooking("addDate")}
                 className="!py-0"
                 onChange={onChangeCheckout}
                 disabledDate={disabledDate}
@@ -306,8 +327,13 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
               )}
             >
               <div>
-                <p className="text-[12px] font-medium">Khách</p>
-                <Input placeholder="Số lượng khách" value={countMember} />
+                <p className="text-[12px] font-medium">
+                  {tOptionBooking("guest")}
+                </p>
+                <Input
+                  placeholder={tOptionBooking("totalGuest")}
+                  value={countMember}
+                />
               </div>
             </Dropdown>
           </div>
@@ -316,25 +342,39 @@ const OptionBookingContainer: React.FC<Props> = ({ data }) => {
           onClick={handleBooking}
           className="w-full py-2 bg-primary-100 text-white font-medium rounded-[7px] mt-2 transition-all duration-500 ease-in-out hover:bg-primary-200"
         >
-          Đặt phòng
+          {tOptionBooking("titleButtonBooking")}
         </button>
         <div className="mt-5 py-4 border-b">
           <div className="flex items-center justify-between py-1">
             <p className="underline">
-              {convertUSDToVND(data.giaTien)} x {countDate} đêm
+              {locale === "vi"
+                ? convertUSDToVND(data.giaTien)
+                : `${data.giaTien}$`}{" "}
+              {""}x {countDate} {tSearchPage("SearchCart.night")}
             </p>
-            <p>{convertUSDToVND(data.giaTien * countDate)}</p>
+            <p>
+              {locale === "vi"
+                ? convertUSDToVND(data.giaTien * countDate)
+                : `${data.giaTien * countDate}$`}
+            </p>
           </div>
           <div className="flex items-center justify-between py-1">
-            <p className="underline">Phí dịch vụ</p>
-            <p>{convertUSDToVND(countMember)}</p>
+            <p className="underline">{tOptionBooking("serviceFee")}</p>
+            <p>
+              {locale === "vi"
+                ? convertUSDToVND(countMember)
+                : `${countMember}$`}
+            </p>
           </div>
         </div>
 
         <div className="py-3 flex items-center justify-between">
-          <h3 className="font-bold">Tổng</h3>
+          <h3 className="font-bold">{tOptionBooking("total")}</h3>
           <p className="font-bold">
-            ${convertUSDToVND(data.giaTien * countDate + countMember)}
+            $
+            {locale === "vi"
+              ? convertUSDToVND(data.giaTien * countDate + countMember)
+              : `${data.giaTien * countDate + countMember}$`}
           </p>
         </div>
       </div>

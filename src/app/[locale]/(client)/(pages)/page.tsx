@@ -2,7 +2,8 @@ import CaroucelContainer from "@/components/caroucel-container/CaroucelContainer
 import Rooms from "@/components/rooms/Rooms";
 import TitleH1 from "@/components/titleH1/TitleH1";
 import { ItemHomeType } from "@/types/item-home/itemHomeType.type";
-import { itemData } from "@/utils/home-data/itemHome.data";
+import { itemData, itemDataEn } from "@/utils/home-data/itemHome.data";
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 
 type Props = {
@@ -47,29 +48,45 @@ export const generateMetadata = async () => {
 };
 
 const Home: React.FC<Props> = ({ searchParams }) => {
+  const tHomePage = useTranslations("HomePage");
+  const locale = useLocale();
   return (
     <div>
       <CaroucelContainer />
       <div className="mt-10">
-        <TitleH1 title="TEST" />
+        <TitleH1 title={tHomePage("title1")} />
         <Rooms page={searchParams.page} size={searchParams.size} />
       </div>
       <div className="mt-10">
-        <TitleH1 title="Bất cứ ở đâu" />
+        <TitleH1 title={tHomePage("title2")} />
         <div className="flex flex-wrap gap-3">
-          {itemData.map((item: ItemHomeType, index: number) => (
-            <div
-              key={index}
-              className="w-full md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] xl:w-[calc((100%-36px)/4)]"
-            >
-              <img
-                src={item.image}
-                alt="image"
-                className="w-full h-[200px] object-cover rounded-2xl"
-              />
-              <h3 className="font-bold py-2">{item.title}</h3>
-            </div>
-          ))}
+          {locale === "vi"
+            ? itemData.map((item: ItemHomeType, index: number) => (
+                <div
+                  key={index}
+                  className="w-full md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] xl:w-[calc((100%-36px)/4)]"
+                >
+                  <img
+                    src={item.image}
+                    alt="image"
+                    className="w-full h-[200px] object-cover rounded-2xl"
+                  />
+                  <h3 className="font-bold py-2">{item.title}</h3>
+                </div>
+              ))
+            : itemDataEn.map((item: ItemHomeType, index: number) => (
+                <div
+                  key={index}
+                  className="w-full md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] xl:w-[calc((100%-36px)/4)]"
+                >
+                  <img
+                    src={item.image}
+                    alt="image"
+                    className="w-full h-[200px] object-cover rounded-2xl"
+                  />
+                  <h3 className="font-bold py-2">{item.title}</h3>
+                </div>
+              ))}
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ import {
 } from "antd";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import BookingsProfile from "@/components/bookings-profile/BookingsProfile";
@@ -44,13 +44,16 @@ import { NotifiType } from "@/types/notifi/notifi.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import { resetProfile } from "@/app/[locale]/globalRedux/features/userSlice";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const { confirm } = Modal;
 
 type Props = {};
 
 const ProfilePage: React.FC<Props> = ({}) => {
+  const tNotification = useTranslations("Notification");
+  const tProfilePage = useTranslations("ProfilePage");
+  const tLocalNotifi = useTranslations("LocalNotifi");
   const locale = useLocale();
   const router: AppRouterInstance = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -82,8 +85,8 @@ const ProfilePage: React.FC<Props> = ({}) => {
             isPass = false;
             openNotification(
               "error",
-              "Ảnh đại diện",
-              "Vui lòng chọn file có định dạng (jpg, jpeg, png, gif)"
+              `${tNotification("ProfilePage.ErrorUploadImage1.title")}`,
+              `${tNotification("ProfilePage.ErrorUploadImage1.content")}`
             );
             return;
           }
@@ -94,20 +97,20 @@ const ProfilePage: React.FC<Props> = ({}) => {
             isPass = false;
             openNotification(
               "error",
-              "Ảnh đại diện",
-              "Dung lượng hình phải dưới 1M"
+              `${tNotification("ProfilePage.ErrorUploadImage2.title")}`,
+              `${tNotification("ProfilePage.ErrorUploadImage2.content")}`
             );
             return;
           }
 
           if (isPass) {
             confirm({
-              title: "Cập nhật ảnh đại diện",
+              title: `${tProfilePage("ConfirmUpdateImage.title")}`,
               icon: <ExclamationCircleFilled />,
-              content: "Bạn có muốn đổi ảnh đại diện?",
-              okText: "Cập nhật",
+              content: `${tProfilePage("ConfirmUpdateImage.content")}`,
+              okText: `${tProfilePage("ConfirmUpdateImage.okText")}`,
               okType: "danger",
-              cancelText: "Huỷ",
+              cancelText: `${tProfilePage("ConfirmUpdateImage.cancelText")}`,
               cancelButtonProps: {
                 className: "custom-cancel-button",
               },
@@ -124,13 +127,17 @@ const ProfilePage: React.FC<Props> = ({}) => {
     },
     onChange(info) {
       if (info.file.status === "done") {
-        openNotification("success", "Hồ sơ", "Cập nhật avatar thành công");
+        openNotification(
+          "success",
+          `${tNotification("ProfilePage.UpdateAvatarSucces.title")}`,
+          `${tNotification("ProfilePage.UpdateAvatarSucces.content")}`
+        );
         setIsLoading(!isLoading);
 
         const newNotification: NotifiType = {
           id: `Pro${getFormattedDateTime()}`,
-          title: "Hồ sơ",
-          content: "Cập nhật avatar thành công",
+          title: `${tLocalNotifi("ProfilePage.UpdateAvatarSucces.title")}`,
+          content: `${tLocalNotifi("ProfilePage.UpdateAvatarSucces.content")}`,
           date: `${getCurrentDateTime()}`,
           type: "success",
         };
@@ -144,8 +151,8 @@ const ProfilePage: React.FC<Props> = ({}) => {
       } else if (info.file.status === "error") {
         openNotification(
           "error",
-          "Profile",
-          "Cập nhật avatar không thành công"
+          `${tNotification("ProfilePage.UpdateAvatarError.title")}`,
+          `${tNotification("ProfilePage.UpdateAvatarError.content")}`
         );
       }
     },
@@ -153,17 +160,21 @@ const ProfilePage: React.FC<Props> = ({}) => {
 
   const showPropsConfirm = (): void => {
     confirm({
-      title: "Đăng xuất",
+      title: `${tProfilePage("ConfirmLogout.title")}`,
       icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn đăng xuất?",
-      okText: "Đăng xuất",
+      content: `${tProfilePage("ConfirmLogout.content")}`,
+      okText: `${tProfilePage("ConfirmLogout.okText")}`,
       okType: "danger",
-      cancelText: "Huỷ",
+      cancelText: `${tProfilePage("ConfirmLogout.cancelText")}`,
       cancelButtonProps: {
         className: "custom-cancel-button",
       },
       onOk() {
-        openNotification("success", "Đăng xuất", "Đăng xuất thành công");
+        openNotification(
+          "success",
+          `${tNotification("ProfilePage.LogoutSuccess.title")}`,
+          `${tNotification("ProfilePage.LogoutSuccess.content")}`
+        );
         deleteCookie("accessToken");
         deleteCookie("i_d");
         setIsLoading(!isLoading);
@@ -253,7 +264,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
                         className="transition-all duration-500 ease-in-out text-custome-gray-200 group-hover:!text-primary-100"
                         icon={faCamera}
                       />
-                      Cập nhật
+                      {tProfilePage("titleUpdateAvatar")}
                     </Button>
                   </div>
                 </Upload>
@@ -263,7 +274,9 @@ const ProfilePage: React.FC<Props> = ({}) => {
             <hr className="mt-10 mb-5" />
 
             <div>
-              <h1 className="font-bold text-lg">Hồ sơ của bạn</h1>
+              <h1 className="font-bold text-lg">
+                {tProfilePage("titleProfile")}
+              </h1>
 
               {isMounted && profile && (
                 <div className="mt-3">
@@ -323,7 +336,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
                     boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
                   }}
                 >
-                  Cập nhật hồ sơ
+                  {tProfilePage("titleUpdateButton")}
                 </button>
                 <button
                   onClick={() => {
@@ -334,7 +347,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
                     boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
                   }}
                 >
-                  Đăng xuất
+                  {tProfilePage("titleButtonLogout")}
                 </button>
               </div>
             </div>
@@ -346,7 +359,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
             items={[
               {
                 key: "1",
-                label: "Phòng đã thuê",
+                label: `${tProfilePage("Tabs.titleTab1")}`,
                 icon: <FontAwesomeIcon size="lg" icon={faClockRotateLeft} />,
                 children: (
                   <>
@@ -360,7 +373,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
               },
               {
                 key: "2",
-                label: "Phòng yêu thích",
+                label: `${tProfilePage("Tabs.titleTab2")}`,
                 icon: <FontAwesomeIcon size="lg" icon={faHeart} />,
                 children: <FavouriteRoom />,
               },

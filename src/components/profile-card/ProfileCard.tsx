@@ -36,7 +36,7 @@ import ModalRating from "@/components/modal-rating/ModalRating";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -46,6 +46,9 @@ type Props = {
 };
 
 const ProfileCard: React.FC<Props> = ({ booking }) => {
+  const tProfilePage = useTranslations("ProfilePage");
+  const tNotification = useTranslations("Notification");
+  const tLocalNotifi = useTranslations("LocalNotifi");
   const locale = useLocale();
   const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
@@ -66,12 +69,14 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
 
   const handleDeleteBooking = async (id: number) => {
     confirm({
-      title: "Huỷ lịch đặt phòng",
+      title: `${tProfilePage("ProfileCard.ConfirmCancelBooking.title")}`,
       icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn huỷ lịch đặt phòng này?",
-      okText: "Huỷ lịch",
+      content: `${tProfilePage("ProfileCard.ConfirmCancelBooking.content")}`,
+      okText: `${tProfilePage("ProfileCard.ConfirmCancelBooking.okText")}`,
       okType: "danger",
-      cancelText: "Huỷ",
+      cancelText: `${tProfilePage(
+        "ProfileCard.ConfirmCancelBooking.cancelText"
+      )}`,
       cancelButtonProps: {
         className: "custom-cancel-button",
       },
@@ -82,12 +87,16 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
             const id: string | null = getCookie("i_d");
             const action = getBookingUserAsync(Number(id));
             dispatch(action);
-            openNotification("success", "Huỷ lịch đặt phòng", `${res.message}`);
+            openNotification(
+              "success",
+              `${tNotification("ProfilePage.CancelBookingSuccess.title")}`,
+              `${tNotification("ProfilePage.CancelBookingSuccess.content")}`
+            );
 
             const newNotification: NotifiType = {
               id: `Bk${getFormattedDateTime()}`,
-              title: "Đặt phòng",
-              content: "Huỷ lịch đặt phòng thành công",
+              title: `${tLocalNotifi("CancelBookingSuccess.title")}`,
+              content: `${tLocalNotifi("CancelBookingSuccess.content")}`,
               date: `${getCurrentDateTime()}`,
               type: "success",
             };
@@ -100,12 +109,16 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
             dispatch(actions);
             break;
           default:
-            openNotification("error", "Huỷ lịch đặt phòng", `${res.content}`);
+            openNotification(
+              "error",
+              `${tNotification("ProfilePage.CancelBookingError.title")}`,
+              `${tNotification("ProfilePage.CancelBookingError.content")}`
+            );
 
             const newNotificationEr: NotifiType = {
               id: `Bk${getFormattedDateTime()}`,
-              title: "Đặt phòng",
-              content: "Huỷ lịch đặt phòng không thành công",
+              title: `${tLocalNotifi("CancelBookingError.title")}`,
+              content: `${tLocalNotifi("CancelBookingError.content")}`,
               date: `${getCurrentDateTime()}`,
               type: "success",
             };
@@ -172,7 +185,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
           actions={[
             <>
               {isDateInPast(booking.ngayDi) ? (
-                <Tooltip title="Đánh giá phòng">
+                <Tooltip title={tProfilePage("ProfileCard.Tooltip.tooltip1")}>
                   <Button
                     onClick={() => {
                       setIsModalViewRatingOpen(true);
@@ -192,7 +205,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                   </Button>
                 </Tooltip>
               ) : (
-                <Tooltip title="Huỷ đặt phòng">
+                <Tooltip title={tProfilePage("ProfileCard.Tooltip.tooltip2")}>
                   <Button
                     onClick={() => {
                       handleDeleteBooking(booking.id);
@@ -215,7 +228,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
             </>,
             <>
               {isDateInPast(booking.ngayDi) === false && (
-                <Tooltip title="Sửa lịch đặt phòng">
+                <Tooltip title={tProfilePage("ProfileCard.Tooltip.tooltip3")}>
                   <Button
                     onClick={() => {
                       setIsModalUpdateBookingOpen(true);
@@ -236,7 +249,7 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                 </Tooltip>
               )}
             </>,
-            <Tooltip title="Xem chi tiết phòng">
+            <Tooltip title={tProfilePage("ProfileCard.Tooltip.tooltip4")}>
               <Button
                 className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                 onClick={() => {
@@ -266,29 +279,39 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                 <hr className="w-[30px] mt-4 mb-2" />
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
-                    <h3 className="font-bold">Ngày đến:</h3>
+                    <h3 className="font-bold">
+                      {tProfilePage("ProfileCard.checkin")}
+                    </h3>
                     <p className="font-normal">{formatDate(booking.ngayDen)}</p>
                   </div>
 
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
-                    <h3 className="font-bold">Ngày đi:</h3>
+                    <h3 className="font-bold">
+                      {tProfilePage("ProfileCard.checkout")}
+                    </h3>
                     <p className="font-normal">{formatDate(booking.ngayDi)}</p>
                   </div>
 
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
-                    <h3 className="font-bold">Số người:</h3>
+                    <h3 className="font-bold">
+                      {tProfilePage("ProfileCard.countNumber")}
+                    </h3>
                     <p className="font-normal">{booking.soLuongKhach}</p>
                   </div>
 
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
-                    <h3 className="font-bold">Giá phòng:</h3>
+                    <h3 className="font-bold">
+                      {tProfilePage("ProfileCard.price")}
+                    </h3>
                     <p className="font-normal">
                       {convertUSDToVND(roomDetail.giaTien)}/đêm
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2 text-custome-gray-200 text-sm">
-                    <h3 className="font-bold">Tổng tiền:</h3>
+                    <h3 className="font-bold">
+                      {tProfilePage("ProfileCard.total")}
+                    </h3>
                     <p className="font-normal">{total()}</p>
                   </div>
                 </div>

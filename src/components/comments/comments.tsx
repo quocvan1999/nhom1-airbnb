@@ -8,6 +8,7 @@ import { roundToDecimal } from "@/utils/method/method";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Pagination } from "antd";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +17,8 @@ type Props = {
 };
 
 const Comments: React.FC<Props> = ({ id }) => {
+  const tOptionBooking = useTranslations("OptionBooking");
+  const tComments = useTranslations("Comments");
   const dispatch: AppDispatch = useDispatch();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
@@ -79,13 +82,13 @@ const Comments: React.FC<Props> = ({ id }) => {
   return (
     <>
       <div>
-        <h3 className="font-bold text-xl">Đánh giá phòng</h3>
+        <h3 className="font-bold text-xl">{tComments("titleH1")}</h3>
         <div className="flex items-center gap-1">
           <FontAwesomeIcon className="text-primary-100" icon={faStar} />
           <p className="font-bold text-custome-black-100">
             {setRatingRoom()}
             <span className="font-normal text-custome-gray-200">
-              {` (${commentCount} đánh giá)`}
+              {` (${commentCount} ${tOptionBooking("evaluate")})`}
             </span>
           </p>
         </div>
@@ -110,7 +113,7 @@ const Comments: React.FC<Props> = ({ id }) => {
               "border-primary-100 bg-primary-100 text-white"
             }`}
           >
-            {index + 1} Sao
+            {index + 1} {tComments("titleH2")}
           </button>
         ))}
       </div>
@@ -122,7 +125,7 @@ const Comments: React.FC<Props> = ({ id }) => {
           ))
         ) : (
           <div className="w-full flex items-center justify-center">
-            Không có đánhg giá
+            {tComments("titleNot")}
           </div>
         )}
       </div>

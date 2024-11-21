@@ -50,13 +50,187 @@
         "Logout": "Đăng xuất",
         "Singn": "Đăng ký"
       }
-    }
+    },
+    "title1": "Những phòng được yêu thích",
+    "title2": "Bất cứ ở đâu"
   },
   "Notification": {
     "HeaderSearch": {
       "notification1": {
         "title": "Tìm kiếm",
         "content1": "Điểm đến không được bỏ trống"
+      }
+    },
+    "RegisterPage": {
+      "RegisterSuccess": {
+        "title": "Đăng ký",
+        "content": "Đăng ký tài khoản mới thành công"
+      },
+      "RegisterWarning": {
+        "title": "Đăng ký",
+        "content": "Đăng ký tài khoản không thành công"
+      }
+    },
+    "ProfilePage": {
+      "ErrorUploadImage1": {
+        "title": "Ảnh đại diện",
+        "content": "Vui lòng chọn file có định dạng (jpg, jpeg, png, gif)"
+      },
+      "ErrorUploadImage2": {
+        "title": "Ảnh đại diện",
+        "content": "Dung lượng hình phải dưới 1M"
+      },
+      "UpdateAvatarSucces": {
+        "title": "Hồ sơ",
+        "content": "Cập nhật avatar thành công"
+      },
+      "UpdateAvatarError": {
+        "title": "Hồ sơ",
+        "content": "Cập nhật avatar không thành công"
+      },
+      "LogoutSuccess": {
+        "title": "Đăng xuất",
+        "content": "Đăng xuất thành công"
+      },
+      "CancelBookingSuccess": {
+        "title": "Đặt phòng",
+        "content": "Huỷ lịch đặt phòng thành công"
+      },
+      "CancelBookingError": {
+        "title": "Đặt phòng",
+        "content": "Huỷ lịch đặt phòng không thành công"
+      }
+    },
+    "OptionBooking": {
+      "BookingSuccess": {
+        "title": "Đặt phòng",
+        "content": "Đặt phòng thành công"
+      },
+      "BookingWarning1": {
+        "title": "Đặt phòng",
+        "content": "Bạn phải điền đầy đủ các thông tin"
+      },
+      "BookingWarning2": {
+        "title": "Đặt phòng",
+        "content": "Bạn phải đăng nhập để đặt phòng"
+      }
+    },
+    "ModalUpdateUser": {
+      "UpdateSuccess": {
+        "title": "Hồ sơ",
+        "content": "Cập nhật thông tin thành công"
+      },
+      "UpdateError": {
+        "title": "Hồ sơ",
+        "content": "Cập nhật thông tin không thành công"
+      }
+    },
+    "ModalUpdateBooking": {
+      "updateBookingSuccess": {
+        "title": "Đặt phòng",
+        "content": "Cập nhật thông tin đặt phòng thành công"
+      }
+    },
+    "ModalRating": {
+      "ratingSuccess": {
+        "title": "Đánh giá",
+        "content": "Thêm đánh giá thành công"
+      },
+      "ratingError": {
+        "title": "Đánh giá",
+        "content": "Thêm đánh giá không thành công"
+      }
+    },
+    "LoginPage": {
+      "LoginSuccess": {
+        "title": "Đăng nhập",
+        "content": "Đăng nhập thành công"
+      },
+      "LoginError": {
+        "title": "Đăng nhập",
+        "content": "Đăng nhập không thành công"
+      }
+    },
+    "HeaderUserContainer": {
+      "LogoutSuccess": {
+        "title": "Đăng xuất",
+        "content": "Đăng xuất thành công"
+      }
+    },
+    "Favourites": {
+      "deleteFavouriteSuccess": {
+        "title": "Yêu thích",
+        "content": "Xoá phòng khỏi mục yêu thích thành công"
+      }
+    },
+    "ActionDetailRoom": {
+      "likeRoom": {
+        "title": "Yêu thích",
+        "content": "Thêm phòng vào mục yêu thích thành công"
+      },
+      "likeWarning": {
+        "title": "Yêu thích",
+        "content": "Bạn phải đăng nhập để thêm phòng vào mục yêu thích"
+      },
+      "unlikeRoom": {
+        "title": "Yêu thích",
+        "content": "Xoá phòng khỏi mục yêu thích thành công"
+      }
+    }
+  },
+  "LocalNotifi": {
+    "ProfilePage": {
+      "UpdateAvatarSucces": {
+        "title": "Hồ sơ",
+        "content": "Cập nhật avatar thành công"
+      },
+      "CancelBookingSuccess": {
+        "title": "Đặt phòng",
+        "content": "Huỷ lịch đặt phòng thành công"
+      },
+      "CancelBookingError": {
+        "title": "Đặt phòng",
+        "content": "Huỷ lịch đặt phòng không thành công"
+      }
+    },
+    "OptionBooking": {
+      "BookingSuccess": {
+        "title": "Đặt phòng",
+        "content": "Đặt phòng thành công"
+      }
+    },
+    "ModalUpdateUser": {
+      "UpdateSuccess": {
+        "title": "Hồ sơ",
+        "content": "Cập nhật thông tin thành công"
+      }
+    },
+    "ModalUpdateBooking": {
+      "unlikeRoom": {
+        "title": "Yêu thích",
+        "content": "Xoá phòng khỏi mục yêu thích thành công"
+      }
+    },
+    "ModalRating": {
+      "ratingSuccess": {
+        "title": "Đánh giá",
+        "content": "Thêm đánh giá thành công"
+      }
+    },
+    "Favourites": {
+      "deleteFavouriteSuccess": {
+        "title": "Yêu thích",
+        "content": "Xoá phòng khỏi mục yêu thích thành công"
+      }
+    },
+    "ActionDetailRoom": {
+      "likeRoom": {
+        "title": "Yêu thích",
+        "content": "Thêm phòng vào mục yêu thích thành công"
+      },
+      "unlikeRoom": {
+        "title": "Yêu thích",
+        "content": "Xoá phòng khỏi mục yêu thích thành công"
       }
     }
   },
@@ -77,5 +251,282 @@
       "title": "Thú cưng",
       "content": ""
     }
+  },
+  "SearchPage": {
+    "SearchResult": {
+      "title": "Chỗ ở tại khu vực"
+    },
+    "SearchCart": {
+      "title": "Căn hộ dịch vụ tại",
+      "guests": "khách",
+      "bedrooms": "phòng ngủ",
+      "beds": "giường",
+      "baths": "phường tắm",
+      "wifi": "Wifi",
+      "tivi": "Tivi",
+      "iron1": "Bàn là",
+      "iron2": "Bàn ủi",
+      "kitchen": "Bếp",
+      "airConditioning": "Điều hoà",
+      "freeParkingOnPremises": "Bãi đỗ xe",
+      "night": "đêm"
+    }
+  },
+  "RegisterPage": {
+    "title": "Đăng ký",
+    "FormRegister": {
+      "name": {
+        "required": "Name không được để trống"
+      },
+      "email": {
+        "required": "Email không được để trống",
+        "format": "Email không đúng định dạng"
+      },
+      "password": {
+        "required": "Password không được để trống"
+      },
+      "phone": {
+        "matches": "Số điện thoại không hợp lệ",
+        "required": "Phone không được để trống"
+      },
+      "birthday": {
+        "required": "Birthday không được để trống"
+      }
+    },
+    "FormTitle": {
+      "name": "Tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "phone": "Số điện thoại",
+      "birthday": "Ngày sinh",
+      "gender": "Giới tính",
+      "buttonRegister": "Đăng ký",
+      "buttonGoToHome": "Quay về trang chủ",
+      "buttonLogin": "Đăng nhập"
+    }
+  },
+  "ProfilePage": {
+    "ConfirmUpdateImage": {
+      "title": "Cập nhật ảnh đại diện",
+      "content": "Bạn có muốn đổi ảnh đại diện?",
+      "okText": "Cập nhật",
+      "cancelText": "Huỷ"
+    },
+    "ConfirmLogout": {
+      "title": "Đăng xuất",
+      "content": "Bạn có muốn đăng xuất?",
+      "okText": "Đăng xuất",
+      "cancelText": "Huỷ"
+    },
+    "titleUpdateAvatar": "Cập nhật",
+    "titleProfile": "Hồ sơ của bạn",
+    "titleUpdateButton": "Cập nhật hồ sơ",
+    "titleButtonLogout": "Đăng xuất",
+    "Tabs": {
+      "titleTab1": "Phòng đã thuê",
+      "titleTab2": "Phòng yêu thích"
+    },
+    "ProfileCard": {
+      "ConfirmCancelBooking": {
+        "title": "Đặt phòng",
+        "content": "Bạn có muốn huỷ lịch đặt phòng này?",
+        "okText": "Huỷ lịch",
+        "cancelText": "Huỷ"
+      },
+      "Tooltip": {
+        "tooltip1": "Đánh giá phòng",
+        "tooltip2": "Huỷ đặt phòng",
+        "tooltip3": "Sửa lịch đặt phòng",
+        "tooltip4": "Xem chi tiết phòng"
+      },
+      "checkin": "Ngày đến:",
+      "checkout": "Ngày đi:",
+      "countNumber": "Số người:",
+      "price": "Giá phòng:",
+      "total": "Tổng tiền:"
+    }
+  },
+  "OptionBooking": {
+    "ConfirmLogout": {
+      "title": "Đặt phòng",
+      "content": "Bạn có muốn đặt phòng này?",
+      "okText": "Đặt phòng",
+      "cancelText": "Huỷ"
+    },
+    "evaluate": "đánh giá",
+    "checkin": "Nhận phòng",
+    "checkout": "Trả phòng",
+    "addDate": "Thêm ngày",
+    "guest": "Khách",
+    "totalGuest": "Số lượng khách",
+    "titleButtonBooking": "Đặt phòng",
+    "serviceFee": "Phí dịch vụ",
+    "total": "Tổng"
+  },
+  "NavMobile": {
+    "NotificationTitle": "Thông báo",
+    "ProfileTitle": "Hồ sơ",
+    "LoginTitle": "Đăng nhập",
+    "HomeTitle": "Trang chủ"
+  },
+  "ModalUpdateUser": {
+    "ConfirmUpdate": {
+      "title": "Cập nhật thông tin",
+      "content": "Bạn có muốn cập nhật lại thông tin?",
+      "okText": "Cập nhật",
+      "cancelText": "Huỷ"
+    },
+    "FormUpdateUser": {
+      "name": {
+        "required": "Name không được để trống"
+      },
+      "email": {
+        "required": "Email không được để trống",
+        "format": "Email không đúng định dạng"
+      },
+      "phone": {
+        "matches": "Số điện thoại không hợp lệ",
+        "required": "Phone không được để trống"
+      },
+      "birthday": {
+        "required": "Birthday không được để trống"
+      }
+    },
+    "FormLabel": {
+      "name": "Tên",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "birthday": "Ngày sinh",
+      "gender": "Giới tính"
+    },
+    "title": "Chỉnh sửa hồ sơ",
+    "FormPlaceholder": {
+      "name": "Nhập Tên",
+      "email": "Nhập email",
+      "phone": "Nhập số điện thoại"
+    },
+    "buttonUpdateTitle": "Cập nhật"
+  },
+  "ModalUpdateBooking": {
+    "ConfirmUpdate": {
+      "title": "Cập nhật thông tin đặt phòng",
+      "content": "Bạn có muốn cập nhật lại thông tin đặt phòng?",
+      "okText": "Cập nhật",
+      "cancelText": "Huỷ"
+    },
+    "title": "Cập nhật thông tin đặt phòng",
+    "checkin": "Ngày đến",
+    "checkout": "Ngày đi",
+    "countNumber": "Số lượng khách",
+    "selectCountNumber": "Chọn số lượng khách",
+    "UpdateButtonTitle": "Cập nhật"
+  },
+  "ModalShareRoom": {
+    "contentMessage": "Sao chép liên kết thành công",
+    "title": "Chia sẻ trải nghiệm này"
+  },
+  "ModalRating": {
+    "FormRating": {
+      "comment": {
+        "required": "Đánh giá không được để trống"
+      },
+      "placeholder": "Nhập vào đánh giá của bạn..."
+    },
+    "buttonCancelTitle": "Huỷ",
+    "buttonRatingTitle": "Thêm đánh giá"
+  },
+  "LoginPage": {
+    "FormLogin": {
+      "email": {
+        "required": "Email không được để trống",
+        "format": "Email không đúng định dạng"
+      },
+      "password": {
+        "required": "Password không được để trống"
+      }
+    },
+    "title": "Đăng nhập",
+    "FormLabel": {
+      "email": "Email",
+      "password": "Mật khẩu"
+    },
+    "FormPlaceholder": {
+      "email": "Nhập email",
+      "password": "Nhập mật khẩu"
+    },
+    "forgotPassword": "Nhớ mật khẩu",
+    "goToHome": "Quay về trang chủ",
+    "buttonLoginTitle": "Đăng nhập",
+    "register": "Đăng ký ",
+    "titleRegister": "Bạn chưa có tài khoản?",
+    "welcome": "Chào mừng trở lại",
+    "contentRegister": "Bạn chưa có tài khoản?"
+  },
+  "HeaderUserContainer": {
+    "ConfirmLogout": {
+      "title": "Đăng xuất",
+      "content": "Bạn có muốn đăng xuất?",
+      "okText": "Đăng xuất",
+      "cancelText": "Huỷ"
+    }
+  },
+  "Footer": {
+    "titleH1": " Nguồn cảm hứng cho những kỳ nghỉ sau này",
+    "titleH2": "Quyền riêng tư",
+    "titleH3": "Điều khoản",
+    "titleH4": "Sơ đồ trang web"
+  },
+  "Favourites": {
+    "Tooltip": {
+      "tooltip1": "Bỏ yêu thích",
+      "tooltip2": "Xem chi tiết phòng"
+    }
+  },
+  "DetailHeaderHost": {
+    "typeHost": {
+      "type1": "Chủ nhà mới",
+      "type2": "Chủ nhà kinh nghiệm",
+      "type3": "Chủ nhà siêu cấp"
+    },
+    "content": "Chủ nhà/Người tổ chức:"
+  },
+  "Comments": {
+    "titleH1": "Đánh giá phòng",
+    "titleH2": "Sao",
+    "titleNot": "Không có đánhg giá"
+  },
+  "ActionDetailRoom": {
+    "titleH1": "Chia sẻ",
+    "likeRoom": "Lưu",
+    "unlikeRoom": "Bỏ lưu"
+  },
+  "RoomDetails": {
+    "optionRoom": {
+      "option1": {
+        "title": "Toàn bộ nhà",
+        "content": "Bạn sẽ có chung cư cao cấp cho riêng bạn"
+      },
+      "option2": {
+        "title": "Vệ sinh tăng cường",
+        "content": "Chủ nhà này đã cam kết thực hiện quy trình vệ sinh tăng cường 5 bước của Airbnb"
+      },
+      "option3": {
+        "title": "Phong là Chủ nhà siêu cấp",
+        "content": "Chủ nhà siêu cấp là những chủ nhà có kinh nghiệm, được đánh giá cao và là những người cam kết mang lại quãng thời gian ở tuyệt vời cho khách."
+      },
+      "option4": {
+        "title": "Miễn phí huỷ trong 48 giờ"
+      }
+    },
+    "serviceTitle": "Tiện nghi",
+    "wifi": "Wifi",
+    "tivi": "Tivi",
+    "iron1": "Bàn là",
+    "iron2": "Bàn ủi",
+    "kitchen": "Bếp",
+    "airConditioning": "Điều hoà",
+    "freeParkingOnPremises": "Bãi đỗ xe",
+    "washingMachine": "Máy giặt",
+    "pool": "Hồ bơi"
   }
 }

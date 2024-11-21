@@ -7,6 +7,7 @@ import { RoomType } from "@/types/room/roomType.type";
 import { randomNumber, roundToDecimal } from "@/utils/method/method";
 import { faMedal } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -38,6 +39,7 @@ const listHost: string[] = [
 ];
 
 const DetailHeaderHost: React.FC<Props> = ({ room }) => {
+  const tDetailHeaderHost = useTranslations("DetailHeaderHost");
   const dispatch: AppDispatch = useDispatch();
   const [hostName, setHostName] = useState<string>("");
   const [commentCount, setCommentCount] = useState<number>(0);
@@ -69,11 +71,11 @@ const DetailHeaderHost: React.FC<Props> = ({ room }) => {
     let typeHost: string = "";
 
     if (rating >= 0 && rating <= 2) {
-      typeHost = "Chủ nhà mới";
+      typeHost = `${tDetailHeaderHost("typeHost.type1")}`;
     } else if (rating > 2 && rating < 4) {
-      typeHost = "Chủ nhà kinh nghiệm";
+      typeHost = `${tDetailHeaderHost("typeHost.type2")}`;
     } else if (rating >= 4) {
-      typeHost = "Chủ nhà siêu cấp";
+      typeHost = `${tDetailHeaderHost("typeHost.type3")}`;
     }
 
     return typeHost;
@@ -119,7 +121,7 @@ const DetailHeaderHost: React.FC<Props> = ({ room }) => {
       </div>
       <div className="text-center lg:text-start">
         <h1 className="font-bold text-base text-custome-black-100 text-center lg:text-start">
-          Chủ nhà/Người tổ chức: {hostName}
+          {`${tDetailHeaderHost("content")}`}: {hostName}
         </h1>
         <div className="hidden lg:flex items-center gap-1">
           <p>{setTypeHost()}</p>

@@ -8,7 +8,7 @@ import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { RoomType } from "@/types/room/roomType.type";
 import useCopyToClipboard from "@/custome-hook/useCopyToClipboard/useCopyToClipboard";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 type Props = {
   url: string;
@@ -23,10 +23,11 @@ const ModalShareRoom: React.FC<Props> = ({
   url,
   room,
 }) => {
+  const tModalShareRoom = useTranslations("ModalShareRoom");
   const { isCopied, copyToClipboard } = useCopyToClipboard();
 
   const infoCopy = () => {
-    message.success("Sao chép liên kết thành công");
+    message.success(`${tModalShareRoom("contentMessage")}`);
   };
 
   return (
@@ -39,7 +40,7 @@ const ModalShareRoom: React.FC<Props> = ({
       open={isModalViewUserOpen}
     >
       <div className="mt-5">
-        <h1 className="font-bold text-lg">Chia sẻ trải nghiệm này</h1>
+        <h1 className="font-bold text-lg">{tModalShareRoom("title")}</h1>
         <div className="flex items-start gap-3 mt-2 bg-custome-gray-100 p-2 rounded-lg">
           <img
             src={room.hinhAnh}

@@ -7,6 +7,7 @@ import { LocationType } from "@/types/location/locationType.type";
 import { ReqType } from "@/types/req/reqType.type";
 import { RoomType } from "@/types/room/roomType.type";
 import { Empty, Pagination } from "antd";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const SearchResult: React.FC<Props> = ({ data, keyword }) => {
+  const tSearchPage = useTranslations("SearchPage");
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [location, setLocation] = useState<LocationType | null>(null);
@@ -50,7 +52,9 @@ const SearchResult: React.FC<Props> = ({ data, keyword }) => {
 
   return (
     <>
-      <TitleH1 title={`Chỗ ở tại khu vực ${location?.tenViTri}`} />
+      <TitleH1
+        title={`${tSearchPage("SearchResult.title")} ${location?.tenViTri}`}
+      />
       <hr className="my-5" />
       {data.length > 0 ? (
         <div>

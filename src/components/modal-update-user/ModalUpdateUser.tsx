@@ -29,6 +29,7 @@ import {
   getFormattedDateTime,
 } from "@/utils/method/method";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { useTranslations } from "next-intl";
 
 const { confirm } = Modal;
 
@@ -38,6 +39,9 @@ type Props = {
 };
 
 const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
+  const tModalUpdateUser = useTranslations("ModalUpdateUser");
+  const tNotification = useTranslations("Notification");
+  const tLocalNotifi = useTranslations("LocalNotifi");
   const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
   const { profile } = useSelector((state: RootState) => state.user);
@@ -45,12 +49,12 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
 
   const showPropsConfirm = (userUpdate: UserUpdate): void => {
     confirm({
-      title: "Cập nhật thông tin",
+      title: `${tModalUpdateUser("ConfirmUpdate.title")}`,
       icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn cập nhật lại thông tin",
-      okText: "Cập nhật",
+      content: `${tModalUpdateUser("ConfirmUpdate.content")}`,
+      okText: `${tModalUpdateUser("ConfirmUpdate.okTetx")}`,
       okType: "danger",
-      cancelText: "Huỷ",
+      cancelText: `${tModalUpdateUser("ConfirmUpdate.cancelText")}`,
       cancelButtonProps: {
         className: "custom-cancel-button",
       },
@@ -76,7 +80,11 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
 
     switch (res.statusCode) {
       case 200:
-        openNotification("success", "Hồ sơ", "Cập nhật thông tin thành công");
+        openNotification(
+          "success",
+          `${tNotification("ModalUpdateUser.UpdateSuccess.title")}`,
+          `${tNotification("ModalUpdateUser.UpdateSuccess.content")}`
+        );
         setOpen(false);
         if (typeof res.content === "object") {
           dispatch(getProfileAsync(res.content.id));
@@ -84,8 +92,8 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
 
         const newNotification: NotifiType = {
           id: `Pro${getFormattedDateTime()}`,
-          title: "Hồ sơ",
-          content: "Cập nhật thông tin thành công",
+          title: `${tLocalNotifi("ModalUpdateUser.UpdateSuccess.title")}`,
+          content: `${tLocalNotifi("ModalUpdateUser.UpdateSuccess.content")}`,
           date: `${getCurrentDateTime()}`,
           type: "success",
         };
@@ -100,8 +108,8 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
       default:
         openNotification(
           "warning",
-          "Profile",
-          "Cập nhật thông tin không thành công"
+          `${tNotification("ModalUpdateUser.UpdateError.title")}`,
+          `${tNotification("ModalUpdateUser.UpdateError.content")}`
         );
         break;
     }
@@ -111,14 +119,21 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
     initialValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      name: Yup.string().required("Name không được để trống"),
+      name: Yup.string().required(
+        `${tModalUpdateUser("FormUpdateUser.name.required")}`
+      ),
       email: Yup.string()
-        .required("Email không được để trống")
-        .email("Email không đúng định dạng"),
+        .required(`${tModalUpdateUser("FormUpdateUser.email.required")}`)
+        .email(`${tModalUpdateUser("FormUpdateUser.email.format")}`),
       phone: Yup.string()
-        .matches(/^(0[3|5|7|8|9][0-9]{8})$/, "Số điện thoại không hợp lệ.")
-        .required("Phone không được để trống"),
-      birthday: Yup.date().nullable().required("Birthday không được để trống"),
+        .matches(
+          /^(0[3|5|7|8|9][0-9]{8})$/,
+          `${tModalUpdateUser("FormUpdateUser.phone.matches")}`
+        )
+        .required(`${tModalUpdateUser("FormUpdateUser.phone.required")}`),
+      birthday: Yup.date()
+        .nullable()
+        .required(`${tModalUpdateUser("FormUpdateUser.birthday.required")}`),
     }),
     onSubmit: (values) => {
       showPropsConfirm(values);
@@ -151,25 +166,15 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
       }}
     >
       <Modal
-        title="Chỉnh sửa hồ sơ"
+        title={tModalUpdateUser("title")}
         open={open}
         onCancel={() => setOpen(false)}
         cancelButtonProps={{ style: { display: "none" } }}
         okButtonProps={{ style: { display: "none" } }}
       >
         <Form layout="vertical" onSubmitCapture={formUpdate.handleSubmit}>
-          {/* <Form.Item label="ID">
-            <Input
-              disabled
-              size="large"
-              name="id"
-              placeholder="Enter id"
-              value={formUpdate.values.id}
-            />
-          </Form.Item> */}
-
           <Form.Item
-            label="Name"
+            label={tModalUpdateUser("FormLabel.name")}
             validateStatus={
               formUpdate.touched.name && formUpdate.errors.name ? "error" : ""
             }
@@ -178,7 +183,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
             <Input
               size="large"
               name="name"
-              placeholder="Enter name"
+              placeholder={tModalUpdateUser("FormPlaceholder.name")}
               value={formUpdate.values.name}
               onChange={formUpdate.handleChange}
               onBlur={formUpdate.handleBlur}
@@ -186,7 +191,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
           </Form.Item>
 
           <Form.Item
-            label="Email"
+            label={tModalUpdateUser("FormLabel.email")}
             validateStatus={
               formUpdate.touched.email && formUpdate.errors.email ? "error" : ""
             }
@@ -195,7 +200,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
             <Input
               size="large"
               name="email"
-              placeholder="Enter email"
+              placeholder={tModalUpdateUser("FormPlaceholder.email")}
               value={formUpdate.values.email}
               onChange={formUpdate.handleChange}
               onBlur={formUpdate.handleBlur}
@@ -203,7 +208,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
           </Form.Item>
 
           <Form.Item
-            label="Phone"
+            label={tModalUpdateUser("FormLabel.phone")}
             validateStatus={
               formUpdate.touched.phone && formUpdate.errors.phone ? "error" : ""
             }
@@ -212,7 +217,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
             <Input
               size="large"
               name="phone"
-              placeholder="Enter phone"
+              placeholder={tModalUpdateUser("FormPlaceholder.phone")}
               value={formUpdate.values.phone}
               onChange={formUpdate.handleChange}
               onBlur={formUpdate.handleBlur}
@@ -220,7 +225,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
           </Form.Item>
 
           <Form.Item
-            label="Birthday"
+            label={tModalUpdateUser("FormLabel.birthday")}
             validateStatus={
               formUpdate.touched.birthday && formUpdate.errors.birthday
                 ? "error"
@@ -250,7 +255,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
             />
           </Form.Item>
 
-          <Form.Item label="Gender">
+          <Form.Item label={tModalUpdateUser("FormLabel.gender")}>
             <Select
               size="large"
               defaultValue={formUpdate.values.gender}
@@ -270,7 +275,7 @@ const ModalUpdateUser: React.FC<Props> = ({ open, setOpen }) => {
                 type="submit"
                 className="bg-primary-100 rounded-lg text-white px-5 py-2 font-[600]"
               >
-                Cập nhật
+                {tModalUpdateUser("buttonUpdateTitle")}
               </button>
             </Flex>
           </Form.Item>

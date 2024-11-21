@@ -21,6 +21,8 @@ type Props = {};
 
 const HeaderUserContainer: React.FC<Props> = ({}) => {
   const tHeader = useTranslations("HomePage");
+  const tNotification = useTranslations("Notification");
+  const tHeaderUserContainer = useTranslations("HeaderUserContainer");
   const locale = useLocale();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -33,17 +35,21 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
 
   const showPropsConfirm = (): void => {
     confirm({
-      title: "Đăng xuất",
+      title: `${tHeaderUserContainer("ConfirmLogout.title")}`,
       icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn đăng xuất?",
-      okText: "Đăng xuất",
+      content: `${tHeaderUserContainer("ConfirmLogout.content")}`,
+      okText: `${tHeaderUserContainer("ConfirmLogout.okText")}`,
       okType: "danger",
-      cancelText: "Huỷ",
+      cancelText: `${tHeaderUserContainer("ConfirmLogout.cancelText")}`,
       cancelButtonProps: {
         className: "custom-cancel-button",
       },
       onOk() {
-        openNotification("success", "Đăng xuất", "Đăng xuất thành công");
+        openNotification(
+          "success",
+          `${tNotification("HeaderUserContainer.LogoutSuccess.title")}`,
+          `${tNotification("HeaderUserContainer.LogoutSuccess.content")}`
+        );
         deleteCookie("accessToken");
         deleteCookie("i_d");
         setIsLogin(false);

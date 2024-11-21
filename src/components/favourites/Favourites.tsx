@@ -15,7 +15,7 @@ import { faHeart, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Pagination, Tooltip } from "antd";
 import Meta from "antd/es/card/Meta";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -29,6 +29,9 @@ type Props = {
 
 const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
   const locale = useLocale();
+  const tNotification = useTranslations("Notification");
+  const tFavourites = useTranslations("Favourites");
+  const tLocalNotifi = useTranslations("LocalNotifi");
   const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
   const [pageIndex, setPageIndex] = useState<number>(1);
@@ -59,15 +62,15 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
       );
       openNotification(
         "success",
-        "Yêu thích",
-        "Xoá phòng khỏi mục yêu thích thành công"
+        `${tNotification("Favourites.deleteFavouriteSuccess.title")}`,
+        `${tNotification("Favourites.deleteFavouriteSuccess.content")}`
       );
       setIsLoading(!isLoading);
 
       const newNotification: NotifiType = {
         id: `Fav${getFormattedDateTime()}`,
-        title: "Yêu thích",
-        content: "Xoá phòng khỏi mục yêu thích thành công",
+        title: `${tLocalNotifi("Favourites.deleteFavouriteSuccess.title")}`,
+        content: `${tLocalNotifi("Favourites.deleteFavouriteSuccess.content")}`,
         date: `${getCurrentDateTime()}`,
         type: "success",
       };
@@ -106,7 +109,7 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
                 />
               }
               actions={[
-                <Tooltip title="Bỏ yêu thích">
+                <Tooltip title={tFavourites("Tooltip.Tooltip1")}>
                   <Button
                     onClick={() => {
                       unlikeRoom(item.id);
@@ -120,7 +123,7 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
                     />
                   </Button>
                 </Tooltip>,
-                <Tooltip title="Xem chi tiết phòng">
+                <Tooltip title={tFavourites("Tooltip.Tooltip2")}>
                   <Button
                     className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                     onClick={() => {

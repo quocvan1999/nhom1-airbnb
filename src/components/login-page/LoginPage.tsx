@@ -23,12 +23,14 @@ import FacebookLogin, {
   ProfileSuccessResponse,
 } from "@greatsumini/react-facebook-login";
 import { registerAsync } from "@/services/register/register.service";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = {};
 
 const LoginPage: React.FC<Props> = ({}) => {
   const locale = useLocale();
+  const tNotification = useTranslations("Notification");
+  const tLoginPage = useTranslations("LoginPage");
   const router: AppRouterInstance = useRouter();
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
@@ -45,10 +47,14 @@ const LoginPage: React.FC<Props> = ({}) => {
 
     switch (res.statusCode) {
       case 200:
-        openNotification("success", "Đăng nhập", "Đăng nhập thành công");
+        openNotification(
+          "success",
+          `${tNotification("LoginPage.LoginSuccess.title")}`,
+          `${tNotification("LoginPage.LoginSuccess.content")}`
+        );
 
         setTimeout(() => {
-          router.push("/");
+          router.push(`/${locale}/`);
         }, 300);
 
         if (typeof res.content !== "string") {
@@ -68,7 +74,11 @@ const LoginPage: React.FC<Props> = ({}) => {
         break;
       case 400:
         if (typeof res.content === "string") {
-          openNotification("error", "Đăng nhập", res.content);
+          openNotification(
+            "error",
+            `${tNotification("LoginPage.LoginError.title")}`,
+            `${tNotification("LoginPage.LoginError.content")}`
+          );
         }
         break;
       default:
@@ -81,9 +91,11 @@ const LoginPage: React.FC<Props> = ({}) => {
     enableReinitialize: true,
     validationSchema: Yup.object({
       email: Yup.string()
-        .required("Email không được để trống")
-        .email("Email không đúng định dạng"),
-      password: Yup.string().required("Password không được để trống"),
+        .required(`${tLoginPage("FormLogin.email.required")}`)
+        .email(`${tLoginPage("FormLogin.email.format")}`),
+      password: Yup.string().required(
+        `${tLoginPage("FormLogin.password.required")}`
+      ),
     }),
     onSubmit: (values) => {
       handleChangeLogin(values);
@@ -126,14 +138,22 @@ const LoginPage: React.FC<Props> = ({}) => {
               break;
             default:
               if (typeof resRegister.content === "string") {
-                openNotification("error", "Đăng nhập", resRegister.content);
+                openNotification(
+                  "error",
+                  `${tNotification("LoginPage.LoginError.title")}`,
+                  `${tNotification("LoginPage.LoginError.content")}`
+                );
               }
               break;
           }
           break;
         default:
           if (typeof checkLoginRes.content === "string") {
-            openNotification("error", "Đăng nhập", checkLoginRes.content);
+            openNotification(
+              "error",
+              `${tNotification("LoginPage.LoginError.title")}`,
+              `${tNotification("LoginPage.LoginError.content")}`
+            );
           }
           break;
       }
@@ -175,7 +195,7 @@ const LoginPage: React.FC<Props> = ({}) => {
     >
       <div className="w-full lg:w-[55%] bg-white rounded-xl px-5 py-7 lg:p-10">
         <div className="flex items-center justify-between mb-14">
-          <h1 className="text-2xl">Đăng Nhập</h1>
+          <h1 className="text-2xl">{tLoginPage("title")}</h1>
           <div className="flex items-center gap-3">
             <FacebookLogin
               onProfileSuccess={handleLoginToFacebook}
@@ -199,12 +219,14 @@ const LoginPage: React.FC<Props> = ({}) => {
             }
             help={formLogin.touched.email && formLogin.errors.email}
           >
-            <p className="font-bold uppercase text-xs mb-3">Email</p>
+            <p className="font-bold uppercase text-xs mb-3">
+              {tLoginPage("FormLabel.email")}
+            </p>
             <Input
               allowClear
               size="large"
               name="email"
-              placeholder="Enter email"
+              placeholder={tLoginPage("FormPlaceholder.email")}
               value={formLogin.values.email}
               onChange={formLogin.handleChange}
               onBlur={formLogin.handleBlur}
@@ -218,11 +240,13 @@ const LoginPage: React.FC<Props> = ({}) => {
             }
             help={formLogin.touched.password && formLogin.errors.password}
           >
-            <p className="font-bold uppercase text-xs mb-3">Password</p>
+            <p className="font-bold uppercase text-xs mb-3">
+              {tLoginPage("FormLabel.password")}
+            </p>
             <Input.Password
               allowClear
               size="large"
-              name="password"
+              name={tLoginPage("FormPlaceholder.password")}
               placeholder="Enter password"
               value={formLogin.values.password}
               onChange={formLogin.handleChange}
@@ -235,13 +259,13 @@ const LoginPage: React.FC<Props> = ({}) => {
               checked={isRemember}
               className="text-[#fff] "
             >
-              Nhớ mật khẩu
+              {tLoginPage("forgotPassword")}
             </Checkbox>
             <Link
               href={`/${locale}`}
               className="text-custome-gray-200 transition-all duration-500 ease-in-out underline hover:underline hover:text-primary-100 text-[14px]"
             >
-              Quay về trang chủ
+              {tLoginPage("goToHome")}
             </Link>
           </div>
           <Form.Item>
@@ -249,28 +273,28 @@ const LoginPage: React.FC<Props> = ({}) => {
               type="submit"
               className="w-full bg-primary-100 text-white py-3 rounded-[7px] transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom mt-5"
             >
-              Đăng nhập
+              {tLoginPage("buttonLoginTitle")}
             </button>
           </Form.Item>
           <div className="text-center lg:hidden">
-            <p>Bạn chưa có tài khoản?</p>
+            <p>{tLoginPage("titleRegister")}</p>
             <Link
               href={`/${locale}/auth/register`}
               className="text-custome-black-100 underline hover:underline transition-all duration-500 ease-in-out hover:text-primary-100"
             >
-              Đăng ký
+              {tLoginPage("register")}
             </Link>
           </div>
         </Form>
       </div>
       <div className="hidden lg:flex w-[45%] rounded-r-2xl text-white items-center justify-center flex-col px-10 gap-4 text-center">
-        <h1 className="font-bold text-3xl">Chào mừng trở lại</h1>
-        <p>Bạn chưa có tài khoản?</p>
+        <h1 className="font-bold text-3xl">{tLoginPage("welcome")}</h1>
+        <p>{tLoginPage("contentRegister")}</p>
         <Link
           href={`/${locale}/auth/register`}
           className="border border-[#fff] px-10 py-2 rounded-[7px] cursor-pointer transition-all duration-500 ease-in-out hover:shadow-lg"
         >
-          Đăng ký
+          {tLoginPage("register")}
         </Link>
       </div>
     </ConfigProvider>

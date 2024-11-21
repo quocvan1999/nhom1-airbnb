@@ -2,94 +2,135 @@ import FooterTabItem from "@/components/footer-tabs-item/FooterTabsItem";
 import { FooterTabItemType } from "@/types/footer/footerTabItemType.type";
 import {
   tab1,
+  tab1En,
   tab2,
+  tab2En,
   tab3,
+  tab3En,
   tab4,
+  tab4En,
   tab5,
+  tab5En,
   tab6,
+  tab6En,
   tab7,
+  tab7En,
 } from "@/utils/footer-data/footer.data";
 import { ConfigProvider, Tabs, TabsProps } from "antd";
+import { useLocale } from "next-intl";
 import React from "react";
 
 type Props = {};
 
 const FooterTabs: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const items: TabsProps["items"] = [
     {
       key: "1",
-      label: "Phổ biến",
+      label: `${locale === "en" ? "Popular" : "Phổ biến"}`,
       children: (
         <div className="flex flex-wrap gap-3">
-          {tab1.map((item: FooterTabItemType, index: number) => (
-            <FooterTabItem key={index} item={item} />
-          ))}
+          {locale === "vi"
+            ? tab1.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))
+            : tab1En.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))}
         </div>
       ),
     },
     {
       key: "2",
-      label: "Văn hoá và nghệ thuật",
+      label: `${
+        locale === "en" ? "Culture and arts" : "Văn hoá và nghệ thuật"
+      }`,
       children: (
         <div className="flex flex-wrap gap-3">
-          {tab2.map((item: FooterTabItemType, index: number) => (
-            <FooterTabItem key={index} item={item} />
-          ))}
+          {locale === "vi"
+            ? tab2.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))
+            : tab2En.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))}
         </div>
       ),
     },
     {
       key: "3",
-      label: "Ngoài trời",
+      label: `${locale === "en" ? "Outdoor" : "Ngoài trời"}`,
       children: (
         <div className="flex flex-wrap gap-3">
-          {tab3.map((item: FooterTabItemType, index: number) => (
-            <FooterTabItem key={index} item={item} />
-          ))}
+          {locale === "vi"
+            ? tab3.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))
+            : tab3En.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))}
         </div>
       ),
     },
     {
       key: "4",
-      label: "Dãy núi",
+      label: `${locale === "en" ? "Mountain" : "Dãy núi"}`,
       children: (
         <div className="flex flex-wrap gap-3">
-          {tab4.map((item: FooterTabItemType, index: number) => (
-            <FooterTabItem key={index} item={item} />
-          ))}
+          {locale === "vi"
+            ? tab4.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))
+            : tab4En.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))}
         </div>
       ),
     },
     {
       key: "5",
-      label: "Bãi biển",
+      label: `${locale === "en" ? "Beach" : "Bãi biển"}`,
       children: (
         <div className="flex flex-wrap gap-3">
-          {tab5.map((item: FooterTabItemType, index: number) => (
-            <FooterTabItem key={index} item={item} />
-          ))}
+          {locale === "vi"
+            ? tab5.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))
+            : tab5En.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))}
         </div>
       ),
     },
     {
       key: "6",
-      label: "Danh mục",
+      label: `${locale === "en" ? "Category" : "Danh mục"}`,
       children: (
         <div className="flex flex-wrap gap-3">
-          {tab6.map((item: FooterTabItemType, index: number) => (
-            <FooterTabItem key={index} item={item} />
-          ))}
+          {locale === "vi"
+            ? tab6.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))
+            : tab6En.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))}
         </div>
       ),
     },
     {
       key: "7",
-      label: "Những điều nên trải nghiệm",
+      label: `${
+        locale === "en" ? "Things to experience" : "Những điều nên trải nghiệm"
+      }`,
       children: (
         <div className="flex flex-wrap gap-3">
-          {tab7.map((item: FooterTabItemType, index: number) => (
-            <FooterTabItem key={index} item={item} />
-          ))}
+          {locale === "vi"
+            ? tab7.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))
+            : tab7En.map((item: FooterTabItemType, index: number) => (
+                <FooterTabItem key={index} item={item} />
+              ))}
         </div>
       ),
     },

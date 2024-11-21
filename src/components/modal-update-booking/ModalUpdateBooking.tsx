@@ -31,6 +31,7 @@ import { getBookingUserAsync } from "@/services/booking-user/bookingUser.service
 import { NotifiType } from "@/types/notifi/notifi.type";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { useTranslations } from "next-intl";
 
 const { confirm } = Modal;
 
@@ -49,6 +50,9 @@ const ModalUpdateBooking: React.FC<Props> = ({
   setIsModalUpdateBookingOpen,
   roomDetail,
 }) => {
+  const tModalUpdateBooking = useTranslations("ModalUpdateBooking");
+  const tNotification = useTranslations("Notification");
+  const tLocalNotifi = useTranslations("LocalNotifi");
   const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
   const [countMember, setCountMember] = useState<number>(0);
@@ -74,12 +78,12 @@ const ModalUpdateBooking: React.FC<Props> = ({
     };
 
     confirm({
-      title: "Cập nhật thông tin đặt phòng",
+      title: `${tModalUpdateBooking("ConfirmUpdate.title")}`,
       icon: <ExclamationCircleFilled />,
-      content: "Bạn có muốn cập nhật lại thông tin đặt phòng",
-      okText: "Cập nhật",
+      content: `${tModalUpdateBooking("ConfirmUpdate.content")}`,
+      okText: `${tModalUpdateBooking("ConfirmUpdate.okText")}`,
       okType: "danger",
-      cancelText: "Huỷ",
+      cancelText: `${tModalUpdateBooking("ConfirmUpdate.cancelText")}`,
       cancelButtonProps: {
         className: "custom-cancel-button",
       },
@@ -96,15 +100,21 @@ const ModalUpdateBooking: React.FC<Props> = ({
             dispatch(action);
             openNotification(
               "success",
-              "Đặt phòng",
-              "Cập nhật thông tin đặt phòng thành công"
+              `${tNotification(
+                "ModalUpdateBooking.updateBookingSuccess.title"
+              )}`,
+              `${tNotification(
+                "ModalUpdateBooking.updateBookingSuccess.content"
+              )}`
             );
             setIsModalUpdateBookingOpen(false);
 
             const newNotification: NotifiType = {
               id: `Fav${getFormattedDateTime()}`,
-              title: "Yêu thích",
-              content: "Xoá phòng khỏi mục yêu thích thành công",
+              title: `${tLocalNotifi("ModalUpdateBooking.unlikeRoom.title")}`,
+              content: `${tLocalNotifi(
+                "ModalUpdateBooking.unlikeRoom.content"
+              )}`,
               date: `${getCurrentDateTime()}`,
               type: "success",
             };
@@ -234,11 +244,15 @@ const ModalUpdateBooking: React.FC<Props> = ({
       >
         <div className="w-full bg-white rounded-xl">
           <div className="flex items-center justify-between mb-5">
-            <h1 className="text-2xl font-bold">Cập nhật thông tin đặt phòng</h1>
+            <h1 className="text-2xl font-bold">
+              {tModalUpdateBooking("title")}
+            </h1>
           </div>
           <div>
             <div className="mb-5">
-              <p className="font-semibold uppercase text-xs mb-2">Ngày đến</p>
+              <p className="font-semibold uppercase text-xs mb-2">
+                {tModalUpdateBooking("checkin")}
+              </p>
               <DatePicker
                 defaultValue={dayjs(formatDate(dateCheckin), dateFormat)}
                 onChange={onChangeCheckin}
@@ -253,7 +267,9 @@ const ModalUpdateBooking: React.FC<Props> = ({
             </div>
 
             <div className="mb-5">
-              <p className="font-semibold uppercase text-xs mb-2">Ngày đi</p>
+              <p className="font-semibold uppercase text-xs mb-2">
+                {tModalUpdateBooking("checkout")}
+              </p>
               <DatePicker
                 defaultValue={dayjs(formatDate(dateCheckout), dateFormat)}
                 onChange={onChangeCheckout}
@@ -269,7 +285,7 @@ const ModalUpdateBooking: React.FC<Props> = ({
 
             <div className="mb-5">
               <p className="font-semibold uppercase text-xs mb-2">
-                Số lượng khách
+                {tModalUpdateBooking("countNumber")}
               </p>
               <Dropdown
                 trigger={["click"]}
@@ -284,7 +300,7 @@ const ModalUpdateBooking: React.FC<Props> = ({
                 <Input
                   className="py-0"
                   size="large"
-                  placeholder="Chọn số lượng khách"
+                  placeholder={tModalUpdateBooking("selectCountNumber")}
                   value={countMember}
                 />
               </Dropdown>
@@ -292,7 +308,7 @@ const ModalUpdateBooking: React.FC<Props> = ({
 
             <div className="flex items-center justify-end">
               <Button onClick={handleChangeUpdateBooking} type="primary">
-                Cập nhật
+                {tModalUpdateBooking("UpdateButtonTitle")}
               </Button>
             </div>
           </div>

@@ -26,13 +26,19 @@ const HeaderTranslate: React.FC<Props> = () => {
         <div className="bg-white shadow-lg rounded-lg">
           <div className="flex flex-col">
             <Button
-              onClick={() => handleLanguageChange("vi")}
+              onClick={() => {
+                setIsOpenDropdown(false);
+                handleLanguageChange("vi");
+              }}
               className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
             >
               Tiếng Việt
             </Button>
             <Button
-              onClick={() => handleLanguageChange("en")}
+              onClick={() => {
+                setIsOpenDropdown(false);
+                handleLanguageChange("en");
+              }}
               className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
             >
               English

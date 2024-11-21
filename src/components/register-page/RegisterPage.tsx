@@ -10,12 +10,14 @@ import { registerAsync } from "@/services/register/register.service";
 import React from "react";
 import Link from "next/link";
 import * as Yup from "yup";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = {};
 
 const RegisterPage: React.FC<Props> = ({}) => {
   const locale = useLocale();
+  const tNotification = useTranslations("Notification");
+  const tRegisterPage = useTranslations("RegisterPage");
   const router: AppRouterInstance = useRouter();
   const { openNotification } = useNotification();
 
@@ -37,8 +39,8 @@ const RegisterPage: React.FC<Props> = ({}) => {
       case 200:
         openNotification(
           "success",
-          "Đăng ký",
-          "Đăng ký tài khoản mới thành công"
+          `${tNotification("RegisterPage.RegisterSuccess.title")}`,
+          `${tNotification("RegisterPage.RegisterSuccess.content")}`
         );
         setTimeout(() => {
           router.push(`/${locale}/auth/login`);
@@ -47,8 +49,8 @@ const RegisterPage: React.FC<Props> = ({}) => {
       default:
         openNotification(
           "warning",
-          "Đăng ký",
-          "Đăng ký tài khoản không thành công"
+          `${tNotification("RegisterPage.RegisterWarning.title")}`,
+          `${tNotification("RegisterPage.RegisterWarning.content")}`
         );
         break;
     }
@@ -58,15 +60,24 @@ const RegisterPage: React.FC<Props> = ({}) => {
     initialValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      name: Yup.string().required("Name không được để trống"),
+      name: Yup.string().required(
+        `${tRegisterPage("FormRegister.name.required")}`
+      ),
       email: Yup.string()
-        .required("Email không được để trống")
-        .email("Email không đúng định dạng"),
-      password: Yup.string().required("Password không được để trống"),
+        .required(`${tRegisterPage("FormRegister.email.required")}`)
+        .email(`${tRegisterPage("FormRegister.email.format")}`),
+      password: Yup.string().required(
+        `${tRegisterPage("FormRegister.password.required")}`
+      ),
       phone: Yup.string()
-        .matches(/^(0[3|5|7|8|9][0-9]{8})$/, "Số điện thoại không hợp lệ.")
-        .required("Phone không được để trống"),
-      birthday: Yup.string().required("Birthday không được để trống"),
+        .matches(
+          /^(0[3|5|7|8|9][0-9]{8})$/,
+          `${tRegisterPage("FormRegister.phone.matches")}`
+        )
+        .required(`${tRegisterPage("FormRegister.phone.required")}`),
+      birthday: Yup.string().required(
+        `${tRegisterPage("FormRegister.birthday.required")}`
+      ),
     }),
     onSubmit: (values) => {
       handleChangeRegister(values);
@@ -112,7 +123,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
     >
       <div className="w-full bg-white rounded-xl px-5 py-7 lg:px-10 lg:py-14">
         <div className="flex items-center justify-between mb-14">
-          <h1 className="text-2xl">Đăng ký</h1>
+          <h1 className="text-2xl">{tRegisterPage("title")}</h1>
         </div>
         <Form layout="vertical" onSubmitCapture={formRegister.handleSubmit}>
           <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-5">
@@ -125,7 +136,9 @@ const RegisterPage: React.FC<Props> = ({}) => {
                 }
                 help={formRegister.touched.name && formRegister.errors.name}
               >
-                <p className="font-bold uppercase text-xs mb-3">Name</p>
+                <p className="font-bold uppercase text-xs mb-3">
+                  {tRegisterPage("FormTitle.name")}
+                </p>
                 <Input
                   size="large"
                   name="name"
@@ -144,7 +157,9 @@ const RegisterPage: React.FC<Props> = ({}) => {
                 }
                 help={formRegister.touched.email && formRegister.errors.email}
               >
-                <p className="font-bold uppercase text-xs mb-3">Email</p>
+                <p className="font-bold uppercase text-xs mb-3">
+                  {tRegisterPage("FormTitle.email")}
+                </p>
                 <Input
                   size="large"
                   name="email"
@@ -165,7 +180,9 @@ const RegisterPage: React.FC<Props> = ({}) => {
                   formRegister.touched.password && formRegister.errors.password
                 }
               >
-                <p className="font-bold uppercase text-xs mb-3">Password</p>
+                <p className="font-bold uppercase text-xs mb-3">
+                  {tRegisterPage("FormTitle.password")}
+                </p>
                 <Input.Password
                   size="large"
                   name="password"
@@ -185,7 +202,9 @@ const RegisterPage: React.FC<Props> = ({}) => {
                 }
                 help={formRegister.touched.phone && formRegister.errors.phone}
               >
-                <p className="font-bold uppercase text-xs mb-3">Phone</p>
+                <p className="font-bold uppercase text-xs mb-3">
+                  {tRegisterPage("FormTitle.phone")}
+                </p>
                 <Input
                   size="large"
                   name="phone"
@@ -206,7 +225,9 @@ const RegisterPage: React.FC<Props> = ({}) => {
                   formRegister.touched.birthday && formRegister.errors.birthday
                 }
               >
-                <p className="font-bold uppercase text-xs mb-3">birthday</p>
+                <p className="font-bold uppercase text-xs mb-3">
+                  {tRegisterPage("FormTitle.birthday")}
+                </p>
                 <DatePicker
                   name="birthday"
                   size="large"
@@ -224,7 +245,9 @@ const RegisterPage: React.FC<Props> = ({}) => {
               </Form.Item>
 
               <Form.Item>
-                <p className="font-bold uppercase text-xs mb-3">Gender</p>
+                <p className="font-bold uppercase text-xs mb-3">
+                  {tRegisterPage("FormTitle.gender")}
+                </p>
                 <Select
                   size="large"
                   defaultValue={formRegister.values.gender}
@@ -245,7 +268,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
               type="submit"
               className="w-full bg-primary-100 text-white py-3 rounded-[7px] transition-all duration-500 ease-in-out hover:bg-primary-200 font-custom"
             >
-              Đăng ký
+              {tRegisterPage("FormTitle.buttonRegister")}
             </button>
           </Form.Item>
         </Form>
@@ -254,13 +277,13 @@ const RegisterPage: React.FC<Props> = ({}) => {
             href={`/${locale}`}
             className="text-custome-gray-200 underline transition-all duration-500 ease-in-out hover:underline hover:text-primary-100 text-[14px]"
           >
-            Quay về trang chủ
+            {tRegisterPage("FormTitle.buttonGoToHome")}
           </Link>
           <Link
             href={`/${locale}/auth/login`}
             className="text-custome-gray-200 underline transition-all duration-500 ease-in-out hover:underline hover:text-primary-100 text-[14px]"
           >
-            Đăng nhập
+            {tRegisterPage("FormTitle.buttonLogin")}
           </Link>
         </div>
       </div>

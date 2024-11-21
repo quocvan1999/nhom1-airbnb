@@ -22,7 +22,7 @@ import {
 import { faHeart, faShare, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ConfigProvider } from "antd";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -33,6 +33,11 @@ type Props = {
 };
 
 const ActionDetailRoom: React.FC<Props> = ({ room }) => {
+  const tOptionBooking = useTranslations("OptionBooking");
+  const tSearchPage = useTranslations("SearchPage");
+  const tNotification = useTranslations("Notification");
+  const tLocalNotifi = useTranslations("LocalNotifi");
+  const tActionDetailRoom = useTranslations("ActionDetailRoom");
   const locale = useLocale();
   const pathname = usePathname(); // Lấy đường dẫn
   const dispatch: AppDispatch = useDispatch();
@@ -84,15 +89,15 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
         );
         openNotification(
           "success",
-          "Yêu thích",
-          "Thêm phòng vào mục yêu thích thành công"
+          `${tNotification("ActionDetailRoom.likeRoom.title")}`,
+          `${tNotification("ActionDetailRoom.likeRoom.content")}`
         );
         setIsLike(true);
 
         const newNotification: NotifiType = {
           id: `Dtr${getFormattedDateTime()}`,
-          title: "Yêu thích",
-          content: "Thêm phòng vào mục yêu thích thành công",
+          title: `${tLocalNotifi("ActionDetailRoom.likeRoom.title")}`,
+          content: `${tLocalNotifi("ActionDetailRoom.likeRoom.content")}`,
           date: `${getCurrentDateTime()}`,
           type: "success",
         };
@@ -106,8 +111,8 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
     } else {
       openNotification(
         "warning",
-        "Yêu thích",
-        "Bạn phải đăng nhập để thêm phòng vào mục yêu thích"
+        `${tNotification("ActionDetailRoom.likeWarning.title")}`,
+        `${tNotification("ActionDetailRoom.likeWarning.content")}`
       );
     }
   };
@@ -131,15 +136,15 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
         );
         openNotification(
           "success",
-          "Yêu thích",
-          "Xoá phòng khỏi mục yêu thích thành công"
+          `${tNotification("ActionDetailRoom.unlikeRoom.title")}`,
+          `${tNotification("ActionDetailRoom.unlikeRoom.content")}`
         );
         setIsLike(false);
 
         const newNotification: NotifiType = {
           id: `Dtr${getFormattedDateTime()}`,
-          title: "Yêu thích",
-          content: "Xoá phòng khỏi mục yêu thích thành công",
+          title: `${tLocalNotifi("ActionDetailRoom.unlikeRoom.title")}`,
+          content: `${tLocalNotifi("ActionDetailRoom.unlikeRoom.content")}`,
           date: `${getCurrentDateTime()}`,
           type: "success",
         };
@@ -215,12 +220,18 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
             <p className="font-bold text-custome-black-100">
               {setRatingRoom()}
               <span className="font-normal text-custome-gray-200">
-                {` (${commentCount} đánh giá)`}
+                {` (${commentCount} ${tOptionBooking("evaluate")})`}
               </span>
             </p>
           </div>
           <p className="text-custome-gray-200">
-            {`${room.khach} khách - ${room.phongNgu} phòng ngủ - ${room.giuong} giường - ${room.phongTam} phòng tắm`}
+            {`${room.khach} ${tSearchPage("SearchCart.guests")} - ${
+              room.phongNgu
+            } ${tSearchPage("SearchCart.bedrooms")} - ${
+              room.giuong
+            } ${tSearchPage("SearchCart.beds")} - ${
+              room.phongTam
+            } ${tSearchPage("SearchCart.baths")}`}
           </p>
           <Link
             href={
@@ -253,7 +264,7 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
               icon={faShare}
             />
             <p className="underline transition-all duration-500 ease-in-out group-hover:text-primary-100">
-              Chia sẻ
+              {tActionDetailRoom("titleH1")}
             </p>
           </div>
 
@@ -275,7 +286,9 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
               icon={faHeart}
             />
             <p className="underline transition-all duration-500 ease-in-out group-hover:text-primary-100">
-              {isLike ? "Bỏ lưu" : "Lưu"}
+              {isLike
+                ? `${tActionDetailRoom("unlikeRoom")}`
+                : `${tActionDetailRoom("likeRoom")}`}
             </p>
           </div>
         </div>

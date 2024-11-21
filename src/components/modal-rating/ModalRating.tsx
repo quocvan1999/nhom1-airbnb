@@ -18,6 +18,7 @@ import { BookingType } from "@/types/booking/bookingType.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { useTranslations } from "next-intl";
 
 type Props = {
   isModalViewRatingOpen: boolean;
@@ -34,6 +35,9 @@ const ModalRating: React.FC<Props> = ({
   isRating,
   setIsRating,
 }) => {
+  const tNotification = useTranslations("Notification");
+  const tLocalNotifi = useTranslations("LocalNotifi");
+  const tModalRating = useTranslations("ModalRating");
   const { profile } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
   const { openNotification } = useNotification();
@@ -75,15 +79,19 @@ const ModalRating: React.FC<Props> = ({
     if (res) {
       switch (res.statusCode) {
         case 201:
-          openNotification("success", "Đánh giá", "Thêm đánh giá thành công");
+          openNotification(
+            "success",
+            `${tNotification("ModalRating.ratingSuccess.title")}`,
+            `${tNotification("ModalRating.ratingSuccess.content")}`
+          );
           setIsModalViewRatingOpen(false);
           formComment.resetForm();
           setRatingLocal(booking.id);
 
           const newNotification: NotifiType = {
             id: `Rt${getFormattedDateTime()}`,
-            title: "Đánh giá",
-            content: "Thêm đánh giá thành công",
+            title: `${tLocalNotifi("ModalRating.ratingSuccess.title")}`,
+            content: `${tLocalNotifi("ModalRating.ratingSuccess.content")}`,
             date: `${getCurrentDateTime()}`,
             type: "success",
           };
@@ -98,8 +106,8 @@ const ModalRating: React.FC<Props> = ({
         default:
           openNotification(
             "error",
-            "Đánh giá",
-            "Thêm đánh giá không thành công"
+            `${tNotification("ModalRating.ratingError.title")}`,
+            `${tNotification("ModalRating.ratingError.content")}`
           );
           break;
       }
@@ -110,7 +118,9 @@ const ModalRating: React.FC<Props> = ({
     initialValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      comment: Yup.string().required("Đánh giá không được để trống"),
+      comment: Yup.string().required(
+        `${tModalRating("FormRating.comment.required")}`
+      ),
     }),
     onSubmit: (values) => {
       handleComment(values);
@@ -146,7 +156,7 @@ const ModalRating: React.FC<Props> = ({
             />
             <textarea
               name="comment"
-              placeholder="Nhập vào đánh giá của bạn..."
+              placeholder={tModalRating("FormRating.placeholder")}
               onChange={formComment.handleChange}
               value={formComment.values.comment}
               className="border rounded-xl min-h-[100px] md:min-h-[150px] w-[100%] p-3 focus:outline-none"
@@ -162,7 +172,7 @@ const ModalRating: React.FC<Props> = ({
                 size="large"
                 className="bg-primary-100 px-3 py-2 text-white font-medium rounded-lg transition-all duration-500 ease-in-out hover:bg-primary-200"
               >
-                Huỷ
+                {tModalRating("buttonCancelTitle")}
               </Button>
               <Button
                 type="primary"
@@ -170,7 +180,7 @@ const ModalRating: React.FC<Props> = ({
                 htmlType="submit"
                 className="bg-primary-100 px-3 py-2 text-white font-medium rounded-lg transition-all duration-500 ease-in-out hover:bg-primary-200"
               >
-                Thêm đánh giá
+                {tModalRating("buttonRatingTitle")}
               </Button>
             </div>
           </Form.Item>

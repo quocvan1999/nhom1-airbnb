@@ -4,7 +4,7 @@ import {
   toSlugWithId,
   truncateString,
 } from "@/utils/method/method";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React from "react";
 
@@ -14,6 +14,7 @@ type Props = {
 
 const RoomItem: React.FC<Props> = ({ data }) => {
   const locale = useLocale();
+  const tSearchPage = useTranslations("SearchPage");
   return (
     <Link
       href={`/${locale}/room/${toSlugWithId(data.tenPhong, data.id)}`}
@@ -32,11 +33,11 @@ const RoomItem: React.FC<Props> = ({ data }) => {
           {truncateString(data.moTa, 60)}
         </p>
         <p className="text-custome-black-100 font-bold">
-          {convertUSDToVND(data.giaTien)}/đêm
+          {locale === "vi" ? convertUSDToVND(data.giaTien) : `${data.giaTien}$`}
+          /{tSearchPage("SearchCart.night")}
         </p>
       </div>
     </Link>
   );
 };
-// w-[calc((100%-36px)/4)]
 export default RoomItem;

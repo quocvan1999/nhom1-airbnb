@@ -3,79 +3,501 @@
     "Header": {
       "HeaderSearch": {
         "searchTab": {
-          "searchTab1": "Stays",
+          "searchTab1": "Accommodation",
           "searchTab2": "Experiences"
         },
         "searchInputTab1": {
           "searchInput1": {
-            "title": "Where",
-            "placeholder": "Search destinations"
+            "title": "Destination",
+            "placeholder": "Search for a destination"
           },
           "searchInput2": {
-            "title": "Check in",
-            "placeholder": "Add dates"
+            "title": "Check-in",
+            "placeholder": "Add date"
           },
           "searchInput3": {
-            "title": "Check out",
-            "placeholder": "Add dates"
+            "title": "Check-out",
+            "placeholder": "Add date"
           },
           "searchInput4": {
-            "title": "Who",
-            "placeholder": "Add guests"
+            "title": "Add guests",
+            "placeholder": "Search for a destination"
           }
         },
         "searchInputTab2": {
           "searchInput2": {
             "title": "Date",
-            "placeholder": "Add dates"
+            "placeholder": "Add date"
           }
         }
       },
       "HeaderSearchMini": {
-        "title1": "Any where",
+        "title1": "Any location",
         "title2": "Any week",
-        "title3": "Add guests"
+        "title3": "Add anything"
       },
       "LinkAdmin": {
-        "title": "Go to admin page"
+        "title": "Go to Admin page"
       },
       "Notification": {
-        "title": "Notification",
+        "title": "Notifications",
         "content": "No new notifications",
-        "titleDelete": "Clear all notifications"
+        "titleDelete": "Delete all notifications"
       },
       "HeaderUserContainer": {
-        "viewProfile": "View Profile",
+        "viewProfile": "View profile",
         "Login": "Login",
         "Logout": "Logout",
-        "Singn": "Singn"
+        "Singn": "Sign up"
       }
-    }
+    },
+    "title1": "Favorite rooms",
+    "title2": "Wherever"
   },
   "Notification": {
     "HeaderSearch": {
       "notification1": {
         "title": "Search",
-        "content1": "Destination cannot be left empty"
+        "content1": "Destination cannot be empty"
+      }
+    },
+    "RegisterPage": {
+      "RegisterSuccess": {
+        "title": "Register",
+        "content": "Successfully registered a new account"
+      },
+      "RegisterWarning": {
+        "title": "Register",
+        "content": "Account registration failed"
+      }
+    },
+    "ProfilePage": {
+      "ErrorUploadImage1": {
+        "title": "Profile picture",
+        "content": "Please choose a file with format (jpg, jpeg, png, gif)"
+      },
+      "ErrorUploadImage2": {
+        "title": "Profile picture",
+        "content": "Image size must be under 1MB"
+      },
+      "UpdateAvatarSucces": {
+        "title": "Profile",
+        "content": "Avatar updated successfully"
+      },
+      "UpdateAvatarError": {
+        "title": "Profile",
+        "content": "Avatar update failed"
+      },
+      "LogoutSuccess": {
+        "title": "Logout",
+        "content": "Successfully logged out"
+      },
+      "CancelBookingSuccess": {
+        "title": "Booking",
+        "content": "Booking cancellation successful"
+      },
+      "CancelBookingError": {
+        "title": "Booking",
+        "content": "Booking cancellation failed"
+      }
+    },
+    "OptionBooking": {
+      "BookingSuccess": {
+        "title": "Booking",
+        "content": "Booking successful"
+      },
+      "BookingWarning1": {
+        "title": "Booking",
+        "content": "You must fill in all the information"
+      },
+      "BookingWarning2": {
+        "title": "Booking",
+        "content": "You must log in to book"
+      }
+    },
+    "ModalUpdateUser": {
+      "UpdateSuccess": {
+        "title": "Profile",
+        "content": "Information updated successfully"
+      },
+      "UpdateError": {
+        "title": "Profile",
+        "content": "Information update failed"
+      }
+    },
+    "ModalUpdateBooking": {
+      "updateBookingSuccess": {
+        "title": "Booking",
+        "content": "Booking information updated successfully"
+      }
+    },
+    "ModalRating": {
+      "ratingSuccess": {
+        "title": "Review",
+        "content": "Review added successfully"
+      },
+      "ratingError": {
+        "title": "Review",
+        "content": "Review addition failed"
+      }
+    },
+    "LoginPage": {
+      "LoginSuccess": {
+        "title": "Login",
+        "content": "Successfully logged in"
+      },
+      "LoginError": {
+        "title": "Login",
+        "content": "Login failed"
+      }
+    },
+    "HeaderUserContainer": {
+      "LogoutSuccess": {
+        "title": "Logout",
+        "content": "Successfully logged out"
+      }
+    },
+    "Favourites": {
+      "deleteFavouriteSuccess": {
+        "title": "Favourites",
+        "content": "Successfully removed room from favourites"
+      }
+    },
+    "ActionDetailRoom": {
+      "likeRoom": {
+        "title": "Favourites",
+        "content": "Successfully added room to favourites"
+      },
+      "likeWarning": {
+        "title": "Favourites",
+        "content": "You must log in to add room to favourites"
+      },
+      "unlikeRoom": {
+        "title": "Favourites",
+        "content": "Successfully removed room from favourites"
+      }
+    }
+  },
+  "LocalNotifi": {
+    "ProfilePage": {
+      "UpdateAvatarSucces": {
+        "title": "Profile",
+        "content": "Avatar updated successfully"
+      },
+      "CancelBookingSuccess": {
+        "title": "Booking",
+        "content": "Booking cancellation successful"
+      },
+      "CancelBookingError": {
+        "title": "Booking",
+        "content": "Booking cancellation failed"
+      }
+    },
+    "OptionBooking": {
+      "BookingSuccess": {
+        "title": "Booking",
+        "content": "Booking successful"
+      }
+    },
+    "ModalUpdateUser": {
+      "UpdateSuccess": {
+        "title": "Profile",
+        "content": "Information updated successfully"
+      }
+    },
+    "ModalUpdateBooking": {
+      "unlikeRoom": {
+        "title": "Favourites",
+        "content": "Successfully removed room from favourites"
+      }
+    },
+    "ModalRating": {
+      "ratingSuccess": {
+        "title": "Review",
+        "content": "Review added successfully"
+      }
+    },
+    "Favourites": {
+      "deleteFavouriteSuccess": {
+        "title": "Favourites",
+        "content": "Successfully removed room from favourites"
+      }
+    },
+    "ActionDetailRoom": {
+      "likeRoom": {
+        "title": "Favourites",
+        "content": "Successfully added room to favourites"
+      },
+      "unlikeRoom": {
+        "title": "Favourites",
+        "content": "Successfully removed room from favourites"
       }
     }
   },
   "ModalCustomer": {
     "item1": {
       "title": "Adults",
-      "content": "Ages 13 or above"
+      "content": "13 years old and above"
     },
     "item2": {
       "title": "Children",
-      "content": "Ages 2 – 12"
+      "content": "Age 2 - 12"
     },
     "item3": {
       "title": "Infants",
-      "content": "Under 2"
+      "content": "Under 2 years old"
     },
     "item4": {
       "title": "Pets",
       "content": ""
     }
+  },
+  "SearchPage": {
+    "SearchResult": {
+      "title": "Accommodation in the area"
+    },
+    "SearchCart": {
+      "title": "Service apartment at",
+      "guests": "guests",
+      "bedrooms": "bedrooms",
+      "beds": "beds",
+      "baths": "baths",
+      "wifi": "Wi-Fi",
+      "tivi": "TV",
+      "iron1": "Ironing table",
+      "iron2": "Iron",
+      "kitchen": "Kitchen",
+      "airConditioning": "Air conditioning",
+      "freeParkingOnPremises": "Free parking",
+      "night": "night"
+    }
+  },
+  "RegisterPage": {
+    "title": "Register",
+    "FormRegister": {
+      "name": {
+        "required": "Name is required"
+      },
+      "email": {
+        "required": "Email is required",
+        "format": "Email format is incorrect"
+      },
+      "password": {
+        "required": "Password is required"
+      },
+      "phone": {
+        "matches": "Phone number is invalid",
+        "required": "Phone is required"
+      },
+      "birthday": {
+        "required": "Birthday is required"
+      }
+    },
+    "FormTitle": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "phone": "Phone number",
+      "birthday": "Birthday",
+      "gender": "Gender",
+      "buttonRegister": "Register",
+      "buttonGoToHome": "Go to Homepage",
+      "buttonLogin": "Login"
+    }
+  },
+  "ProfilePage": {
+    "ConfirmUpdateImage": {
+      "title": "Update Profile Picture",
+      "content": "Do you want to change your profile picture?",
+      "okText": "Update",
+      "cancelText": "Cancel"
+    },
+    "ConfirmLogout": {
+      "title": "Log Out",
+      "content": "Do you want to log out?",
+      "okText": "Log Out",
+      "cancelText": "Cancel"
+    },
+    "titleUpdateAvatar": "Update",
+    "titleProfile": "Your Profile",
+    "titleUpdateButton": "Update Profile",
+    "titleButtonLogout": "Log Out",
+    "Tabs": {
+      "titleTab1": "Booked Rooms",
+      "titleTab2": "Favorite Rooms"
+    },
+    "ProfileCard": {
+      "ConfirmCancelBooking": {
+        "title": "Cancel Booking",
+        "content": "Do you want to cancel this booking?",
+        "okText": "Cancel Booking",
+        "cancelText": "Cancel"
+      },
+      "Tooltip": {
+        "tooltip1": "Rate Room",
+        "tooltip2": "Cancel Booking",
+        "tooltip3": "Edit Booking",
+        "tooltip4": "View Room Details"
+      },
+      "checkin": "Check-in Date:",
+      "checkout": "Check-out Date:",
+      "countNumber": "Number of People:",
+      "price": "Room Price:",
+      "total": "Total Price:"
+    }
+  },
+  "OptionBooking": {
+    "ConfirmLogout": {
+      "title": "Book Room",
+      "content": "Do you want to book this room?",
+      "okText": "Book Room",
+      "cancelText": "Cancel"
+    },
+    "evaluate": "evaluate",
+    "checkin": "Check-in",
+    "checkout": "Check-out",
+    "addDate": "Add Date",
+    "guest": "Guest",
+    "totalGuest": "Total Guests",
+    "titleButtonBooking": "Book Room",
+    "serviceFee": "Service Fee",
+    "total": "Total"
+  },
+  "NavMobile": {
+    "NotificationTitle": "Notifications",
+    "ProfileTitle": "Profile",
+    "LoginTitle": "Login",
+    "HomeTitle": "Home"
+  },
+  "ModalUpdateUser": {
+    "ConfirmUpdate": {
+      "title": "Update Information",
+      "content": "Do you want to update your information?",
+      "okText": "Update",
+      "cancelText": "Cancel"
+    },
+    "FormUpdateUser": {
+      "name": {
+        "required": "Name cannot be empty"
+      },
+      "email": {
+        "required": "Email cannot be empty",
+        "format": "Invalid email format"
+      },
+      "phone": {
+        "matches": "Invalid phone number",
+        "required": "Phone number cannot be empty"
+      },
+      "birthday": {
+        "required": "Birthday cannot be empty"
+      }
+    },
+    "FormLabel": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "birthday": "Birthday",
+      "gender": "Gender"
+    },
+    "title": "Edit Profile",
+    "FormPlaceholder": {
+      "name": "Enter Name",
+      "email": "Enter Email",
+      "phone": "Enter Phone Number"
+    },
+    "buttonUpdateTitle": "Update"
+  },
+  "ModalUpdateBooking": {
+    "ConfirmUpdate": {
+      "title": "Update Booking Information",
+      "content": "Do you want to update your booking information?",
+      "okText": "Update",
+      "cancelText": "Cancel"
+    },
+    "title": "Update Booking Information",
+    "checkin": "Check-in Date",
+    "checkout": "Check-out Date",
+    "countNumber": "Number of Guests",
+    "selectCountNumber": "Select Number of Guests",
+    "UpdateButtonTitle": "Update"
+  },
+  "ModalShareRoom": {
+    "contentMessage": "Link copied successfully",
+    "title": "Share this Experience"
+  },
+  "ModalRating": {
+    "FormRating": {
+      "comment": {
+        "required": "Review cannot be empty"
+      },
+      "placeholder": "Enter your review..."
+    },
+    "buttonCancelTitle": "Cancel",
+    "buttonRatingTitle": "Add Review"
+  },
+  "LoginPage": {
+    "FormLogin": {
+      "email": {
+        "required": "Email cannot be empty",
+        "format": "Invalid email format"
+      },
+      "password": {
+        "required": "Password cannot be empty"
+      }
+    },
+    "title": "Login",
+    "FormLabel": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "FormPlaceholder": {
+      "email": "Enter Email",
+      "password": "Enter Password"
+    },
+    "forgotPassword": "Forgot Password",
+    "goToHome": "Go to Homepage",
+    "buttonLoginTitle": "Login",
+    "register": "Register",
+    "titleRegister": "Don't have an account?",
+    "welcome": "Welcome Back",
+    "contentRegister": "Don't have an account?"
+  },
+  "HeaderUserContainer": {
+    "ConfirmLogout": {
+      "title": "Log Out",
+      "content": "Do you want to log out?",
+      "okText": "Log Out",
+      "cancelText": "Cancel"
+    }
+  },
+  "Footer": {
+    "titleH1": "Inspiration for your next getaway",
+    "titleH2": "Privacy Policy",
+    "titleH3": "Terms and Conditions",
+    "titleH4": "Site Map"
+  },
+  "Favourites": {
+    "Tooltip": {
+      "tooltip1": "Remove from favorites",
+      "tooltip2": "View Room Details"
+    }
+  },
+  "DetailHeaderHost": {
+    "typeHost": {
+      "type1": "New Host",
+      "type2": "Experienced Host",
+      "type3": "Super Host"
+    },
+    "content": "Host/Organizer:"
+  },
+  "Comments": {
+    "titleH1": "Room Reviews",
+    "titleH2": "Stars",
+    "titleNot": "No reviews"
+  },
+  "ActionDetailRoom": {
+    "titleH1": "Share",
+    "likeRoom": "Save",
+    "unlikeRoom": "Remove from saved"
   }
 }

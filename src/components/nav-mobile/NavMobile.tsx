@@ -5,7 +5,7 @@ import HeaderNotificationClient from "@/components/header-notification-client/He
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ type Props = {};
 
 const NavMobile: React.FC<Props> = ({}) => {
   const locale = useLocale();
+  const tNavMobile = useTranslations("NavMobile");
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
   const { profile } = useSelector((state: RootState) => state.user);
@@ -36,7 +37,7 @@ const NavMobile: React.FC<Props> = ({}) => {
           className="flex flex-col items-center justify-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
         >
           <HeaderNotificationClient userType="client" type="mobile" />
-          <p className="text-xs">Thông báo</p>
+          <p className="text-xs">{tNavMobile("NotificationTitle")}</p>
         </Link>
       )}
       <Link
@@ -64,7 +65,11 @@ const NavMobile: React.FC<Props> = ({}) => {
             />
           )}
         </div>
-        <p className="text-xs">{isLogin === true ? "Hồ sơ" : "Đăng nhập"}</p>
+        <p className="text-xs">
+          {isLogin === true
+            ? `${tNavMobile("ProfileTitle")}`
+            : `${tNavMobile("LoginTitle")}`}
+        </p>
       </Link>
       <Link
         href={`/${locale}`}
@@ -77,7 +82,7 @@ const NavMobile: React.FC<Props> = ({}) => {
             icon={faHouse}
           />
         </div>
-        <p className="text-xs">Trang chủ</p>
+        <p className="text-xs">{tNavMobile("HomeTitle")}</p>
       </Link>
     </div>
   );

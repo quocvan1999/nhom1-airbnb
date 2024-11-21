@@ -9,7 +9,7 @@ import {
   toSlugWithId,
   truncateString,
 } from "@/utils/method/method";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -19,6 +19,7 @@ type Props = {
 
 const SearchCard: React.FC<Props> = ({ item }) => {
   const locale = useLocale();
+  const tSearchPage = useTranslations("SearchPage");
   const [location, setLocation] = useState<LocationType | null>(null);
 
   const getLocation = async (): Promise<void> => {
@@ -49,26 +50,41 @@ const SearchCard: React.FC<Props> = ({ item }) => {
       <div className="w-full h-full flex md:w-[65%] flex-col justify-between">
         <div>
           <p className="text-custome-gray-200">
-            Căn hộ dịch vụ tại {location?.tenViTri}
+            {tSearchPage("SearchCart.title")} {location?.tenViTri}
           </p>
           <h1 className="text-[18px] font-medium text-custome-black-100">
             {truncateString(item.tenPhong, 100)}
           </h1>
           <hr className="w-[30px] my-3" />
           <p className="text-custome-gray-200">
-            {`${item.khach} khách - ${item.phongNgu} phòng ngủ - ${item.giuong} giường - ${item.phongTam} phòng tắm`}
+            {`${item.khach} ${tSearchPage("SearchCart.guests")} - ${
+              item.phongNgu
+            } ${tSearchPage("SearchCart.bedrooms")} - ${
+              item.giuong
+            } ${tSearchPage("SearchCart.beds")} - ${
+              item.phongTam
+            } ${tSearchPage("SearchCart.baths")}`}
           </p>
           <p className="text-custome-gray-200">
-            {item.wifi && "Wifi - "} {item.tivi && "Tivi - "}{" "}
-            {item.banLa && "Bàn là - "} {item.banUi && "Bàn ủi - "}{" "}
-            {item.bep && "Bếp - "} {item.dieuHoa && "Điều hoà - "}{" "}
-            {item.doXe && "Bãi đỗ xe - "}
+            {item.wifi && `${tSearchPage("SearchCart.wifi")} - `}{" "}
+            {item.tivi && `${tSearchPage("SearchCart.tivi")} - `}{" "}
+            {item.banLa && `${tSearchPage("SearchCart.iron1")} - `}{" "}
+            {item.banUi && `${tSearchPage("SearchCart.iron2")} - `}{" "}
+            {item.bep && `${tSearchPage("SearchCart.kitchen")} - `}{" "}
+            {item.dieuHoa && `${tSearchPage("SearchCart.airConditioning")} - `}{" "}
+            {item.doXe &&
+              `${tSearchPage("SearchCart.freeParkingOnPremises")} - `}
           </p>
         </div>
         <div className="text-end">
           <p className="text-custome-black-100 font-bold">
-            {convertUSDToVND(item.giaTien)}/
-            <span className="font-normal">/đêm</span>
+            {locale === "vi"
+              ? convertUSDToVND(item.giaTien)
+              : `${item.giaTien}$`}
+            /
+            <span className="font-normal">
+              /{tSearchPage("SearchCart.night")}
+            </span>
           </p>
         </div>
       </div>
