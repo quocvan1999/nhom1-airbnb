@@ -18,10 +18,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/[locale]/globalRedux/store";
 import { toSlugWithId } from "@/utils/method/method";
 import { LocationType } from "@/types/location/locationType.type";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = {};
 
 const HeaderSearch: React.FC<Props> = ({}) => {
+  const tHeader = useTranslations("HomePage");
+  const tNotifi = useTranslations("Notification");
+  const locale = useLocale();
   const router: AppRouterInstance = useRouter();
   const { openNotification } = useNotification();
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
@@ -58,7 +62,7 @@ const HeaderSearch: React.FC<Props> = ({}) => {
   const handleSearch = (): void => {
     if (searchLocation !== "" && location) {
       router.push(
-        `/search?vitri=${toSlugWithId(
+        `/${locale}/search?vitri=${toSlugWithId(
           `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`,
           location.id
         )}`
@@ -68,7 +72,11 @@ const HeaderSearch: React.FC<Props> = ({}) => {
       setDateCheckin(null);
       setDateCheckout(null);
     } else {
-      openNotification("warning", "Tìm kiếm", "Điểm đến không được bỏ trống");
+      openNotification(
+        "warning",
+        `${tNotifi("HeaderSearch.notification1.title")}`,
+        `${tNotifi("HeaderSearch.notification1.content1")}`
+      );
     }
   };
 
@@ -125,7 +133,7 @@ const HeaderSearch: React.FC<Props> = ({}) => {
               }`}
               onClick={handleChangeTypeSearch}
             >
-              Chỗ ở
+              {tHeader("Header.HeaderSearch.searchTab.searchTab1")}
             </li>
             <li
               className={` cursor-pointer ${
@@ -133,7 +141,7 @@ const HeaderSearch: React.FC<Props> = ({}) => {
               }`}
               onClick={handleChangeTypeSearch}
             >
-              Trải nghiệm
+              {tHeader("Header.HeaderSearch.searchTab.searchTab2")}
             </li>
           </motion.ul>
         )}
@@ -168,7 +176,11 @@ const HeaderSearch: React.FC<Props> = ({}) => {
           {isScroll === false ? (
             <>
               <div className="px-7 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer">
-                <p className="text-[12px] font-medium">Địa điểm</p>
+                <p className="text-[12px] font-medium">
+                  {tHeader(
+                    "Header.HeaderSearch.searchInputTab1.searchInput1.title"
+                  )}
+                </p>
                 <Dropdown
                   trigger={["click"]}
                   open={isOpenDropdown}
@@ -187,7 +199,9 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     allowClear
                     defaultValue={searchLocation}
                     value={searchLocation}
-                    placeholder="Tìm kiếm điểm đến"
+                    placeholder={tHeader(
+                      "Header.HeaderSearch.searchInputTab1.searchInput1.placeholder"
+                    )}
                     onChange={(e) => {
                       setSearchLocation(e.target.value);
                     }}
@@ -196,11 +210,19 @@ const HeaderSearch: React.FC<Props> = ({}) => {
               </div>
               <div className="px-7 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer">
                 <p className="text-[12px] font-medium">
-                  {typeSearch === false ? "Nhận phòng" : "Ngày"}
+                  {typeSearch === false
+                    ? `${tHeader(
+                        "Header.HeaderSearch.searchInputTab1.searchInput2.title"
+                      )}`
+                    : `${tHeader(
+                        "Header.HeaderSearch.searchInputTab2.searchInput2.title"
+                      )}`}
                 </p>
                 <DatePicker
                   suffixIcon={false}
-                  placeholder="Thêm ngày"
+                  placeholder={tHeader(
+                    "Header.HeaderSearch.searchInputTab1.searchInput2.placeholder"
+                  )}
                   className="!py-0"
                   onChange={onChangeCheckin}
                   value={dateCheckin}
@@ -212,10 +234,16 @@ const HeaderSearch: React.FC<Props> = ({}) => {
               </div>
               {typeSearch === false && (
                 <div className="px-7 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer">
-                  <p className="text-[12px] font-medium">Trả phòng</p>
+                  <p className="text-[12px] font-medium">
+                    {tHeader(
+                      "Header.HeaderSearch.searchInputTab1.searchInput3.title"
+                    )}
+                  </p>
                   <DatePicker
                     suffixIcon={false}
-                    placeholder="Thêm ngày"
+                    placeholder={tHeader(
+                      "Header.HeaderSearch.searchInputTab1.searchInput3.placeholder"
+                    )}
                     className="!py-0"
                     onChange={onChangeCheckout}
                     value={dateCheckout}
@@ -228,7 +256,11 @@ const HeaderSearch: React.FC<Props> = ({}) => {
               )}
               <div className="ps-7 pe-2 py-2 rounded-full hover:bg-custome-gray-100 cursor-pointer flex justify-between">
                 <div>
-                  <p className="text-[12px] font-medium">Thêm khách</p>
+                  <p className="text-[12px] font-medium">
+                    {tHeader(
+                      "Header.HeaderSearch.searchInputTab1.searchInput4.title"
+                    )}
+                  </p>
                   <Dropdown
                     trigger={["click"]}
                     placement="bottom"
@@ -240,7 +272,9 @@ const HeaderSearch: React.FC<Props> = ({}) => {
                     )}
                   >
                     <Input
-                      placeholder="Tìm kiếm điểm đến"
+                      placeholder={tHeader(
+                        "Header.HeaderSearch.searchInputTab1.searchInput4.placeholder"
+                      )}
                       value={countMember === 0 ? "" : countMember}
                     />
                   </Dropdown>
@@ -260,11 +294,15 @@ const HeaderSearch: React.FC<Props> = ({}) => {
           ) : (
             <div className="flex">
               <ul className="flex p-1 items-center cursor-pointer">
-                <li className="px-2 font-medium text-black">Địa điểm bất kỳ</li>
-                <li className="border-s border-e px-2 font-medium text-black">
-                  Tuần bất kỳ
+                <li className="px-2 font-medium text-black">
+                  {tHeader("Header.HeaderSearchMini.title1")}
                 </li>
-                <li className="px-2 text-custome-gray-200">Thêm bất kỳ</li>
+                <li className="border-s border-e px-2 font-medium text-black">
+                  {tHeader("Header.HeaderSearchMini.title2")}
+                </li>
+                <li className="px-2 text-custome-gray-200">
+                  {tHeader("Header.HeaderSearchMini.title3")}
+                </li>
               </ul>
               <div className="bg-primary-100 m-1 w-10 h-10 rounded-full p-2 cursor-pointer flex items-center justify-center transition-all duration-500 ease-in-out hover:bg-primary-200">
                 <FontAwesomeIcon

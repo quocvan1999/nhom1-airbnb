@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
+import { useLocale } from "next-intl";
 
 type Props = {
   setModalType: React.Dispatch<
@@ -53,6 +54,7 @@ const ModalViewUser: React.FC<Props> = ({
   modalType,
   getData,
 }) => {
+  const locale = useLocale();
   const router = useRouter();
   const { openNotification } = useNotification();
   const dispatch: AppDispatch = useDispatch();
@@ -118,7 +120,7 @@ const ModalViewUser: React.FC<Props> = ({
               "Thêm người dùng",
               "Thêm người dùng thành công"
             );
-            router.push("/admin");
+            router.push(`/${locale}/admin`);
             setIsModalViewUserOpen(false);
 
             const newNotification: NotifiType = {

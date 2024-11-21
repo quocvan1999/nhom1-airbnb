@@ -51,7 +51,7 @@ const Home: React.FC<Props> = ({ searchParams }) => {
     <div>
       <CaroucelContainer />
       <div className="mt-10">
-        <TitleH1 title="Trải nghiệm đã qua" />
+        <TitleH1 title="TEST" />
         <Rooms page={searchParams.page} size={searchParams.size} />
       </div>
       <div className="mt-10">

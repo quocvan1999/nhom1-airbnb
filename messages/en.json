@@ -1,6 +1,81 @@
 {
-    "HomePage": {
-        "title": "Hello world!",
-        "about": "Go to the about page"
+  "HomePage": {
+    "Header": {
+      "HeaderSearch": {
+        "searchTab": {
+          "searchTab1": "Stays",
+          "searchTab2": "Experiences"
+        },
+        "searchInputTab1": {
+          "searchInput1": {
+            "title": "Where",
+            "placeholder": "Search destinations"
+          },
+          "searchInput2": {
+            "title": "Check in",
+            "placeholder": "Add dates"
+          },
+          "searchInput3": {
+            "title": "Check out",
+            "placeholder": "Add dates"
+          },
+          "searchInput4": {
+            "title": "Who",
+            "placeholder": "Add guests"
+          }
+        },
+        "searchInputTab2": {
+          "searchInput2": {
+            "title": "Date",
+            "placeholder": "Add dates"
+          }
+        }
+      },
+      "HeaderSearchMini": {
+        "title1": "Any where",
+        "title2": "Any week",
+        "title3": "Add guests"
+      },
+      "LinkAdmin": {
+        "title": "Go to admin page"
+      },
+      "Notification": {
+        "title": "Notification",
+        "content": "No new notifications",
+        "titleDelete": "Clear all notifications"
+      },
+      "HeaderUserContainer": {
+        "viewProfile": "View Profile",
+        "Login": "Login",
+        "Logout": "Logout",
+        "Singn": "Singn"
+      }
     }
+  },
+  "Notification": {
+    "HeaderSearch": {
+      "notification1": {
+        "title": "Search",
+        "content1": "Destination cannot be left empty"
+      }
+    }
+  },
+  "ModalCustomer": {
+    "item1": {
+      "title": "Adults",
+      "content": "Ages 13 or above"
+    },
+    "item2": {
+      "title": "Children",
+      "content": "Ages 2 – 12"
+    },
+    "item3": {
+      "title": "Infants",
+      "content": "Under 2"
+    },
+    "item4": {
+      "title": "Pets",
+      "content": ""
+    }
+  }
 }

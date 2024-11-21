@@ -10,10 +10,12 @@ import { registerAsync } from "@/services/register/register.service";
 import React from "react";
 import Link from "next/link";
 import * as Yup from "yup";
+import { useLocale } from "next-intl";
 
 type Props = {};
 
 const RegisterPage: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const router: AppRouterInstance = useRouter();
   const { openNotification } = useNotification();
 
@@ -39,7 +41,7 @@ const RegisterPage: React.FC<Props> = ({}) => {
           "Đăng ký tài khoản mới thành công"
         );
         setTimeout(() => {
-          router.push("/auth/login");
+          router.push(`/${locale}/auth/login`);
         }, 300);
         break;
       default:
@@ -249,13 +251,13 @@ const RegisterPage: React.FC<Props> = ({}) => {
         </Form>
         <div className="flex items-center justify-between">
           <Link
-            href="/"
+            href={`/${locale}`}
             className="text-custome-gray-200 underline transition-all duration-500 ease-in-out hover:underline hover:text-primary-100 text-[14px]"
           >
             Quay về trang chủ
           </Link>
           <Link
-            href="/auth/login"
+            href={`/${locale}/auth/login`}
             className="text-custome-gray-200 underline transition-all duration-500 ease-in-out hover:underline hover:text-primary-100 text-[14px]"
           >
             Đăng nhập

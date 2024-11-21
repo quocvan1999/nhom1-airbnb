@@ -3,6 +3,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Providers } from "@/app/[locale]/globalRedux/provider";
 import { NextIntlClientProvider } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import { getMessages } from "next-intl/server";
 import "./globals.css";
 
@@ -15,6 +17,10 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }>) {
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
   const messages = await getMessages();
 
   return (

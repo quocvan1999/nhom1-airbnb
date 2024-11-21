@@ -30,6 +30,7 @@ import {
 } from "antd";
 import { createStyles } from "antd-style";
 import { AxiosResponse } from "axios";
+import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,6 +64,7 @@ const useStyle = createStyles(({ css }) => {
 const { confirm } = Modal;
 
 const Bookings: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const router = useRouter();
   const { styles } = useStyle();
   const dispatch: AppDispatch = useDispatch();
@@ -313,7 +315,7 @@ const Bookings: React.FC<Props> = ({}) => {
                   total={bookings.length}
                   onChange={(page: number, pageSize: number): void => {
                     router.push(
-                      `/admin/bookings/?page=${page}&size=${pageSize}`
+                      `/${locale}/admin/bookings/?page=${page}&size=${pageSize}`
                     );
                   }}
                   showSizeChanger
@@ -363,7 +365,9 @@ const Bookings: React.FC<Props> = ({}) => {
                 defaultPageSize={Number(size)}
                 total={bookings.length}
                 onChange={(page: number, pageSize: number): void => {
-                  router.push(`/admin/bookings/?page=${page}&size=${pageSize}`);
+                  router.push(
+                    `/${locale}/admin/bookings/?page=${page}&size=${pageSize}`
+                  );
                 }}
                 showSizeChanger
               />

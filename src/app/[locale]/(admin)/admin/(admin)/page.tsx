@@ -41,6 +41,7 @@ import {
   getCurrentDateTime,
   getFormattedDateTime,
 } from "@/utils/method/method";
+import { useLocale } from "next-intl";
 
 type DataIndex = keyof User;
 
@@ -61,6 +62,7 @@ const useStyle = createStyles(({ css }) => {
 const { confirm } = Modal;
 
 const AdminPage: React.FC = () => {
+  const locale = useLocale();
   const router = useRouter();
   const { styles } = useStyle();
   const { getParams, searchParams } = useGetSearchPrams();
@@ -83,10 +85,13 @@ const AdminPage: React.FC = () => {
   const handleSearchUsers = async (searchValue: string): Promise<void> => {
     if (searchValue !== "") {
       router.push(
-        `/admin/?page=1&size=10&keyword=${searchValue.replace(/\s+/g, "")}`
+        `/${locale}/admin/?page=1&size=10&keyword=${searchValue.replace(
+          /\s+/g,
+          ""
+        )}`
       );
     } else {
-      router.push(`/admin/?page=1&size=10`);
+      router.push(`/${locale}/admin/?page=1&size=10`);
     }
   };
 
@@ -356,7 +361,7 @@ const AdminPage: React.FC = () => {
                   onChange={(page: number, pageSize: number): void => {
                     const { keyword } = getParams();
                     router.push(
-                      `/admin/?page=${page}&size=${pageSize}&keyword=${keyword}`
+                      `/${locale}/admin/?page=${page}&size=${pageSize}&keyword=${keyword}`
                     );
                   }}
                 />
@@ -432,7 +437,7 @@ const AdminPage: React.FC = () => {
                 onChange={(page: number, pageSize: number): void => {
                   const { keyword } = getParams();
                   router.push(
-                    `/admin/?page=${page}&size=${pageSize}&keyword=${keyword}`
+                    `/${locale}/admin/?page=${page}&size=${pageSize}&keyword=${keyword}`
                   );
                 }}
               />

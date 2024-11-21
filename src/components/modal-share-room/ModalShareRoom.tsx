@@ -8,6 +8,7 @@ import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { RoomType } from "@/types/room/roomType.type";
 import useCopyToClipboard from "@/custome-hook/useCopyToClipboard/useCopyToClipboard";
+import { useLocale } from "next-intl";
 
 type Props = {
   url: string;

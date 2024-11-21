@@ -10,6 +10,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Dropdown, Modal } from "antd";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,8 @@ const { confirm } = Modal;
 type Props = {};
 
 const HeaderUserContainer: React.FC<Props> = ({}) => {
+  const tHeader = useTranslations("HomePage");
+  const locale = useLocale();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -75,11 +78,19 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
             <Button
               onClick={() => {
                 setIsOpenDropdown(false);
-                router.push(`${isLogin === true ? "/profile" : "/auth/login"}`);
+                router.push(
+                  `${
+                    isLogin === true
+                      ? `/${locale}/profile`
+                      : `/${locale}/auth/login`
+                  }`
+                );
               }}
               className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
             >
-              {isLogin === true ? "Xem hồ sơ" : "Đăng nhập"}
+              {isLogin === true
+                ? `${tHeader("Header.HeaderUserContainer.viewProfile")}`
+                : `${tHeader("Header.HeaderUserContainer.Login")}`}
             </Button>
             {isLogin === true ? (
               <Button
@@ -89,17 +100,17 @@ const HeaderUserContainer: React.FC<Props> = ({}) => {
                 }}
                 className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
               >
-                Đăng xuất
+                {tHeader("Header.HeaderUserContainer.Logout")}
               </Button>
             ) : (
               <Button
                 onClick={() => {
-                  router.push(`/auth/register`);
+                  router.push(`/${locale}/auth/register`);
                   setIsOpenDropdown(false);
                 }}
                 className="!border-none hover:!bg-custome-gray-100 hover:!text-custome-black-100 !rounded-t-none"
               >
-                Đăng ký
+                {tHeader("Header.HeaderUserContainer.Singn")}
               </Button>
             )}
           </div>

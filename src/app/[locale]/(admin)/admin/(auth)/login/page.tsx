@@ -17,10 +17,12 @@ import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { getProfileAsync } from "@/services/profile/profile.service";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import useGetProfile from "@/custome-hook/useGetProfile/useGetProfile";
+import { useLocale } from "next-intl";
 
 type Props = {};
 
 const AdminLoginPage: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
   const { openNotification } = useNotification();
@@ -47,7 +49,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
           if (res.content.user.role === "ADMIN") {
             openNotification("success", "Đăng nhập", "Đăng nhập thành công");
             setTimeout(() => {
-              router.push("/admin");
+              router.push(`/${locale}/admin`);
             }, 300);
 
             const action = getProfileAsync(res.content.user.id);
@@ -105,7 +107,7 @@ const AdminLoginPage: React.FC<Props> = ({}) => {
   useEffect(() => {
     if (profile.role !== "" && checkIsLogin() === true) {
       if (profile.role === "ADMIN") {
-        router.push("/admin");
+        router.push(`/${locale}/admin`);
       } else {
         deleteCookie("accessToken");
         deleteCookie("i_d");

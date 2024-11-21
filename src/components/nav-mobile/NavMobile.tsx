@@ -5,6 +5,7 @@ import HeaderNotificationClient from "@/components/header-notification-client/He
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { useSelector } from "react-redux";
 type Props = {};
 
 const NavMobile: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { checkIsLogin } = useCheckLogin();
   const { profile } = useSelector((state: RootState) => state.user);
@@ -38,7 +40,9 @@ const NavMobile: React.FC<Props> = ({}) => {
         </Link>
       )}
       <Link
-        href={`${isLogin === true ? "/profile" : "/auth/login"}`}
+        href={`${
+          isLogin === true ? `/${locale}/profile` : `/${locale}/auth/login`
+        }`}
         className="flex flex-col items-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
       >
         <div
@@ -63,7 +67,7 @@ const NavMobile: React.FC<Props> = ({}) => {
         <p className="text-xs">{isLogin === true ? "Hồ sơ" : "Đăng nhập"}</p>
       </Link>
       <Link
-        href="/"
+        href={`/${locale}`}
         className="flex flex-col items-center gap-1 transition-all duration-500 ease-in-out hover:text-primary-100 group"
       >
         <div className="w-[35px] h-[35px] rounded-full flex items-center justify-center">

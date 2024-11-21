@@ -23,10 +23,12 @@ import FacebookLogin, {
   ProfileSuccessResponse,
 } from "@greatsumini/react-facebook-login";
 import { registerAsync } from "@/services/register/register.service";
+import { useLocale } from "next-intl";
 
 type Props = {};
 
 const LoginPage: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const router: AppRouterInstance = useRouter();
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
@@ -236,7 +238,7 @@ const LoginPage: React.FC<Props> = ({}) => {
               Nhớ mật khẩu
             </Checkbox>
             <Link
-              href="/"
+              href={`/${locale}`}
               className="text-custome-gray-200 transition-all duration-500 ease-in-out underline hover:underline hover:text-primary-100 text-[14px]"
             >
               Quay về trang chủ
@@ -253,7 +255,7 @@ const LoginPage: React.FC<Props> = ({}) => {
           <div className="text-center lg:hidden">
             <p>Bạn chưa có tài khoản?</p>
             <Link
-              href="/auth/register"
+              href={`/${locale}/auth/register`}
               className="text-custome-black-100 underline hover:underline transition-all duration-500 ease-in-out hover:text-primary-100"
             >
               Đăng ký
@@ -265,7 +267,7 @@ const LoginPage: React.FC<Props> = ({}) => {
         <h1 className="font-bold text-3xl">Chào mừng trở lại</h1>
         <p>Bạn chưa có tài khoản?</p>
         <Link
-          href="/auth/register"
+          href={`/${locale}/auth/register`}
           className="border border-[#fff] px-10 py-2 rounded-[7px] cursor-pointer transition-all duration-500 ease-in-out hover:shadow-lg"
         >
           Đăng ký

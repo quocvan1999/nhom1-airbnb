@@ -37,6 +37,7 @@ import { httpClient } from "@/utils/setting/setting";
 import { AxiosResponse } from "axios";
 import { OptionSelectType } from "@/types/option-select/optionSelectType.type";
 import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
+import { useLocale } from "next-intl";
 
 const { TextArea } = Input;
 
@@ -61,6 +62,7 @@ const ModalViewRoom: React.FC<Props> = ({
   isModalViewRoomsOpen,
   setIsModalViewRoomsOpen,
 }) => {
+  const locale = useLocale();
   const router = useRouter();
   const { checkIsLogin } = useCheckLogin();
   const { openNotification } = useNotification();
@@ -257,7 +259,7 @@ const ModalViewRoom: React.FC<Props> = ({
                     "Thêm phòng",
                     "Thêm phòng thành công"
                   );
-                  router.push("/admin/rooms");
+                  router.push(`/${locale}/admin/rooms`);
                   setIsModalViewRoomsOpen(false);
 
                   const newNotification: NotifiType = {

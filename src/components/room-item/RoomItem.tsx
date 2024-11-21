@@ -4,6 +4,7 @@ import {
   toSlugWithId,
   truncateString,
 } from "@/utils/method/method";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import React from "react";
 
@@ -12,9 +13,10 @@ type Props = {
 };
 
 const RoomItem: React.FC<Props> = ({ data }) => {
+  const locale = useLocale();
   return (
     <Link
-      href={`/room/${toSlugWithId(data.tenPhong, data.id)}`}
+      href={`/${locale}/room/${toSlugWithId(data.tenPhong, data.id)}`}
       className="w-full cursor-pointer md:w-[calc((100%-12px)/2)] lg:w-[calc((100%-24px)/3)] xl:w-[calc((100%-36px)/4)]"
     >
       <img

@@ -22,6 +22,7 @@ import {
 import { faHeart, faShare, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ConfigProvider } from "antd";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -32,6 +33,7 @@ type Props = {
 };
 
 const ActionDetailRoom: React.FC<Props> = ({ room }) => {
+  const locale = useLocale();
   const pathname = usePathname(); // Lấy đường dẫn
   const dispatch: AppDispatch = useDispatch();
   const [isLike, setIsLike] = useState<boolean>(false);
@@ -223,7 +225,7 @@ const ActionDetailRoom: React.FC<Props> = ({ room }) => {
           <Link
             href={
               location !== null
-                ? `/search?vitri=${toSlugWithId(
+                ? `/${locale}/search?vitri=${toSlugWithId(
                     `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`,
                     location.id
                   )}`

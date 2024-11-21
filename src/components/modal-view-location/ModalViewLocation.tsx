@@ -22,6 +22,7 @@ import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/st
 import { AppDispatch, RootState } from "@/app/[locale]/globalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { useLocale } from "next-intl";
 
 type Props = {
   locationId: number | null;
@@ -36,6 +37,7 @@ const ModalViewLocation: React.FC<Props> = ({
   isModalCreateLocationOpen,
   setIsModalCreateLocationOpen,
 }) => {
+  const locale = useLocale();
   const router = useRouter();
   const [province, setProvince] = useState<OptionSelectType[]>([]);
   const [district, setDistrict] = useState<OptionSelectType[]>([]);
@@ -89,7 +91,7 @@ const ModalViewLocation: React.FC<Props> = ({
     switch (res.statusCode) {
       case 201:
         openNotification("success", "Thêm vị trí", "Thêm vị trí thành công");
-        router.push("/admin/locations");
+        router.push(`/${locale}/admin/locations`);
         setIsModalCreateLocationOpen(false);
 
         const newNotification: NotifiType = {
@@ -128,7 +130,7 @@ const ModalViewLocation: React.FC<Props> = ({
           "Cập nhật vị trí",
           "Cập nhật thông tin vị trí thành công"
         );
-        router.push("/admin/locations");
+        router.push(`/${locale}/admin/locations`);
         setIsModalCreateLocationOpen(false);
 
         const newNotification: NotifiType = {

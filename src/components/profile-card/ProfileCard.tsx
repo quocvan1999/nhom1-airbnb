@@ -36,6 +36,7 @@ import ModalRating from "@/components/modal-rating/ModalRating";
 import { NotifiType } from "@/types/notifi/notifi.type";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { useLocale } from "next-intl";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -45,6 +46,7 @@ type Props = {
 };
 
 const ProfileCard: React.FC<Props> = ({ booking }) => {
+  const locale = useLocale();
   const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
   const [roomDetail, setRoomDetail] = useState<RoomType>();
@@ -239,7 +241,10 @@ const ProfileCard: React.FC<Props> = ({ booking }) => {
                 className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                 onClick={() => {
                   router.push(
-                    `/room/${toSlugWithId(roomDetail.tenPhong, roomDetail.id)}`
+                    `/${locale}/room/${toSlugWithId(
+                      roomDetail.tenPhong,
+                      roomDetail.id
+                    )}`
                   );
                 }}
               >

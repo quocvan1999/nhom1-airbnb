@@ -37,6 +37,7 @@ import {
 } from "antd";
 import { createStyles } from "antd-style";
 import { FilterDropdownProps } from "antd/es/table/interface";
+import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
@@ -61,6 +62,7 @@ const useStyle = createStyles(({ css }) => {
 const { confirm } = Modal;
 
 const Locations: React.FC = () => {
+  const locale = useLocale();
   const router = useRouter();
   const { styles } = useStyle();
   const dispatch: AppDispatch = useDispatch();
@@ -122,13 +124,13 @@ const Locations: React.FC = () => {
   const handleSearchUsers = async (searchValue: string): Promise<void> => {
     if (searchValue !== "") {
       router.push(
-        `/admin/locations/?page=1&size=10&keyword=${searchValue.replace(
+        `/${locale}/admin/locations/?page=1&size=10&keyword=${searchValue.replace(
           /\s+/g,
           ""
         )}`
       );
     } else {
-      router.push(`/admin/locations/?page=1&size=10`);
+      router.push(`/${locale}/admin/locations/?page=1&size=10`);
     }
   };
 
@@ -341,7 +343,7 @@ const Locations: React.FC = () => {
                   onChange={(page: number, pageSize: number): void => {
                     const { keyword } = getParams();
                     router.push(
-                      `/admin/locations/?page=${page}&size=${pageSize}&keyword=${keyword}`
+                      `/${locale}/admin/locations/?page=${page}&size=${pageSize}&keyword=${keyword}`
                     );
                   }}
                 />
@@ -402,7 +404,7 @@ const Locations: React.FC = () => {
                 onChange={(page: number, pageSize: number): void => {
                   const { keyword } = getParams();
                   router.push(
-                    `/admin/locations/?page=${page}&size=${pageSize}&keyword=${keyword}`
+                    `/${locale}/admin/locations/?page=${page}&size=${pageSize}&keyword=${keyword}`
                   );
                 }}
               />

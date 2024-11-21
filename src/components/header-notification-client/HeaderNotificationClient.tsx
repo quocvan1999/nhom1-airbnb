@@ -9,6 +9,7 @@ import useCheckLogin from "@/custome-hook/useCheckLogin/useCheckLogin";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/[locale]/globalRedux/store";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
+import { useTranslations } from "next-intl";
 
 type Props = {
   type: "mobile" | "table" | "destop";
@@ -19,6 +20,7 @@ const HeaderNotificationClient: React.FC<Props> = ({
   type = "destop",
   userType,
 }) => {
+  const tHeader = useTranslations("HomePage");
   const [isLogin, setIslogin] = useState<boolean>(false);
   const [notification, setNotification] = useState<NotifiType[] | null>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
@@ -80,7 +82,9 @@ const HeaderNotificationClient: React.FC<Props> = ({
             <div
               className={`bg-white shadow-xl rounded-xl w-[300px] md:w-[350px] py-5 px-2`}
             >
-              <h1 className="font-bold uppercase">Thông báo</h1>
+              <h1 className="font-bold uppercase">
+                {tHeader("Header.Notification.title")}
+              </h1>
 
               <div className="flex flex-col h-full">
                 <div>
@@ -122,7 +126,7 @@ const HeaderNotificationClient: React.FC<Props> = ({
                     ))
                   ) : (
                     <div className="flex w-full h-[150px] items-center justify-center">
-                      Không có thông báo mới
+                      {tHeader("Header.Notification.content")}
                     </div>
                   )}
                 </div>
@@ -140,7 +144,7 @@ const HeaderNotificationClient: React.FC<Props> = ({
                     }}
                     className="flex items-center justify-center mt-4 text-custome-gray-200 duration-500 transition-all ease-in-out hover:text-primary-100 cursor-pointer"
                   >
-                    Xoá tất cả thông báo
+                    {tHeader("Header.Notification.titleDelete")}
                   </div>
                 )}
               </div>

@@ -6,6 +6,7 @@ import { toSlugWithId } from "@/utils/method/method";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ConfigProvider, Dropdown, Input } from "antd";
+import { useLocale } from "next-intl";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -13,6 +14,7 @@ import React, { useState } from "react";
 type Props = {};
 
 const HeaderMobile: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const router: AppRouterInstance = useRouter();
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [location, setLocation] = useState<LocationType | null>();
@@ -21,7 +23,7 @@ const HeaderMobile: React.FC<Props> = ({}) => {
   const handleSearch = (): void => {
     if (searchLocation !== "" && location) {
       router.push(
-        `/search?vitri=${toSlugWithId(
+        `/${locale}/search?vitri=${toSlugWithId(
           `${location.tenViTri}, ${location.tinhThanh}, ${location.quocGia}`,
           location.id
         )}`

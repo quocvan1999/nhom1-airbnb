@@ -15,6 +15,7 @@ import { faHeart, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Pagination, Tooltip } from "antd";
 import Meta from "antd/es/card/Meta";
+import { useLocale } from "next-intl";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -27,6 +28,7 @@ type Props = {
 };
 
 const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
+  const locale = useLocale();
   const dispatch: AppDispatch = useDispatch();
   const router: AppRouterInstance = useRouter();
   const [pageIndex, setPageIndex] = useState<number>(1);
@@ -123,7 +125,10 @@ const Favourites: React.FC<Props> = ({ rooms, isLoading, setIsLoading }) => {
                     className="!border-none !shadow-none !bg-transparent transition-all duration-500 ease-in-out hover:tex bg-primary-100 !py-0 !px-3 !h-[20px] focus-visible:outline-none group"
                     onClick={() => {
                       router.push(
-                        `/room/${toSlugWithId(item.tenPhong, item.id)}`
+                        `/${locale}/room/${toSlugWithId(
+                          item.tenPhong,
+                          item.id
+                        )}`
                       );
                     }}
                   >

@@ -1,6 +1,81 @@
 {
-    "HomePage": {
-        "title": "Xin chào",
-        "about": "Chào mừng bạn đến với trang web của chúng tôi"
+  "HomePage": {
+    "Header": {
+      "HeaderSearch": {
+        "searchTab": {
+          "searchTab1": "Chỗ ở",
+          "searchTab2": "Trải nghiệm"
+        },
+        "searchInputTab1": {
+          "searchInput1": {
+            "title": "Địa điểm",
+            "placeholder": "Tìm kiếm điểm đến"
+          },
+          "searchInput2": {
+            "title": "Nhận phòng",
+            "placeholder": "Thêm ngày"
+          },
+          "searchInput3": {
+            "title": "Trả phòng",
+            "placeholder": "Thêm ngày"
+          },
+          "searchInput4": {
+            "title": "Thêm khách",
+            "placeholder": "Tìm kiếm điểm đến"
+          }
+        },
+        "searchInputTab2": {
+          "searchInput2": {
+            "title": "Ngày",
+            "placeholder": "Thêm ngày"
+          }
+        }
+      },
+      "HeaderSearchMini": {
+        "title1": "Địa điểm bất kỳ",
+        "title2": "Tuần bất kỳ",
+        "title3": "Thêm bất kỳ"
+      },
+      "LinkAdmin": {
+        "title": "Đi đến trang quản trị"
+      },
+      "Notification": {
+        "title": "Thông báo",
+        "content": "Không có thông báo mới",
+        "titleDelete": "Xoá tất cả thông báo"
+      },
+      "HeaderUserContainer": {
+        "viewProfile": "Xem hồ sơ",
+        "Login": "Đăng nhập",
+        "Logout": "Đăng xuất",
+        "Singn": "Đăng ký"
+      }
     }
+  },
+  "Notification": {
+    "HeaderSearch": {
+      "notification1": {
+        "title": "Tìm kiếm",
+        "content1": "Điểm đến không được bỏ trống"
+      }
+    }
+  },
+  "ModalCustomer": {
+    "item1": {
+      "title": "Người lớn",
+      "content": "Từ 13 tuổi trở lên"
+    },
+    "item2": {
+      "title": "Trẻ em",
+      "content": "Độ tuổi 2 - 12"
+    },
+    "item3": {
+      "title": "Em bé",
+      "content": "Dưới 2 tuổi"
+    },
+    "item4": {
+      "title": "Thú cưng",
+      "content": ""
+    }
+  }
 }

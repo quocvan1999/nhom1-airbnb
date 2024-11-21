@@ -44,12 +44,14 @@ import { NotifiType } from "@/types/notifi/notifi.type";
 import useNotifiCustome from "@/custome-hook/useNotifiCustome/useNotifiCustome";
 import { setIsLoadingNotification } from "@/app/[locale]/globalRedux/features/statusAppSlice";
 import { resetProfile } from "@/app/[locale]/globalRedux/features/userSlice";
+import { useLocale } from "next-intl";
 
 const { confirm } = Modal;
 
 type Props = {};
 
 const ProfilePage: React.FC<Props> = ({}) => {
+  const locale = useLocale();
   const router: AppRouterInstance = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const [token, setToken] = useState<string>("");
@@ -194,7 +196,7 @@ const ProfilePage: React.FC<Props> = ({}) => {
     const isLogin: boolean | undefined = checkIsLogin();
 
     if (isLogin !== true) {
-      router.push("/");
+      router.push(`/${locale}`);
     }
   }, [profile]);
 

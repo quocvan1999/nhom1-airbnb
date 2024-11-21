@@ -35,6 +35,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import HeaderNotificationClient from "@/components/header-notification-client/HeaderNotificationClient";
 import ModalViewUser from "@/components/modal-view-user/ModalViewUser";
+import { useLocale } from "next-intl";
 
 const { Header, Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -44,6 +45,7 @@ type Props = {
 };
 
 const LayoutAdminPage: React.FC<Props> = ({ children }) => {
+  const locale = useLocale();
   const pathname = usePathname();
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
@@ -81,7 +83,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
         className: "custom-cancel-button",
       },
       onOk() {
-        router.push("/admin/login");
+        router.push(`/${locale}/admin/login`);
         openNotification("success", "Đăng xuất", "Đăng xuất thành công");
         deleteCookie("accessToken");
         deleteCookie("i_d");
@@ -100,7 +102,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
       getProfile();
     } else {
       setIsLogin(false);
-      router.push("/admin/login");
+      router.push(`/${locale}/admin/login`);
     }
   }, []);
 
@@ -108,7 +110,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
     if (profile.id !== 0) {
       if (profile.role.toUpperCase() !== "ADMIN") {
         setIsLogin(false);
-        router.push("/admin/login");
+        router.push(`/${locale}/admin/login`);
         deleteCookie("accessToken");
         deleteCookie("i_d");
       } else {
@@ -146,7 +148,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
             className="hidden md:block"
           >
             <Link
-              href="/admin"
+              href={`/${locale}/admin`}
               className="w-full flex items-center justify-center py-3"
             >
               {collapsed === true ? (
@@ -183,27 +185,43 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 {
                   key: "admin",
                   icon: <FontAwesomeIcon size="lg" icon={faUser} />,
-                  label: <Link href="/admin">Quản lý người dùng</Link>,
+                  label: (
+                    <Link href={`/${locale}/admin`}>Quản lý người dùng</Link>
+                  ),
                 },
                 {
                   key: "locations",
                   icon: <FontAwesomeIcon size="lg" icon={faLocationDot} />,
-                  label: <Link href="/admin/locations">Quản lý vị trí</Link>,
+                  label: (
+                    <Link href={`/${locale}/admin/locations`}>
+                      Quản lý vị trí
+                    </Link>
+                  ),
                 },
                 {
                   key: "rooms",
                   icon: <FontAwesomeIcon size="lg" icon={faHouse} />,
-                  label: <Link href="/admin/rooms">Quản lý phòng</Link>,
+                  label: (
+                    <Link href={`/${locale}/admin/rooms`}>Quản lý phòng</Link>
+                  ),
                 },
                 {
                   key: "bookings",
                   icon: <FontAwesomeIcon size="lg" icon={faListCheck} />,
-                  label: <Link href="/admin/bookings">Quản lý đặt phòng</Link>,
+                  label: (
+                    <Link href={`/${locale}/admin/bookings`}>
+                      Quản lý đặt phòng
+                    </Link>
+                  ),
                 },
                 {
                   key: "chart",
                   icon: <FontAwesomeIcon size="lg" icon={faChartSimple} />,
-                  label: <Link href="/admin/chart">Biểu đồ thống kê</Link>,
+                  label: (
+                    <Link href={`/${locale}/admin/chart`}>
+                      Biểu đồ thống kê
+                    </Link>
+                  ),
                 },
               ]}
             />
@@ -304,7 +322,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
               }}
             >
               <Link
-                href="/admin/locations"
+                href={`/${locale}/admin/locations`}
                 className="w-10 h-10 flex items-center justify-center"
               >
                 <FontAwesomeIcon
@@ -318,7 +336,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 />
               </Link>
               <Link
-                href="/admin/rooms"
+                href={`/${locale}/admin/rooms`}
                 className="w-10 h-10 flex items-center justify-center"
               >
                 <FontAwesomeIcon
@@ -332,7 +350,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 />
               </Link>
               <Link
-                href="/admin"
+                href={`/${locale}/admin`}
                 className="w-14 h-14 rounded-full border flex items-center justify-center"
               >
                 <FontAwesomeIcon
@@ -346,7 +364,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 />
               </Link>
               <Link
-                href="/admin/bookings"
+                href={`/${locale}/admin/bookings`}
                 className="w-10 h-10 flex items-center justify-center"
               >
                 <FontAwesomeIcon
@@ -360,7 +378,7 @@ const LayoutAdminPage: React.FC<Props> = ({ children }) => {
                 />
               </Link>
               <Link
-                href="/admin/chart"
+                href={`/${locale}/admin/chart`}
                 className="w-10 h-10 flex items-center justify-center"
               >
                 <FontAwesomeIcon

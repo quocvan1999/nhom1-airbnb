@@ -9,6 +9,7 @@ import {
   toSlugWithId,
   truncateString,
 } from "@/utils/method/method";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const SearchCard: React.FC<Props> = ({ item }) => {
+  const locale = useLocale();
   const [location, setLocation] = useState<LocationType | null>(null);
 
   const getLocation = async (): Promise<void> => {
@@ -34,7 +36,7 @@ const SearchCard: React.FC<Props> = ({ item }) => {
   }, [item]);
   return (
     <Link
-      href={`/room/${toSlugWithId(item.tenPhong, item.id)}`}
+      href={`/${locale}/room/${toSlugWithId(item.tenPhong, item.id)}`}
       className="flex flex-col md:flex-row md:h-[200px] md:gap-3 items-center py-5 border-b cursor-pointer"
     >
       <div className="w-full h-[200px] md:w-[35%] md:h-full">
