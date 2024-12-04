@@ -4,17 +4,19 @@ import { getRoomsLocation } from "@/services/rooms-location/roomsLocation.servic
 import { RoomType } from "@/types/room/roomType.type";
 import { extractId, getCurrentDate } from "@/utils/method/method";
 import { tagData } from "@/utils/tag-data/tag.data";
-import { useLocale } from "next-intl";
 import React from "react";
 
 type Props = {
   searchParams: {
     vitri: string;
   };
+  params: {
+    locale: string;
+  };
 };
 
-export const generateMetadata = async ({ searchParams }: Props) => {
-  const locale = useLocale();
+export const generateMetadata = async ({ searchParams, params }: Props) => {
+  const { locale } = params;
   const id: number | null = extractId(searchParams.vitri);
   const data: RoomType[] = await getRoomsLocation(Number(id));
 

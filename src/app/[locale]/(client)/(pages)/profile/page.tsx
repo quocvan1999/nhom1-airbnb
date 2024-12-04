@@ -1,10 +1,12 @@
 import ProfilePage from "@/components/profile-page/ProfilePage";
-import { useLocale } from "next-intl";
+type Props = {
+  params: {
+    locale: string;
+  };
+};
 
-type Props = {};
-
-export const generateMetadata = async () => {
-  const locale = useLocale();
+export const generateMetadata = async ({ params }: Props) => {
+  const { locale } = params;
   return {
     title: "Trang cá nhân",
     description: "Xem thông tin cá nhân và các phòng đã thuê của bạn.",

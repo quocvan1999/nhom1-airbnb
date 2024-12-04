@@ -1,10 +1,13 @@
 import RegisterPage from "@/components/register-page/RegisterPage";
-import { useLocale } from "next-intl";
 
-type Props = {};
+type Props = {
+  params: {
+    locale: string;
+  };
+};
 
-export const generateMetadata = async () => {
-  const locale = useLocale();
+export const generateMetadata = async ({ params }: Props) => {
+  const { locale } = params;
   return {
     title: "Đăng Ký - Ứng Dụng Của Chúng Tôi",
     description:

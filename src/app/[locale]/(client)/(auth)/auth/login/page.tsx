@@ -1,9 +1,10 @@
 import LoginPage from "@/components/login-page/LoginPage";
-import { useLocale } from "next-intl";
 
-type Props = {};
-export const generateMetadata = async () => {
-  const locale = useLocale();
+type Props = {params: {
+  locale: string;
+};};
+export const generateMetadata = async ({ params }: Props) => {
+  const { locale } = params;
   return {
     title: "Đăng Nhập - Ứng Dụng Của Chúng Tôi",
     description:

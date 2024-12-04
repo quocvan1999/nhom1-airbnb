@@ -11,10 +11,13 @@ type Props = {
     page: string | number;
     size: string | number;
   };
+  params: {
+    locale: string;
+  };
 };
 
-export const generateMetadata = async () => {
-  const locale = useLocale();
+export const generateMetadata = async ({ params }: Props) => {
+  const { locale } = params;
   return {
     title:
       "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",

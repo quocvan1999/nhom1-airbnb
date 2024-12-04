@@ -14,7 +14,6 @@ import {
   faMedal,
 } from "@fortawesome/free-solid-svg-icons";
 import { extractId } from "@/utils/method/method";
-import { useLocale } from "next-intl";
 
 type Props = {
   params: {
@@ -24,7 +23,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const locale = useLocale();
+  const { locale } = params;
   const id = extractId(params.slug);
   const roomDetail: RoomType = await getRoomDetailAsync(Number(id));
 
