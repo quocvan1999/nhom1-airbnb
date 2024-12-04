@@ -1,7 +1,9 @@
 import LoginPage from "@/components/login-page/LoginPage";
+import { useLocale } from "next-intl";
 
 type Props = {};
 export const generateMetadata = async () => {
+  const locale = useLocale();
   return {
     title: "Đăng Nhập - Ứng Dụng Của Chúng Tôi",
     description:
@@ -10,7 +12,7 @@ export const generateMetadata = async () => {
       title: "Đăng Nhập - Ứng Dụng Của Chúng Tôi",
       description:
         "Đăng nhập để khám phá các tính năng độc quyền và quản lý tài khoản của bạn.",
-      url: "https://nhom1-airbnb.vercel.app/auth/login",
+      url: `https://nhom1-airbnb.vercel.app/${locale}/auth/login`,
       type: "website",
     },
     jsonLd: {
@@ -19,7 +21,7 @@ export const generateMetadata = async () => {
       name: "Đăng Nhập - Ứng Dụng Của Chúng Tôi",
       description:
         "Đăng nhập vào tài khoản của bạn để truy cập vào các tính năng và dịch vụ của chúng tôi.",
-      url: "https://nhom1-airbnb.vercel.app/auth/login",
+      url: `https://nhom1-airbnb.vercel.app/${locale}/auth/login`,
     },
   };
 };

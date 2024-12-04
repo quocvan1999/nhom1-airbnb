@@ -1,8 +1,10 @@
 import RegisterPage from "@/components/register-page/RegisterPage";
+import { useLocale } from "next-intl";
 
 type Props = {};
 
 export const generateMetadata = async () => {
+  const locale = useLocale();
   return {
     title: "Đăng Ký - Ứng Dụng Của Chúng Tôi",
     description:
@@ -11,7 +13,7 @@ export const generateMetadata = async () => {
       title: "Đăng Ký - Ứng Dụng Của Chúng Tôi",
       description:
         "Đăng ký tài khoản mới để không bỏ lỡ bất kỳ điều gì thú vị.",
-      url: "https://nhom1-airbnb.vercel.app/auth/register",
+      url: `https://nhom1-airbnb.vercel.app/${locale}/auth/register`,
       type: "website",
     },
     jsonLd: {
@@ -20,7 +22,7 @@ export const generateMetadata = async () => {
       name: "Đăng Ký - Ứng Dụng Của Chúng Tôi",
       description:
         "Tạo tài khoản mới để bắt đầu trải nghiệm các dịch vụ và tính năng của chúng tôi.",
-      url: "https://nhom1-airbnb.vercel.app/auth/register",
+      url: `https://nhom1-airbnb.vercel.app/${locale}/auth/register`,
     },
   };
 };

@@ -4,6 +4,7 @@ import { getRoomsLocation } from "@/services/rooms-location/roomsLocation.servic
 import { RoomType } from "@/types/room/roomType.type";
 import { extractId, getCurrentDate } from "@/utils/method/method";
 import { tagData } from "@/utils/tag-data/tag.data";
+import { useLocale } from "next-intl";
 import React from "react";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export const generateMetadata = async ({ searchParams }: Props) => {
+  const locale = useLocale();
   const id: number | null = extractId(searchParams.vitri);
   const data: RoomType[] = await getRoomsLocation(Number(id));
 
@@ -25,7 +27,7 @@ export const generateMetadata = async ({ searchParams }: Props) => {
     openGraph: {
       title: `Tìm kiếm chỗ ở cho từ khóa: ${searchParams.vitri}`,
       description: `Tìm thấy hơn ${data.length} chỗ ở cho từ khóa "${searchParams.vitri}".`,
-      url: `https://nhom1-airbnb.vercel.app/search?keyword=${searchParams.vitri}`,
+      url: `https://nhom1-airbnb.vercel.app/${locale}/search?keyword=${searchParams.vitri}`,
       images: [
         {
           url: "https://a0.muscache.com/im/pictures/miso/Hosting-694055224756906854/original/76f85a0c-b3e2-4f1d-9aa9-d7838f2393c6.jpeg?im_w=960&im_q=highq",
@@ -38,7 +40,7 @@ export const generateMetadata = async ({ searchParams }: Props) => {
       name: "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
       description:
         "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm trên toàn cầu trên Airbnb.",
-      url: "https://nhom1-airbnb.vercel.app",
+      url: `https://nhom1-airbnb.vercel.app/${locale}`,
     },
   };
 };

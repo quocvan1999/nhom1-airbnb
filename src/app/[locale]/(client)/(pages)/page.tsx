@@ -14,6 +14,7 @@ type Props = {
 };
 
 export const generateMetadata = async () => {
+  const locale = useLocale();
   return {
     title:
       "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
@@ -25,7 +26,7 @@ export const generateMetadata = async () => {
         "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
       description:
         "Khám phá những chỗ ở tuyệt vời và những trải nghiệm độc đáo từ khắp nơi trên thế giới. Đặt chỗ cho cuộc phiêu lưu tiếp theo của bạn với Airbnb ngay hôm nay.",
-      url: "https://nhom1-airbnb.vercel.app",
+      url: `https://nhom1-airbnb.vercel.app/${locale}`,
       images: [
         {
           url: "https://a0.muscache.com/im/pictures/miso/Hosting-694055224756906854/original/76f85a0c-b3e2-4f1d-9aa9-d7838f2393c6.jpeg?im_w=960&im_q=highq",
@@ -42,7 +43,7 @@ export const generateMetadata = async () => {
       name: "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
       description:
         "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm trên toàn cầu trên Airbnb.",
-      url: "https://nhom1-airbnb.vercel.app",
+      url: `https://nhom1-airbnb.vercel.app/${locale}`,
     },
   };
 };

@@ -14,6 +14,7 @@ import {
   faMedal,
 } from "@fortawesome/free-solid-svg-icons";
 import { extractId } from "@/utils/method/method";
+import { useLocale } from "next-intl";
 
 type Props = {
   params: {
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props) {
+  const locale = useLocale();
   const id = extractId(params.slug);
   const roomDetail: RoomType = await getRoomDetailAsync(Number(id));
 
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: `Chi tiết phòng - ${roomDetail.tenPhong}`,
       description: `Phòng ${roomDetail.tenPhong} tại ${roomDetail.moTa}, thích hợp cho ${roomDetail.khach} khách. Xem chi tiết và đặt phòng ngay.`,
-      url: `https://nhom1-airbnb.vercel.app/room/${params.slug}`,
+      url: `https://nhom1-airbnb.vercel.app/${locale}/room/${params.slug}`,
       images: [
         {
           url: roomDetail.hinhAnh,
@@ -46,7 +48,7 @@ export async function generateMetadata({ params }: Props) {
       name: "Airbnb - Cho thuê kỳ nghỉ, Nhà gỗ, Nhà bãi biển, Nhà độc đáo & Trải nghiệm",
       description:
         "Tìm kiếm cho thuê kỳ nghỉ, nhà gỗ, nhà bãi biển, nhà độc đáo và những trải nghiệm trên toàn cầu trên Airbnb.",
-      url: "https://nhom1-airbnb.vercel.app",
+      url: `https://nhom1-airbnb.vercel.app/${locale}`,
     },
   };
 }
