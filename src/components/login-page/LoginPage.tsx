@@ -246,8 +246,8 @@ const LoginPage: React.FC<Props> = ({}) => {
             <Input.Password
               allowClear
               size="large"
-              name={tLoginPage("FormPlaceholder.password")}
-              placeholder="Enter password"
+              name="password"
+              placeholder={tLoginPage("FormPlaceholder.password")}
               value={formLogin.values.password}
               onChange={formLogin.handleChange}
               onBlur={formLogin.handleBlur}
