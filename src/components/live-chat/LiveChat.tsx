@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from "react";
 import { LiveChatWidget, EventHandlerPayload } from "@livechat/widget-react";
 
-type Props = {}
+type Props = {};
 
-const LiveChat: React.FC<Props> = ({ }) => {
-    function handleNewEvent(event: EventHandlerPayload<"onNewEvent">) {
-        console.log("LiveChatWidget.onNewEvent", event);
-    }
+const LiveChat: React.FC<Props> = ({}) => {
+  function handleNewEvent(event: EventHandlerPayload<"onNewEvent">) {
+    console.log("LiveChatWidget.onNewEvent", event);
+  }
 
-    return (
-        <LiveChatWidget
-            license="18843741"
-            visibility="maximized"
-            onNewEvent={handleNewEvent}
-        />
-    );
-}
+  return (
+    <LiveChatWidget
+      license="18930432"
+      visibility="maximized"
+      onNewEvent={handleNewEvent}
+    />
+  );
+};
 
-export default LiveChat
+export default LiveChat;
